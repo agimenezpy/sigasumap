@@ -1,0 +1,55 @@
+{
+  "name": "sigasu-map",
+  "version": "1.0.0",
+  "description": "Mapa Catastral de Asuncion",
+  "main": "app/main.js",
+  "github": "No Git",
+  "readme": "README.md",
+  "scripts": {
+    "start": "gulp.cmd start"
+  },
+  "keywords": [
+    "maps"
+  ],
+  "author": "Alberto G.",
+  "license": "ISC",
+  "devDependencies": {
+    "bootstrap": "^3.3.7",
+    "browser-sync": "^2.15.0",
+    "browserify": "^13.1.0",
+    "browserify-shim": "^3.8.12",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-browserify": "^0.5.1",
+    "gulp-jshint": "^2.0.1",
+    "gulp-less": "^3.1.0",
+    "gulp-load-plugins": "^1.2.4",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-plumber": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^2.0.0",
+    "gulp-util": "^3.0.7",
+    "jquery": "^3.1.0",
+    "jshint": "^2.9.3",
+    "jstify": "^0.14.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.7.0"
+  },
+  "engines": {
+    "node": ">=4.4.4"
+  },
+  "browserify-shim": {
+    "jquery": "global:$"
+  },
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },
+  "dependencies": {
+    "backbone": "^1.3.3",
+    "underscore": "^1.8.3"
+  }
+}
