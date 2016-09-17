@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "Mapa Catastral de Asuncion",
   "main": "app/main.js",
-  "github": "No Git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/agimenezpy/sigasu"
+  },
   "readme": "README.md",
   "scripts": {
     "start": "gulp.cmd start"
@@ -21,15 +24,20 @@
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.1",
     "gulp-browserify": "^0.5.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-concat": "^2.6.0",
+    "gulp-dest-clean": "^0.5.0",
     "gulp-jshint": "^2.0.1",
     "gulp-less": "^3.1.0",
     "gulp-load-plugins": "^1.2.4",
     "gulp-minify-css": "^1.2.4",
     "gulp-plumber": "^1.1.0",
+    "gulp-processhtml": "^1.1.0",
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.7",
+    "http-proxy": "^1.14.0",
     "jquery": "^3.1.0",
     "jshint": "^2.9.3",
     "jstify": "^0.14.0",
@@ -41,7 +49,9 @@
     "node": ">=4.4.4"
   },
   "browserify-shim": {
-    "jquery": "global:$"
+    "jquery": "global:$",
+    "backbone": "global:Backbone",
+    "underscore": "global:_"
   },
   "browserify": {
     "transform": [

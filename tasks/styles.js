@@ -2,22 +2,21 @@ var gulp        = require('gulp');
 var paths       = require('./paths');
 var $           = require('gulp-load-plugins')();
 var browserSync = require('browser-sync');
+var minifyCSS = require('gulp-minify-css');
 var reload      = browserSync.reload;
 
-gulp.task('styles', function() {
+module.exports = function () {
+    "use strict";
   return gulp.src(
-      paths.src + '/styles/theme.less'
+      paths.src + '/less/asu.less'
      )
-    .pipe(less())
+    .pipe($.less())
     .pipe($.sourcemaps.init())
     .pipe($.autoprefixer({ cascade: true }))
     .pipe($.sourcemaps.write())
-    .pipe($.minifycss())
+    .pipe(minifyCSS())
+    .pipe($.rename("theme.min.css"))
     .pipe(gulp.dest(paths.dest + '/css'))
     .pipe(reload({ stream: true }));
 
-});
-
-module.exports = function () {
-    gulp.start("styles")
 };

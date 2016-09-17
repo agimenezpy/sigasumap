@@ -1,6 +1,5 @@
 var gulp    = require('gulp');
-var plumber = require('gulp-plumber');
-//var concat  = require('gulp-concat');
+var $ = require('gulp-load-plugins')();
 var paths   = require('./paths');
 
 // Compilamos archivos CSS de terceros (ejemplo: boostrap.css) y 
@@ -12,7 +11,7 @@ gulp.task('vendor-styles', function() {
       paths.node + '/bootstrap/dist/css/bootstrap.min.css',
       paths.node + '/bootstrap/dist/css/bootstrap-theme.min.css'
     ])
- //   .pipe(concat("vendor.css"))
+    .pipe($.concat("vendor.css"))
     .pipe(gulp.dest(paths.dest + 'css/'));
 
   gulp.src(paths.node + '/bootstrap/dist/fonts/*')
@@ -25,12 +24,14 @@ gulp.task('vendor-styles', function() {
 // 
 // Copiaremos ese archivo a: paths.dest + '/js'
 gulp.task('vendor-scripts', function() {
-  var stream = gulp.src([
+  return gulp.src([
       paths.node + '/jquery/dist/jquery.min.js',
-      paths.node + '/bootstrap/dist/js/bootstrap.min.js'
+      paths.node + '/bootstrap/dist/js/bootstrap.min.js',
+      paths.node + '/backbone/backbone-min.js',
+      paths.node + '/underscore/underscore-min.js'
     ])
-    .pipe(plumber())
-//    .pipe(concat("vendor.js"))
+    .pipe($.plumber())
+    //.pipe($.concat("vendor.js"))
     .pipe(gulp.dest(paths.dest + 'js/'));
 });
 

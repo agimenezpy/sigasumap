@@ -1,0 +1,8 @@
+{
+  "base_url": "http://sig.mca.gov.py/",
+  "version": "1.0.0",
+  "title": "Mapa Catastral de Asunción",
+  "description": "Mapa de Asunción disponible para consultar información sobre lotes, espacios, zonificaciones, puntos de interes, ubicación de direcciones y más ... ",
+  "keywords": "mapa asuncion oficial informacion geografica sig gis arcgis direcciones",
+  "root_url": "http://localhost/arcgis/rest/services"
+}

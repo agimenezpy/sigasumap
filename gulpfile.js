@@ -3,6 +3,9 @@
 var gulp = require('gulp');
 
 // Build our assets
+gulp.task('clean',require('./tasks/clean'));
+
+// Build our assets
 gulp.task('assets',require('./tasks/assets'));
 
 // Prepara un archivo (bundle) app.js con todo el código
@@ -16,7 +19,7 @@ gulp.task('styles', require('./tasks/styles'));
 gulp.task('vendor', require("./tasks/vendor"));
 
 // Ejecutamos estas tareas por defecto
-gulp.task('default', ['assets', 'vendor', 'styles', 'browserify']);
+gulp.task('build', ['assets', 'vendor', 'styles', 'browserify']);
 
 // Ejecuta tareas por defecto y levanta server con endpoints de prueba
-gulp.task('start', ['default'], require('./tasks/server'));
+gulp.task('start', ['build'], require('./tasks/server'));
