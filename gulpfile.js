@@ -2,24 +2,26 @@
 
 var gulp = require('gulp');
 
-// Build our assets
+// clean
 gulp.task('clean',require('./tasks/clean'));
 
 // Build our assets
 gulp.task('assets',require('./tasks/assets'));
 
-// Prepara un archivo (bundle) app.js con todo el código
-gulp.task('browserify', require('./tasks/browserify'));
+// Dojo bundle
+gulp.task('dojo', require('./tasks/dojo'));
 
-// Procesa estilos CSS de nuestra propia aplicación
-// y los copia a paths.dest + '/css'
+// Dojo dev
+gulp.task('dojo_dev', require('./tasks/dojo_dev'));
+
+// Less & CSS styles
 gulp.task('styles', require('./tasks/styles'));
 
-// Procesa los JS y CSS de terceros (ejemplo: boostrap)
+// External JS files
 gulp.task('vendor', require("./tasks/vendor"));
 
 // Ejecutamos estas tareas por defecto
-gulp.task('build', ['assets', 'vendor', 'styles', 'browserify']);
+gulp.task('build', ['assets', 'vendor', 'styles', 'dojo_dev']);
 
 // Ejecuta tareas por defecto y levanta server con endpoints de prueba
-gulp.task('start', ['build'], require('./tasks/server'));
+gulp.task('start', ['build', 'dojo_dev'], require('./tasks/server'));

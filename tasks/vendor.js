@@ -26,9 +26,7 @@ gulp.task('vendor-styles', function() {
 gulp.task('vendor-scripts', function() {
   return gulp.src([
       paths.node + '/jquery/dist/jquery.min.js',
-      paths.node + '/bootstrap/dist/js/bootstrap.min.js',
-      paths.node + '/backbone/backbone-min.js',
-      paths.node + '/underscore/underscore-min.js'
+      paths.node + '/bootstrap/dist/js/bootstrap.min.js'
     ])
     .pipe($.plumber())
     //.pipe($.concat("vendor.js"))

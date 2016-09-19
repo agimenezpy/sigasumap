@@ -11,5 +11,6 @@ module.exports = {
   dest: './dist/',
   vendor: './app/vendor/',
   assets: './app/assets/',
-  node: './node_modules'
+  node: './node_modules/',
+  bower: './bower_components/'
 };

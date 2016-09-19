@@ -16,110 +16,160 @@
 <!--<![endif]-->
 
 <head>
-	<!-- build:template -->
-	<title><%= title %></title>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- build:template -->
+    <title><%= title %></title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-    <meta name="robots" content="no-cache" >
-    <meta name="description"  content="<%= description %>">
+    <meta name="robots" content="no-cache">
+    <meta name="description" content="<%= description %>">
     <meta name="og:title" content="<%= title %>">
     <meta name="og:type" content="government">
     <meta name="og:url" content="<%= base_url %>">
     <meta name="og:image" content="<%= base_url %>/images/asu.png">
     <meta name="og:site_name" content="<%= title %>">
     <meta name="og:description" content="<%= description %>">
-  	<!-- /build -->
+    <!-- /build -->
 
 
-  	<link rel="icon" href="img/favicon.ico" sizes="16x16 32x32 48x48 64x64" type="image/vnd.microsoft.icon">
-	<link rel="apple-touch-icon" href="img/apple-touch-icon-precomposed.png">
+    <link rel="icon" href="images/favicon.ico" sizes="16x16 32x32 48x48 64x64" type="image/vnd.microsoft.icon">
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/brand.png.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!-- Chrome for Android - NEW! -->
+    <meta name="mobile-web-app-capable" content="yes">
 
-	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-	<!--[if lt IE 9]>
-	  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-	
-	<!--[if !IE 7]>
-	<![endif]-->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!--[if !IE 7]>
+    <![endif]-->
 
     <!-- build:template -->
     <link rel="stylesheet" href="css/theme.min.css?v=<%= version %>">
     <!-- /build -->
 
 	<link rel="stylesheet" href="https://js.arcgis.com/3.17/esri/css/esri.css">
+	<!--<link rel="stylesheet" href="esri/css/esri.css">-->
 </head>
 
 <body>
-    
-  <div id="app-container">
+
+<div id="app-container">
     <div id="header-content" class="navbar navbar-default">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Mapa de Asunción</a>
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigator-left" aria-expanded="false">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-brand">
+                    <img src="images/brand-image.png" class="hidden-sm hidden-xs">
+                    <img src="images/brand-image-small.png" class="hidden-md hidden-lg">
+                    <span>Mapa de Asunción</span>
+                </div>
+            </div>
+            <div id="navigator-top" class="hidden-xs navbar-right">
+
+            </div>
         </div>
-      </div>
     </div>
 
     <div id="main-region" class="container-fluid">
+        <div class="row">
+            <div id="navigator-left" class="col-sm-2 col-xs-2 collapse affix">
 
+            </div>
+            <div class="col-lg-3 col-md-2 col-sm-12 col-xs-12">
+                <div id="legend"></div>
+                <div id="layers"></div>
+                <div id="gallery"></div>
+                <div id="geolocator"></div>
+            </div>
+            <div class="col-lg-9 col-md-10 col-sm-12 col-xs-12">
+                <div id="measure"></div>
+                <div id="search"></div>
+                <div id="map">
+                    <div id="home"></div>
+                    <div id="coordinates"></div>
+                    <div id="location"></div>
+                </div>
+            </div>
+        </div>
     </div><!-- /.container -->
     <div id="dialog-region"></div>
-  </div>
+</div>
 
 
-  <div id="loading-mask">
-	<div class="loadingContainer">
+<div id="loadingOverlay" class="pageOverlay">
+    <div class="loadingMessage">
+        <img class="loadingImage" src="images/loading2.gif">
+        <span class="sr-only">Cargando</span>
+    </div>
+</div>
 
-	</div>
-	<div id="loadingMessage" class="row" >
-	  <div class="progress">
-		<div class="progress-bar progres-bar-success progress-bar-striped active" role="progressbar"
-				aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="height: 10px; width: 100%;">
-		  <span class="sr-only">Cargando</span>
-		</div>
-	  </div>
-	</div>
-  </div>
+<footer class="footer">
+    <div class="container">
+        <hr>
+        <p class="pull-left"><a href="//www.asuncion.gov.py">&copy;2011 Municipalidad de Asunci&oacute;n - Todos los
+            derechos reservados.</a></p>
+        <p class="pull-right">Departamento S.I.G. - Direcci&oacute;n de General de Desarrollo Urbano - Direcci&oacute;n
+            de Catastro Municipal.</p>
+    </div>
+</footer>
 
-  <footer class="footer">
-	<div class="container">
-		<hr>
-		<p class="pull-left"><a href="//www.asuncion.gov.py">&copy;2011 Municipalidad de Asunci&oacute;n - Todos los derechos reservados.</a></p>
-		<p class="pull-right">Departamento S.I.G. - Direcci&oacute;n de General de Desarrollo Urbano - Direcci&oacute;n de Catastro Municipal.</p>
-	</div>
-  </footer>
-  
-  <script type="text/javascript">
-  // Detecting IE
-  var oldIE;
-  var html = document.getElementsByTagName("html");
-  var htmlClass = html[0].getAttribute("class");
-  if (htmlClass == 'ie6' || htmlClass == 'ie7' || htmlClass == 'ie8') {
-      oldIE = true;
-  }
-  if (oldIE) {
-      // Here's your JS for IE..
-      document.getElementById("loadingMessage").style.display = "none";
-      alert("Esta version de navegador no es soportado por la aplicación. Por favor intente acceder con un navegador moderno.");
-  }
-  </script>
+<script type="text/javascript">
+    // Detecting IE
+    var oldIE;
+    var html = document.getElementsByTagName("html");
+    var htmlClass = html[0].getAttribute("class");
+    if (htmlClass == 'ie6' || htmlClass == 'ie7' || htmlClass == 'ie8') {
+        oldIE = true;
+    }
+    if (oldIE) {
+        // Here's your JS for IE..
+        document.getElementById("loadingMessage").style.display = "none";
+        alert("Esta version de navegador no es soportado por la aplicación. Por favor intente acceder con un navegador moderno.");
+    }
+</script>
 
-  <!-- build:template -->
-  <script src="js/jquery.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/underscore-min.js"></script>
-  <script src="js/backbone-min.js"></script>
-  <script src="js/app.js?v=<%= version %>"></script>
-  <!-- /build -->
+<!-- build:template -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script>
+// set up your dojoConfig
+    dojoConfig = {
+        //baseUrl: location.pathname.replace(/\/[^/]+$/, ''),
+        deps: ['./app/main.js'],
+        packages: [
+          {
+              name: 'app',
+              location: location.pathname.replace(/\/[^/]+$/, '') + 'app/src'
+          }/*,
+          'dijit',
+          'dojo',
+          'dojox',
+          'dstore',
+          'dgrid',
+          'xstyle',
+          'put-selector',
+          'esri', {
+            name: 'moment',
+            location: 'moment',
+            main: 'moment'
+          }*/
+        ]
+    };
+</script>
+    <!-- /build -->
 
   <script src="https://js.arcgis.com/3.17compact/"></script>
+  <!--<script src="dojo/dojo.js"></script>-->
 
 </body>
 </html>

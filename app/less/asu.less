@@ -1,17 +1,73 @@
 @import "../../node_modules/bootstrap/less/bootstrap";
 @import "../../node_modules/bootstrap/less/theme";
 
-#HomeButton {
-    position: absolute;
-    top: 95px;
-    left: 35px;
-    z-index: 50;
+.navbar {
+  margin-bottom: 5px;
 }
 
-#Search {
-      display: block;
-      position: absolute;
-      z-index: 2;
-      top: 20px;
-      left: 75px;
+.navbar-brand {
+  padding: 5px 15px 15px 15px;
+
+  > img {
+      display: inline;
+  }
+}
+
+.btn-link {
+  > img {
+    height: 25px;
+    margin: 5px;
+    background-color: #888;
+  }
+}
+
+#home {
+  position: absolute;
+  top: 95px;
+  left: 35px;
+  z-index: 50;
+}
+
+#location {
+  position: absolute;
+  top: 128px;
+  left: 35px;
+  z-index: 50;
+}
+
+#search {
+  display: block;
+  position: absolute;
+  z-index: 2;
+  top: 20px;
+  left: 75px;
+}
+
+.pageOverlay {
+  top: 0;
+  left: 0;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 1001;
+  display: block;
+  background: #ffffff;
+}
+
+.loadingMessage {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  left: 50%;
+  top: 50%;
+  background-color: #f4f4f4;
+  color: #999;
+  border-radius: 50%;
+  margin-left: -32px;
+  margin-top: -32px;
+  @shadow: 0 0 10px rgba(0,0,0,.3);
+
+  img {
+    margin: 12px;
+  }
 }

@@ -31,12 +31,12 @@ module.exports = function() {
     // de prueba implementados.
     browserSync({
       notify: false,
-      port: 80,
+      port: 9000,
       ui: {
         port: 9001
       },
       server: {
-        baseDir: ['dist']
+        baseDir: ['dist', "bower_components"]
       },
       middleware: [ proxyMiddleware ]
     });
@@ -50,7 +50,10 @@ module.exports = function() {
       'app/src/**/*.js',
       'app/src/**/*.html',
       'app/less/**'
-    ]).on('change', reload);
+    ]).on('change', function() {
+        gulp.start("build");
+        reload();
+    });
 
     gulp.watch('app/styles/**/*.css', ['styles']);
     

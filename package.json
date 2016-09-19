@@ -1,26 +1,38 @@
 {
-  "name": "sigasu-map",
+  "name": "sig.mca.gov.py",
   "version": "1.0.0",
   "description": "Mapa Catastral de Asuncion",
-  "main": "app/main.js",
+  "main": "app/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/agimenezpy/sigasu"
+    "url": "https://github.com/agimenezpy/sigasumap.git"
   },
   "readme": "README.md",
   "scripts": {
-    "start": "gulp.cmd start"
+    "start": "gulp.cmd start",
+    "preinstall": "bower install",
+    "build": "gulp build",
+    "clean": "gulp clean"
   },
   "keywords": [
-    "maps"
+    "maps",
+    "streets",
+    "parcels",
+    "dojo",
+    "esri"
   ],
   "author": "Alberto G.",
-  "license": "ISC",
-  "devDependencies": {
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/agimenezpy/sigasumap/issues"
+  },
+  "homepage": "https://github.com/agimenezpy/sigasumap#readme",
+  "dependencies": {
     "bootstrap": "^3.3.7",
-    "browser-sync": "^2.15.0",
-    "browserify": "^13.1.0",
-    "browserify-shim": "^3.8.12",
+    "bower": "^1.7.9",
+    "jquery": "^3.1.0"
+  },
+  "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.1",
     "gulp-browserify": "^0.5.1",
@@ -38,28 +50,13 @@
     "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.7",
     "http-proxy": "^1.14.0",
-    "jquery": "^3.1.0",
     "jshint": "^2.9.3",
-    "jstify": "^0.14.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
+    "browser-sync": "^2.15.0",
     "watchify": "^3.7.0"
   },
   "engines": {
     "node": ">=4.4.4"
-  },
-  "browserify-shim": {
-    "jquery": "global:$",
-    "backbone": "global:Backbone",
-    "underscore": "global:_"
-  },
-  "browserify": {
-    "transform": [
-      "browserify-shim"
-    ]
-  },
-  "dependencies": {
-    "backbone": "^1.3.3",
-    "underscore": "^1.8.3"
   }
 }
