@@ -8,31 +8,32 @@
  */
 define(["dojo/_base/declare",
     "dojo/_base/lang",
-    "dojo/dom",
-    "dojo/dom-style",
-    "dojo/dom-class",
-    "dojo/query",
+    "app/lib/ToolbarItem",
     "esri/basemaps",
     "esri/dijit/Basemap",
     "esri/dijit/BasemapLayer",
-    "esri/dijit/BasemapGallery"], function(declare, lang, dom, domStyle, domClass, query,
-                                           esriBasemaps, Basemap, BasemapLayer, BasemapGallery) {
-    const BasemapView = declare(null, {
+    "esri/dijit/BasemapGallery"], function(declare, lang, ToolbarItemView, esriBasemaps, Basemap, BasemapLayer,
+                                           BasemapGallery) {
+    const BasemapView = declare(ToolbarItemView, {
         basemapGallery: null,
-        galleryNode: dom.byId("gallery"),
         constructor: function(options) {
+            declare.safeMixin(this, {
+                node: "gallery",
+                action: "basemap-action"
+            });
+            this.inherited(arguments);
             this.map = options.map;
-            query(".gallery-action").on("click", lang.hitch(this, 'toggle'))
         },
         show: function() {
             if (!this.basemapGallery) {
                 this.basemapGallery = new BasemapGallery({
                     showArcGISBasemaps: true,
                     map: this.map
-                }, this.galleryNode);
+                    }, this.node);
                 var basemap = esriBasemaps["asuncion"];
                 var layer = new BasemapLayer({
-                    url: basemap.baseMapLayers[0].url
+                    url: basemap.baseMapLayers[0].url,
+                    copyright: basemap.baseMapLayers[0].copyright
                 });
                 this.basemapGallery.add(new Basemap({
                     layers: [layer],
@@ -41,21 +42,7 @@ define(["dojo/_base/declare",
                 }));
                 this.basemapGallery.startup();
             }
-            domStyle.set(this.galleryNode, 'display', '');
-        },
-        hide: function () {
-            domStyle.set(this.galleryNode, 'display', 'none');
-        },
-        toggle: function(evt) {
-            var li = evt.target.parentNode;
-            if (domClass.contains(li, "active")) {
-                domClass.remove(li, "active");
-                this.hide();
-            }
-            else {
-                domClass.add(li, "active");
-                this.show();
-            }
+            this.inherited(arguments);
         }
     });
     return BasemapView;

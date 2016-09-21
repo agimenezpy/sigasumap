@@ -9,12 +9,19 @@
  */
 define(["dojo/_base/declare",
     "dojo/dom",
+    "dojo/parser",
     "app/views/MapView",
     "app/views/BasemapView",
     "app/views/SearchView",
-    "dojo/text!app/templates/navigator.html"], function(declare, dom, MapView, BasemapView, SearchView, templateString) {
+    "app/views/LayersView",
+    "app/views/LegendView",
+    "dojo/text!app/templates/navigator.html"], function(declare, dom, parser, MapView, BasemapView, SearchView,
+                                        LayersView, LegendView, templateString) {
     const Application = declare(null, {
         startup: function() {
+            parser.parse();
+            dom.byId("navigator-top").innerHTML = templateString;
+            dom.byId("navigator-left").innerHTML = templateString;
             var mapView = new MapView({
                 slider: true,
                 logo: false,
@@ -29,8 +36,13 @@ define(["dojo/_base/declare",
                 map: mapView.map
             });
             searchView.show();
-            dom.byId("navigator-top").innerHTML = templateString;
-            dom.byId("navigator-left").innerHTML = templateString;
+            var layersView = new LayersView({
+                map: mapView.map
+            });
+            layersView.show();
+            var legendView = new LegendView({
+                map: mapView.map
+            });
         }
     });
     return Application;

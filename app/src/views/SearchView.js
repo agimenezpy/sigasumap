@@ -29,7 +29,7 @@ define(["dojo/_base/declare",
                 outFields: ["Match_addr"],
                 highlightSymbol: new esri.symbol.PictureMarkerSymbol("images/search-pointer.png", 36, 36).setOffset(9, 18),
                 //Create an InfoTemplate
-                infoTemplate: new InfoTemplate("Ubicación", templateString),
+                infoTemplate: new InfoTemplate("Ubicación", templateString)
             };
             var search = new Search({
               sources: [

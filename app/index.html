@@ -54,10 +54,11 @@
     <!-- /build -->
 
 	<link rel="stylesheet" href="https://js.arcgis.com/3.17/esri/css/esri.css">
+	<link rel="stylesheet" href="https://js.arcgis.com/3.17/dijit/themes/claro/claro.css">
 	<!--<link rel="stylesheet" href="esri/css/esri.css">-->
 </head>
 
-<body>
+<body class="claro">
 
 <div id="app-container">
     <div id="header-content" class="navbar navbar-default">
@@ -81,12 +82,12 @@
     </div>
 
     <div id="main-region" class="container-fluid">
-        <div class="row">
-            <div id="navigator-left" class="col-sm-2 col-xs-2 collapse affix">
+        <div id="navigator-left" class="col-sm-2 col-xs-2 collapse affix">
 
-            </div>
+        </div>
+        <div class="row">
             <div class="col-lg-3 col-md-2 col-sm-12 col-xs-12">
-                <div id="legend"></div>
+                <div id="legend" ></div>
                 <div id="layers"></div>
                 <div id="gallery"></div>
                 <div id="geolocator"></div>
@@ -98,6 +99,7 @@
                     <div id="home"></div>
                     <div id="coordinates"></div>
                     <div id="location"></div>
+                    <div id="attribution"></div>
                 </div>
             </div>
         </div>
@@ -108,20 +110,12 @@
 
 <div id="loadingOverlay" class="pageOverlay">
     <div class="loadingMessage">
-        <img class="loadingImage" src="images/loading2.gif">
         <span class="sr-only">Cargando</span>
     </div>
-</div>
-
-<footer class="footer">
-    <div class="container">
-        <hr>
-        <p class="pull-left"><a href="//www.asuncion.gov.py">&copy;2011 Municipalidad de Asunci&oacute;n - Todos los
-            derechos reservados.</a></p>
-        <p class="pull-right">Departamento S.I.G. - Direcci&oacute;n de General de Desarrollo Urbano - Direcci&oacute;n
-            de Catastro Municipal.</p>
+    <div class="loadingImage">
+        <img src="images/loading2.gif">
     </div>
-</footer>
+</div>
 
 <script type="text/javascript">
     // Detecting IE

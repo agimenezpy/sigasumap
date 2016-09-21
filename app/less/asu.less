@@ -13,6 +13,10 @@
   }
 }
 
+#navigator-left {
+  background-color: #ffffff;
+}
+
 .btn-link {
   > img {
     height: 25px;
@@ -54,7 +58,7 @@
   background: #ffffff;
 }
 
-.loadingMessage {
+.loadingImage {
   position: absolute;
   width: 48px;
   height: 48px;
@@ -66,8 +70,45 @@
   margin-left: -32px;
   margin-top: -32px;
   @shadow: 0 0 10px rgba(0,0,0,.3);
+  opacity: 0.8;
 
   img {
     margin: 12px;
   }
+}
+
+.loadingMessage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -45px;
+  margin-left: -110px;
+  color: #bbb;
+  text-align: center;
+  width: 198px;
+  height: 80px;
+  background: transparent url("/images/rohayhuve_asu.png") no-repeat;
+}
+
+#coordinates {
+  font-size: small;
+  position:absolute;
+  top: 0;
+  right:10px;
+  color:#444;
+  z-index:50;
+}
+
+#attribution {
+  font-size: small;
+  position:absolute;
+  bottom: 0;
+  right:0;
+  color:#444;
+  z-index:50;
+}
+
+#main-region {
+  width: 100%;
+  height: 100%;
 }

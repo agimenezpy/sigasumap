@@ -9,6 +9,7 @@
 define(["dojo/_base/declare",
     "dojo/_base/lang",
     "dojo/dom",
+    "dojo/number",
     "esri/map",
     "esri/config",
     "esri/basemaps",
@@ -16,9 +17,12 @@ define(["dojo/_base/declare",
     "esri/dijit/Scalebar",
     "esri/dijit/HomeButton",
     "esri/dijit/LocateButton",
+    "esri/dijit/Attribution",
     "esri/tasks/GeometryService",
-    "app/models/MapModel"], function(declare, lang, dom, Map, esriConfig, esriBasemaps,
-                                     Extent, Scalebar, HomeButton, LocateButton, GeometryService, MapModel) {
+    "app/models/MapModel",
+    "app/lib/ResizedMap"], function(declare, lang, dom, number, Map, esriConfig, esriBasemaps,
+                                     Extent, Scalebar, HomeButton, LocateButton,
+                                     Attribution, GeometryService, MapModel, ResizedMap) {
     const MapView = declare(null, {
         model: new MapModel({
             name: "asuncion",
@@ -30,16 +34,19 @@ define(["dojo/_base/declare",
             this.options = lang.mixin({}, options);
             esriBasemaps[this.model.get("name")] = {
                 baseMapLayers: [{
-                    url:  CONFIG.root_url + this.model.get("service")
+                    url:  CONFIG.root_url + this.model.get("service"),
+                    copyright: "Departamento S.I.G. - Dirección de General de Desarrollo Urbano " +
+                    "- Direcciónde Catastro Municipal."
                 }],
-                thumbnailUrl: "blank",
+                thumbnailUrl: "images/basemap.png",
                 title: "Mapa General"
             };
         },
         show: function () {
             var extent = this.model.get("extent");
-            this.map = new Map("map", lang.mixin({}, this.options, {
+            this.map = new ResizedMap("map", lang.mixin({}, this.options, {
                 basemap: this.model.get("name"),
+                autoResize: true,
                 extent: new Extent({
                     "xmin": extent[0],
                     "ymin": extent[1],
@@ -48,8 +55,9 @@ define(["dojo/_base/declare",
                     "spatialReference": {
                         "wkid": this.model.get("wkid")
                     }
-                })
-            }));
+                }),
+                showAttribution: false
+            })).createMap();
             var scalebar = new Scalebar({
                 map: this.map,
                 scalebarUnit: 'metric'
@@ -64,6 +72,16 @@ define(["dojo/_base/declare",
                 map: this.map
             }, "location");
             locateButton.startup();
+            var attribution = new Attribution({
+                map: this.map
+            }, "attribution");
+            attribution.startup();
+            var fmt = {pattern: "#.00"};
+
+            this.map.on("mouse-move", function (evt) {
+                dom.byId("coordinates").innerHTML = number.format(evt.mapPoint.x, fmt) + " , "
+                    + number.format(evt.mapPoint.y, fmt);
+            });
         }
     });
 
