@@ -10,6 +10,7 @@ define(["dojo/_base/declare",
     "dojo/_base/lang",
     "dojo/dom",
     "dojo/number",
+    "dijit/registry",
     "esri/map",
     "esri/config",
     "esri/basemaps",
@@ -19,10 +20,10 @@ define(["dojo/_base/declare",
     "esri/dijit/LocateButton",
     "esri/dijit/Attribution",
     "esri/tasks/GeometryService",
-    "app/models/MapModel",
-    "app/lib/ResizedMap"], function(declare, lang, dom, number, Map, esriConfig, esriBasemaps,
+    "app/lib/ResizedMap",
+    "app/models/MapModel"], function(declare, lang, dom, number, dijit, Map, esriConfig, esriBasemaps,
                                      Extent, Scalebar, HomeButton, LocateButton,
-                                     Attribution, GeometryService, MapModel, ResizedMap) {
+                                     Attribution, GeometryService, ResizedMap, MapModel) {
     const MapView = declare(null, {
         model: new MapModel({
             name: "asuncion",
@@ -30,6 +31,7 @@ define(["dojo/_base/declare",
             wkid: 32721,
             service: "/Mapa_Web/Mapa_General/MapServer"
         }),
+        fmt: { pattern: "#.00" },
         constructor: function (options) {
             this.options = lang.mixin({}, options);
             esriBasemaps[this.model.get("name")] = {
@@ -44,7 +46,7 @@ define(["dojo/_base/declare",
         },
         show: function () {
             var extent = this.model.get("extent");
-            this.map = new ResizedMap("map", lang.mixin({}, this.options, {
+            this.map = new Map("map", lang.mixin({}, this.options, {
                 basemap: this.model.get("name"),
                 autoResize: true,
                 extent: new Extent({
@@ -57,7 +59,7 @@ define(["dojo/_base/declare",
                     }
                 }),
                 showAttribution: false
-            })).createMap();
+            }));
             var scalebar = new Scalebar({
                 map: this.map,
                 scalebarUnit: 'metric'
@@ -76,12 +78,19 @@ define(["dojo/_base/declare",
                 map: this.map
             }, "attribution");
             attribution.startup();
-            var fmt = {pattern: "#.00"};
 
-            this.map.on("mouse-move", function (evt) {
-                dom.byId("coordinates").innerHTML = number.format(evt.mapPoint.x, fmt) + " , "
-                    + number.format(evt.mapPoint.y, fmt);
-            });
+            this.map.on("mouse-move", lang.hitch(this, this.showCoordinates));
+
+            dijit.byId("map").on("resize", lang.hitch(this, this.resizeMap));
+            dijit.byId("map").resize();
+        },
+        showCoordinates: function (evt) {
+            dom.byId("coordinates").innerHTML = number.format(evt.mapPoint.x, this.fmt) + " , "
+                + number.format(evt.mapPoint.y, this.fmt);
+        },
+        resizeMap: function() {
+            this.map.resize();
+            this.map.reposition();
         }
     });
 

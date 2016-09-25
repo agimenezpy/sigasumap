@@ -17,5 +17,4 @@ require([
     asu.startup();
     var loading = new LoadingView("loadingOverlay");
     loading.endLoading();
-    $('[data-toggle="tooltip"]').tooltip()
 });

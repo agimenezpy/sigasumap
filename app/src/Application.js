@@ -15,13 +15,22 @@ define(["dojo/_base/declare",
     "app/views/SearchView",
     "app/views/LayersView",
     "app/views/LegendView",
-    "dojo/text!app/templates/navigator.html"], function(declare, dom, parser, MapView, BasemapView, SearchView,
-                                        LayersView, LegendView, templateString) {
+    "app/views/MeasureView",
+    "app/views/PrintView",
+    "dojo/text!app/templates/navigator.html",
+    "dijit/layout/BorderContainer",
+    "dijit/layout/StackContainer",
+    "dijit/layout/ContentPane",
+    "dijit/form/ToggleButton",
+    "dijit/Tooltip"
+], function(declare, dom, parser, MapView, BasemapView, SearchView,
+            LayersView, LegendView, MeasureView, PrintView, templateString) {
     const Application = declare(null, {
         startup: function() {
-            parser.parse();
             dom.byId("navigator-top").innerHTML = templateString;
-            dom.byId("navigator-left").innerHTML = templateString;
+
+            parser.parse();
+
             var mapView = new MapView({
                 slider: true,
                 logo: false,
@@ -41,6 +50,12 @@ define(["dojo/_base/declare",
             });
             layersView.show();
             var legendView = new LegendView({
+                map: mapView.map
+            });
+            var measureView = new MeasureView({
+                map: mapView.map
+            });
+            var printView = new PrintView({
                 map: mapView.map
             });
         }

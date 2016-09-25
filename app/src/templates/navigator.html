@@ -1,44 +1,41 @@
-<ul class="nav navbar-nav">
-    <li>
-        <button class="btn-link identify-action" data-toggle="tooltip" data-placement="bottom" title="Identificar">
-            <img src="images/ico-identify.png">
-            <span class="sr-only">Identificar</span>
-        </button>
-    </li>
-    <li>
-        <button class="btn-link geolocate-action" data-toggle="tooltip" data-placement="bottom" title="Busquedas avanzadas">
-            <img src="images/ico-search.png">
-            <span class="sr-only">Busquedas avanzadas</span>
-        </button>
-    </li>
-    <li>
-        <button class="btn-link measure-action" data-toggle="tooltip" data-placement="bottom" title="Medir">
-            <img src="images/ico-measure.png">
-            <span class="sr-only">Medir</span>
-        </button>
-    </li>
-    <li>
-        <button class="btn-link print-action" data-toggle="tooltip" data-placement="bottom" title="Imprimir">
-            <img src="images/ico-print.png">
-            <span class="sr-only">Imprimir</span>
-        </button>
-    </li>
-    <li>
-        <button class="btn-link layers-action" data-toggle="tooltip" data-placement="bottom" title="Lista de Capas">
-            <img src="images/ico-layers.png">
-            <span class="sr-only">Lista de Capas</span>
-        </button>
-    </li>
-    <li>
-        <button class="btn-link legend-action" data-toggle="tooltip" data-placement="bottom" title="Leyenda">
-            <img src="images/ico-legend.png">
-            <span class="sr-only">Leyenda</span>
-        </button>
-    </li>
-    <li>
-        <button class="btn-link basemap-action" data-toggle="tooltip" data-placement="bottom" title="Mapa base">
-            <img src="images/ico-basemap.png">
-            <span class="sr-only">Mapa base</span>
-        </button>
-    </li>
-</ul>
+<button id="identify-action" data-dojo-type="dijit/form/ToggleButton">
+    <img class="btn-ico" src="images/ico-identify.png">
+</button>
+<div data-dojo-type="dijit/Tooltip"
+     data-dojo-props="connectId: 'identify-action', position: ['below']">
+    Identificar cualquier punto al hacer un click sobre el mapa</div>
+<button id="geolocate-action" data-dojo-type="dijit/form/ToggleButton" class="toolbar-group">
+    <img class="btn-ico" src="images/ico-search.png">
+</button>
+<div data-dojo-type="dijit/Tooltip"
+     data-dojo-props="connectId: 'geolocate-action',  position: ['below']">
+    Busqueda avanzada de calles, lotes y copropiedad</div>
+<button id="measure-action" data-dojo-type="dijit/form/ToggleButton">
+    <img class="btn-ico" src="images/ico-measure.png">
+</button>
+<div data-dojo-type="dijit/Tooltip"
+     data-dojo-props="connectId: 'measure-action', position: ['below']">
+    Medir área, longitud y obtener coordenadas</div>
+<button id="print-action" data-dojo-type="dijit/form/ToggleButton" class="toolbar-group">
+    <img class="btn-ico" src="images/ico-print.png">
+</button>
+<div data-dojo-type="dijit/Tooltip"
+     data-dojo-props="connectId: 'print-action', position: ['below']">
+    Imprime tus mapas</div>
+<button id="layers-action" data-dojo-type="dijit/form/ToggleButton" class="toolbar-group">
+    <img class="btn-ico" src="images/ico-layers.png">
+</button>
+<div data-dojo-type="dijit/Tooltip"
+     data-dojo-props="connectId: 'layers-action', position: ['below']">
+    Lista de capas</div>
+<button id="legend-action" data-dojo-type="dijit/form/ToggleButton" class="toolbar-group">
+    <img class="btn-ico" src="images/ico-legend.png">
+</button>
+<div data-dojo-type="dijit/Tooltip"
+     data-dojo-props="connectId: 'legend-action', position: ['below']">
+    Ver leyendas</div>
+<button  id="basemap-action" data-dojo-type="dijit/form/ToggleButton" class="toolbar-group">
+    <img class="btn-ico" src="images/ico-basemap.png">
+</button>
+<div data-dojo-type="dijit/Tooltip"
+     data-dojo-props="connectId: 'basemap-action', position: ['below']">Mapas base</div>

@@ -14,7 +14,8 @@ define(["dojo/_base/declare",
         constructor: function(options) {
             declare.safeMixin(this, {
                 node: "legend",
-                action: "legend-action"
+                action: "legend-action",
+                group: "toolbar-group"
             });
             this.inherited(arguments);
             this.map = options.map;

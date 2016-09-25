@@ -10,32 +10,48 @@ define(["dojo/_base/declare",
     "dojo/_base/lang",
     "dojo/dom",
     "dojo/dom-style",
-    "dojo/dom-class",
-    "dojo/query"], function(declare, lang, dom, domStyle, domClass, query) {
+    "dojo/query",
+    "dojo/dom-attr",
+    "dijit/registry"], function(declare, lang, dom, domStyle, query, dojoAttr, dijit) {
     const ToolbarItemView = declare(null, {
         node: null,
         action: null,
+        group: "",
         constructor: function() {
             if (this.node !== null) {
-                query(".navbar-nav .btn-link").on("click", lang.hitch(this, 'hide'));
-                query("." + this.action).on("click", lang.hitch(this, 'show'));
+                if (this.group !== "") {
+                    query("#navigator-top .dijitToggleButton." + this.group).on("click", lang.hitch(this, 'uncheck'));
+                }
+                dijit.byId(this.action).on("click", lang.hitch(this, 'toggle'));
             }
         },
         show: function() {
             domStyle.set(this.node, 'display', '');
+            var button = dijit.byId(this.action);
+            if (!button.checked) {
+                button.setChecked(true);
+            }
         },
         hide: function () {
             domStyle.set(this.node, 'display', 'none');
+            var button = dijit.byId(this.action);
+            if (button.checked) {
+                button.setChecked(false);
+            }
         },
         toggle: function(evt) {
-            var li = evt.target.parentNode;
-            if (domClass.contains(li, "active")) {
-                domClass.remove(li, "active");
-                this.hide();
+            if (dijit.byId(this.action).checked) {
+                this.show();
             }
             else {
-                domClass.add(li, "active");
-                this.show();
+                this.hide();
+            }
+        },
+        uncheck: function (evt) {
+            var button = dijit.byId(this.action);
+            var toggle = evt.target.parentNode;
+            if (button.checked && dojoAttr.get(toggle, "widgetid") !== this.action) {
+                this.hide();
             }
         }
     });

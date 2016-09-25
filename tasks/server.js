@@ -54,7 +54,5 @@ module.exports = function() {
         gulp.start("build");
         reload();
     });
-
-    gulp.watch('app/styles/**/*.css', ['styles']);
     
 };

@@ -35,7 +35,7 @@
 
     <link rel="icon" href="images/favicon.ico" sizes="16x16 32x32 48x48 64x64" type="image/vnd.microsoft.icon">
     <link rel="shortcut icon" href="images/favicon.ico">
-    <link rel="apple-touch-icon" href="images/brand.png.png">
+    <link rel="apple-touch-icon" href="images/brand.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <!-- Chrome for Android - NEW! -->
@@ -53,55 +53,52 @@
     <link rel="stylesheet" href="css/theme.min.css?v=<%= version %>">
     <!-- /build -->
 
-	<link rel="stylesheet" href="https://js.arcgis.com/3.17/esri/css/esri.css">
-	<link rel="stylesheet" href="https://js.arcgis.com/3.17/dijit/themes/claro/claro.css">
-	<!--<link rel="stylesheet" href="esri/css/esri.css">-->
+	<!--<link rel="stylesheet" href="https://js.arcgis.com/3.17/esri/css/esri.css">-->
+	<!--<link rel="stylesheet" href="https://js.arcgis.com/3.17/dijit/themes/claro/claro.css">-->
+	<link rel="stylesheet" href="esri/css/esri.css">
+	<link rel="stylesheet" href="dijit/themes/claro/claro.css">
 </head>
 
 <body class="claro">
 
 <div id="app-container">
-    <div id="header-content" class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigator-left" aria-expanded="false">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <div class="navbar-brand">
-                    <img src="images/brand-image.png" class="hidden-sm hidden-xs">
-                    <img src="images/brand-image-small.png" class="hidden-md hidden-lg">
-                    <span>Mapa de Asunción</span>
-                </div>
+    <div id="header-content" data-dojo-type="dijit/layout/BorderContainer" class="dijitToolbar"
+         data-dojo-props="design: 'headline', gutters: false" >
+        <div data-dojo-type="dijit/layout/ContentPane"
+             data-dojo-props="region: 'leading'" >
+            <div class="brand">
+                <h3>Mapa de Asunción</h3>
             </div>
-            <div id="navigator-top" class="hidden-xs navbar-right">
-
-            </div>
+        </div>
+        <div id="navigator-top"  class="hidden-xs" data-dojo-type="dijit/layout/ContentPane"
+             data-dojo-props="region: 'trailing'">
         </div>
     </div>
 
-    <div id="main-region" class="container-fluid">
-        <div id="navigator-left" class="col-sm-2 col-xs-2 collapse affix">
-
+    <div id="main-region" data-dojo-type="dijit/layout/BorderContainer"
+         data-dojo-props="design: 'headline', gutters: false">
+        <div id="tocPanel" data-dojo-type="dijit/layout/StackContainer"
+             data-dojo-props="region: 'left', minSize: 200, maxSize: 300, splitter: true, gutters: false">
+            <div id="legend"></div>
+            <div id="layers"></div>
+            <div id="gallery"></div>
+            <div id="print"></div>
+            <div id="geolocator"></div>
         </div>
-        <div class="row">
-            <div class="col-lg-3 col-md-2 col-sm-12 col-xs-12">
-                <div id="legend" ></div>
-                <div id="layers"></div>
-                <div id="gallery"></div>
-                <div id="geolocator"></div>
-            </div>
-            <div class="col-lg-9 col-md-10 col-sm-12 col-xs-12">
-                <div id="measure"></div>
-                <div id="search"></div>
-                <div id="map">
-                    <div id="home"></div>
-                    <div id="coordinates"></div>
-                    <div id="location"></div>
-                    <div id="attribution"></div>
-                </div>
-            </div>
+        <div id="map" data-dojo-type="dijit/layout/ContentPane"
+             data-dojo-props="region: 'center', gutters: false">
+            <div id="measure"></div>
+            <div id="search"></div>
+            <div id="home"></div>
+            <div id="coordinates"></div>
+            <div id="location"></div>
+            <div id="attribution"></div>
+        </div>
+        <div class="footer" data-dojo-type="dijit/layout/ContentPane"
+            data-dojo-props="region: 'bottom', gutters: false">
+            <p><a href="//www.asuncion.gov.py">&copy;2011 Municipalidad de Asunci&oacute;n - Todos los
+                derechos reservados.</a>Departamento S.I.G. - Direcci&oacute;n de General de Desarrollo Urbano - Direcci&oacute;n
+                de Catastro Municipal.</p>
         </div>
     </div><!-- /.container -->
     <div id="dialog-region"></div>
@@ -110,7 +107,7 @@
 
 <div id="loadingOverlay" class="pageOverlay">
     <div class="loadingMessage">
-        <span class="sr-only">Cargando</span>
+
     </div>
     <div class="loadingImage">
         <img src="images/loading2.gif">
@@ -133,18 +130,16 @@
 </script>
 
 <!-- build:template -->
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
 <script>
 // set up your dojoConfig
     dojoConfig = {
-        //baseUrl: location.pathname.replace(/\/[^/]+$/, ''),
+        baseUrl: location.pathname.replace(/\/[^/]+$/, ''),
         deps: ['./app/main.js'],
         packages: [
           {
               name: 'app',
-              location: location.pathname.replace(/\/[^/]+$/, '') + 'app/src'
-          }/*,
+              location: 'app/src' //location.pathname.replace(/\/[^/]+$/, '') + 'app/src'
+          },
           'dijit',
           'dojo',
           'dojox',
@@ -156,14 +151,14 @@
             name: 'moment',
             location: 'moment',
             main: 'moment'
-          }*/
+          }
         ]
     };
 </script>
     <!-- /build -->
 
-  <script src="https://js.arcgis.com/3.17compact/"></script>
-  <!--<script src="dojo/dojo.js"></script>-->
+  <!--<script src="https://js.arcgis.com/3.17compact/"></script>-->
+  <script src="dojo/dojo.js"></script>
 
 </body>
 </html>
