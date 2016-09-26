@@ -46,9 +46,10 @@ define(["dojo/_base/declare",
         },
         show: function () {
             var extent = this.model.get("extent");
-            this.map = new Map("map", lang.mixin({}, this.options, {
+            this.map = new ResizedMap("map", lang.mixin({}, this.options, {
                 basemap: this.model.get("name"),
                 autoResize: true,
+                scrollWheelZoom: true,
                 extent: new Extent({
                     "xmin": extent[0],
                     "ymin": extent[1],
@@ -59,7 +60,7 @@ define(["dojo/_base/declare",
                     }
                 }),
                 showAttribution: false
-            }));
+            })).createMap();
             var scalebar = new Scalebar({
                 map: this.map,
                 scalebarUnit: 'metric'
@@ -80,9 +81,6 @@ define(["dojo/_base/declare",
             attribution.startup();
 
             this.map.on("mouse-move", lang.hitch(this, this.showCoordinates));
-
-            dijit.byId("map").on("resize", lang.hitch(this, this.resizeMap));
-            dijit.byId("map").resize();
         },
         showCoordinates: function (evt) {
             dom.byId("coordinates").innerHTML = number.format(evt.mapPoint.x, this.fmt) + " , "

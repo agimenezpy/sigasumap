@@ -60,7 +60,7 @@ define(["dojo/_base/declare",
         buildLayers: function(response) {
             var self = this;
             arrayUtil.forEach(response.services, function(item, index) {
-                    if (item.name.match(/Mapa_General/) !== null) {
+                    if (item.name.match(/Mapa_General|Mapa_Base/) !== null) {
                         return;
                     }
                     var layer = new ArcGISDynamicMapServiceLayer(CONFIG.root_url + "/" + item.name + "/" + item.type, {

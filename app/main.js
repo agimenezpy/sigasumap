@@ -9,6 +9,9 @@ require([
     "app/views/LoadingView",
     "app/Application",
     "dojo/text!./app/config.json",
+    "bootstrap/Collapse",
+    "bootstrap/Tooltip",
+    "bootstrap/Popover",
     "dojo/domReady!"], function(declare, JSON, LoadingView, Application, config) {
 
     window.CONFIG = JSON.parse(config);

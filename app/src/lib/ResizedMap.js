@@ -237,7 +237,7 @@ define([
                         inCol = false;
                     }
                     // Expand map height
-                    style.set(this._mapDivId, {
+                    style.set(dom.byId(this._mapDivId).parentNode.parentNode, {
                         "height": mh2 + "px",
                         "width": "auto"
                     });

@@ -9,7 +9,8 @@
  */
 define(["dojo/_base/declare",
     "dojo/dom",
-    "dojo/parser",
+    "dojo/dom-class",
+    "dojo/query",
     "app/views/MapView",
     "app/views/BasemapView",
     "app/views/SearchView",
@@ -17,19 +18,21 @@ define(["dojo/_base/declare",
     "app/views/LegendView",
     "app/views/MeasureView",
     "app/views/PrintView",
-    "dojo/text!app/templates/navigator.html",
-    "dijit/layout/BorderContainer",
-    "dijit/layout/StackContainer",
-    "dijit/layout/ContentPane",
-    "dijit/form/ToggleButton",
-    "dijit/Tooltip"
-], function(declare, dom, parser, MapView, BasemapView, SearchView,
-            LayersView, LegendView, MeasureView, PrintView, templateString) {
+    "app/views/IdentifyView",
+    "dojo/text!app/templates/navigator.html"
+], function(declare, dom, domClass, query, MapView, BasemapView, SearchView,
+            LayersView, LegendView, MeasureView, PrintView, IdentifyView, templateString) {
     const Application = declare(null, {
         startup: function() {
             dom.byId("navigator-top").innerHTML = templateString;
+            query('#tocPanel > div').forEach(function(item) {
+                domClass.add(item, "hidden");
+            });
+            query('[data-toggle="popover"]').popover({
+                trigger: 'hover',
+                container: 'body'
+            });
 
-            parser.parse();
 
             var mapView = new MapView({
                 slider: true,
@@ -57,6 +60,10 @@ define(["dojo/_base/declare",
             });
             var printView = new PrintView({
                 map: mapView.map
+            });
+            var identifyView = new IdentifyView({
+                map: mapView.map,
+                service: mapView.model.get("service")
             });
         }
     });

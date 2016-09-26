@@ -62,43 +62,45 @@
 <body class="claro">
 
 <div id="app-container">
-    <div id="header-content" data-dojo-type="dijit/layout/BorderContainer" class="dijitToolbar"
-         data-dojo-props="design: 'headline', gutters: false" >
-        <div data-dojo-type="dijit/layout/ContentPane"
-             data-dojo-props="region: 'leading'" >
-            <div class="brand">
-                <h3>Mapa de Asunción</h3>
+    <div id="header-content" class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigator-top" aria-expanded="false">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-brand">
+                    <img src="images/brand-image.png" class="hidden-sm hidden-xs">
+                    <img src="images/brand-image-small.png" class="hidden-md hidden-lg">
+                </div>
+                <div class="h4 navbar-text">Mapa de Asunción</div>
             </div>
-        </div>
-        <div id="navigator-top"  class="hidden-xs" data-dojo-type="dijit/layout/ContentPane"
-             data-dojo-props="region: 'trailing'">
+            <div id="navigator-top" class="collapse navbar-collapse">
+
+            </div>
         </div>
     </div>
 
-    <div id="main-region" data-dojo-type="dijit/layout/BorderContainer"
-         data-dojo-props="design: 'headline', gutters: false">
-        <div id="tocPanel" data-dojo-type="dijit/layout/StackContainer"
-             data-dojo-props="region: 'left', minSize: 200, maxSize: 300, splitter: true, gutters: false">
-            <div id="legend"></div>
-            <div id="layers"></div>
-            <div id="gallery"></div>
-            <div id="print"></div>
-            <div id="geolocator"></div>
-        </div>
-        <div id="map" data-dojo-type="dijit/layout/ContentPane"
-             data-dojo-props="region: 'center', gutters: false">
-            <div id="measure"></div>
-            <div id="search"></div>
-            <div id="home"></div>
-            <div id="coordinates"></div>
-            <div id="location"></div>
-            <div id="attribution"></div>
-        </div>
-        <div class="footer" data-dojo-type="dijit/layout/ContentPane"
-            data-dojo-props="region: 'bottom', gutters: false">
-            <p><a href="//www.asuncion.gov.py">&copy;2011 Municipalidad de Asunci&oacute;n - Todos los
-                derechos reservados.</a>Departamento S.I.G. - Direcci&oacute;n de General de Desarrollo Urbano - Direcci&oacute;n
-                de Catastro Municipal.</p>
+    <div id="main-region" class="container-fluid">
+        <div class="row">
+            <div id="tocPanel" class="col-lg-3 col-md-2 col-sm-12 col-xs-12">
+                <div id="legend" ></div>
+                <div id="layers"></div>
+                <div id="gallery"></div>
+                <div id="print"></div>
+                <div id="geolocator"></div>
+            </div>
+            <div id="mapPanel" class="col-lg-9 col-md-10 col-sm-12 col-xs-12">
+                <div id="measure"></div>
+                <div id="search"></div>
+                <div id="map">
+                    <div id="home"></div>
+                    <div id="coordinates"></div>
+                    <div id="location"></div>
+                    <div id="attribution"></div>
+                </div>
+            </div>
         </div>
     </div><!-- /.container -->
     <div id="dialog-region"></div>
@@ -107,7 +109,7 @@
 
 <div id="loadingOverlay" class="pageOverlay">
     <div class="loadingMessage">
-
+        <span class="sr-only">Cargando</span>
     </div>
     <div class="loadingImage">
         <img src="images/loading2.gif">
@@ -140,6 +142,7 @@
               name: 'app',
               location: 'app/src' //location.pathname.replace(/\/[^/]+$/, '') + 'app/src'
           },
+          'bootstrap',
           'dijit',
           'dojo',
           'dojox',

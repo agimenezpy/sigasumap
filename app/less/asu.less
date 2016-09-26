@@ -1,79 +1,60 @@
-//@import "../../node_modules/bootstrap/less/bootstrap";
-//@import "../../node_modules/bootstrap/less/theme";
-@import "../../node_modules/bootstrap/less/normalize";
-@import "../../node_modules/bootstrap/less/mixins";
-@import "../../node_modules/bootstrap/less/variables";
-@import "../../node_modules/bootstrap/less/type";
-@import "../../node_modules/bootstrap/less/responsive-utilities";
+@import "../../node_modules/bootstrap/less/bootstrap";
+@import "../../node_modules/bootstrap/less/theme";
 
-html, body {
-  height: 100%;
+.navbar {
+  margin-bottom: 5px;
 }
 
-#map.dijitContentPane  {
-  padding: 0;
+.navbar-brand {
+  padding: 5px 15px 15px 15px;
+
+  > img {
+      display: inline;
+  }
 }
 
-#header-content {
-  height: 50px;
-  .dijitContentPane  {
-    padding: 0;
-    height: inherit;
-    overflow: hidden;
-  }
-
-  .dijitToggleButton {
-    padding-top: 5px;
-    width: 50px;
-    img {
-      height: 25px;
-      padding: 5px;
-    }
-  }
-
-
+#navigator-left {
+  background-color: #ffffff;
 }
 
-.footer {
-  .dijitContentPane {
-    padding: 0;
+li > a.btn-ico {
+  padding: 10px 15px;
+
+  > img {
+    height: 25px;
+    margin: 5px;
   }
-  font-size: x-small;
 }
 
 #tocPanel {
-  width: 220px;
-  overflow-y: auto;
-  div.dijitContentPane {
+  height: inherit;
+
+  > div {
+    overflow: auto;
+    height: inherit;
+  }
+}
+
+#mapPanel {
+  height: inherit;
+
+  #map {
     width: 100%;
+    height: 100%;
   }
-}
-
-.brand {
-  background: transparent url("/images/brand-image-small.png") no-repeat;
-  height: 50px;
-  padding-left: 50px;
-  padding-top: 10px;
-  h3 {
-    margin: 0;
-  }
-}
-
-#app-container {
-  height: 100%;
 }
 
 #home {
   position: absolute;
   top: 95px;
-  left: 20px;
+  left: 35px;
   z-index: 50;
 }
 
 #location {
   position: absolute;
-  top: 130px;
-  left: 20px;
+  top: 128px;
+  left: 35px;
   z-index: 50;
 }
 
@@ -82,7 +63,7 @@ html, body {
   position: absolute;
   z-index: 2;
   top: 20px;
-  left: 60px;
+  left: 75px;
 }
 
 .pageOverlay {
@@ -161,4 +142,23 @@ html, body {
   background-color: #fff;
   border: 1px solid #aaa;
   border-top-width: 0;
+}
+
+.esriToggleButton {
+  box-sizing: initial;
+}
+
+#layers.esriLayerList {
+
+  .esriTitleContainer, .esriContainer {
+    border: none;
+  }
+
+  .esriList {
+    .list-group;
+  }
+
+  .esriLayer {
+    .list-group-item;
+  }
 }

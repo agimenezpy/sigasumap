@@ -21,4 +21,4 @@ gulp.task('styles', require('./tasks/styles'));
 gulp.task('build', ['assets', 'styles', 'dojo_dev']);
 
 // Ejecuta tareas por defecto y levanta server con endpoints de prueba
-gulp.task('start', ['build', 'dojo_dev'], require('./tasks/server'));
+gulp.task('start', ['build'], require('./tasks/server'));

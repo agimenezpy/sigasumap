@@ -8,11 +8,11 @@
  */
 define(["dojo/_base/declare",
     "dojo/_base/lang",
+    "dojo/on",
     "dojo/dom",
-    "dojo/dom-style",
+    "dojo/dom-class",
     "dojo/query",
-    "dojo/dom-attr",
-    "dijit/registry"], function(declare, lang, dom, domStyle, query, dojoAttr, dijit) {
+    "dojo/dom-attr"], function(declare, lang, on, dom, domClass, query, dojoAttr) {
     const ToolbarItemView = declare(null, {
         node: null,
         action: null,
@@ -20,27 +20,37 @@ define(["dojo/_base/declare",
         constructor: function() {
             if (this.node !== null) {
                 if (this.group !== "") {
-                    query("#navigator-top .dijitToggleButton." + this.group).on("click", lang.hitch(this, 'uncheck'));
+                    query("#navigator-top .btn-ico." + this.group).on("click", lang.hitch(this, 'uncheck'));
                 }
-                dijit.byId(this.action).on("click", lang.hitch(this, 'toggle'));
+            }
+            if (this.action !== null) {
+                this.button = dom.byId(this.action);
+                on(this.button, "click", lang.hitch(this, 'toggle'));
             }
         },
+        checked: function() {
+            return domClass.contains(this.button.parentNode, "active");
+        },
         show: function() {
-            domStyle.set(this.node, 'display', '');
-            var button = dijit.byId(this.action);
-            if (!button.checked) {
-                button.setChecked(true);
+            if (this.node !== null) {
+                domClass.add(this.node, 'show');
+                domClass.remove(this.node, 'hidden');
+            }
+            if (!this.checked()) {
+                domClass.add(this.button.parentNode, "active");
             }
         },
         hide: function () {
-            domStyle.set(this.node, 'display', 'none');
-            var button = dijit.byId(this.action);
-            if (button.checked) {
-                button.setChecked(false);
+            if (this.node !== null) {
+                domClass.add(this.node, 'hidden');
+                domClass.remove(this.node, 'show');
+            }
+            if (this.checked()) {
+                domClass.remove(this.button.parentNode, "active");
             }
         },
-        toggle: function(evt) {
-            if (dijit.byId(this.action).checked) {
+        toggle: function() {
+            if (!this.checked()) {
                 this.show();
             }
             else {
@@ -48,9 +58,8 @@ define(["dojo/_base/declare",
             }
         },
         uncheck: function (evt) {
-            var button = dijit.byId(this.action);
             var toggle = evt.target.parentNode;
-            if (button.checked && dojoAttr.get(toggle, "widgetid") !== this.action) {
+            if (this.checked() && dojoAttr.get(toggle, "id") !== this.action) {
                 this.hide();
             }
         }

@@ -1,41 +1,65 @@
-<button id="identify-action" data-dojo-type="dijit/form/ToggleButton">
-    <img class="btn-ico" src="images/ico-identify.png">
-</button>
-<div data-dojo-type="dijit/Tooltip"
-     data-dojo-props="connectId: 'identify-action', position: ['below']">
-    Identificar cualquier punto al hacer un click sobre el mapa</div>
-<button id="geolocate-action" data-dojo-type="dijit/form/ToggleButton" class="toolbar-group">
-    <img class="btn-ico" src="images/ico-search.png">
-</button>
-<div data-dojo-type="dijit/Tooltip"
-     data-dojo-props="connectId: 'geolocate-action',  position: ['below']">
-    Busqueda avanzada de calles, lotes y copropiedad</div>
-<button id="measure-action" data-dojo-type="dijit/form/ToggleButton">
-    <img class="btn-ico" src="images/ico-measure.png">
-</button>
-<div data-dojo-type="dijit/Tooltip"
-     data-dojo-props="connectId: 'measure-action', position: ['below']">
-    Medir área, longitud y obtener coordenadas</div>
-<button id="print-action" data-dojo-type="dijit/form/ToggleButton" class="toolbar-group">
-    <img class="btn-ico" src="images/ico-print.png">
-</button>
-<div data-dojo-type="dijit/Tooltip"
-     data-dojo-props="connectId: 'print-action', position: ['below']">
-    Imprime tus mapas</div>
-<button id="layers-action" data-dojo-type="dijit/form/ToggleButton" class="toolbar-group">
-    <img class="btn-ico" src="images/ico-layers.png">
-</button>
-<div data-dojo-type="dijit/Tooltip"
-     data-dojo-props="connectId: 'layers-action', position: ['below']">
-    Lista de capas</div>
-<button id="legend-action" data-dojo-type="dijit/form/ToggleButton" class="toolbar-group">
-    <img class="btn-ico" src="images/ico-legend.png">
-</button>
-<div data-dojo-type="dijit/Tooltip"
-     data-dojo-props="connectId: 'legend-action', position: ['below']">
-    Ver leyendas</div>
-<button  id="basemap-action" data-dojo-type="dijit/form/ToggleButton" class="toolbar-group">
-    <img class="btn-ico" src="images/ico-basemap.png">
-</button>
-<div data-dojo-type="dijit/Tooltip"
-     data-dojo-props="connectId: 'basemap-action', position: ['below']">Mapas base</div>
+<ul class="nav navbar-nav navbar-right">
+<li>
+    <a id="identify-action" href="#" class="btn-ico" role="button"
+        data-toggle="popover" data-placement="bottom"
+        title="Identificar"
+        data-content="Identificar cualquier punto al hacer un click sobre el mapa">
+        <img src="images/ico-identify.png">
+        <span class="hidden-lg hidden-md hidden-sm">Identificar</span>
+    </a>
+</li>
+<li>
+    <a id="geolocate-action" href="#" class="btn-ico toolbar-group"
+        data-toggle="popover" data-placement="bottom"
+        title="Busquedas"
+        data-content="Busqueda avanzada de calles, lotes y copropiedad">
+        <img src="images/ico-search.png">
+        <span class="hidden-lg hidden-md hidden-sm">Busquedas</span>
+    </a>
+</li>
+<li>
+    <a id="measure-action" href="#" class="btn-ico" role="button"
+        data-toggle="popover" data-placement="bottom"
+        title="Medir"
+        data-content="Medir área, longitud y obtener coordenadas">
+        <img src="images/ico-measure.png">
+        <span class="hidden-lg hidden-md hidden-sm">Medir</span>
+    </a>
+</li>
+<li>
+    <a id="print-action" href="#" class="btn-ico toolbar-group" role="button"
+        data-toggle="popover" data-placement="bottom"
+        title="Imprimir"
+        data-content="Impresión de mapas">
+        <img src="images/ico-print.png">
+        <span class="hidden-lg hidden-md hidden-sm">Imprimir</span>
+    </a>
+</li>
+<li>
+    <a id="layers-action" href="#" class="btn-ico toolbar-group" role="button"
+        data-toggle="popover" data-placement="bottom"
+        title="Capas"
+        data-content="Visualizar la lista de capas disponibles">
+        <img src="images/ico-layers.png">
+        <span class="hidden-lg hidden-md hidden-sm">Capas</span>
+    </a>
+</li>
+<li>
+    <a id="legend-action" href="#" class="btn-ico toolbar-group" role="button"
+       data-toggle="popover" data-placement="bottom"
+       title="Leyenda"
+       data-content="Visualizar las leyendas de las capas listadas">
+        <img src="images/ico-legend.png">
+        <span class="hidden-lg hidden-md hidden-sm">Leyenda</span>
+    </a>
+</li>
+<li>
+    <a id="basemap-action" href="#" class="btn-ico toolbar-group" role="button"
+        data-toggle="popover" data-placement="bottom"
+        title="Mapas base"
+        data-content="Visualizar los mapas base disponibles">
+        <img src="images/ico-basemap.png">
+        <span class="hidden-lg hidden-md hidden-sm">Mapa base</span>
+    </a>
+</li>
+</ul>

@@ -10,7 +10,7 @@ define(["dojo/_base/declare",
     "app/lib/ToolbarItem",
     "esri/dijit/Print"], function(declare, ToolbarItemView, Print) {
     const PrintView = declare(ToolbarItemView, {
-        legend: null,
+        print: null,
         constructor: function(options) {
             declare.safeMixin(this, {
                 node: "print",
@@ -21,13 +21,13 @@ define(["dojo/_base/declare",
             this.map = options.map;
         },
         show: function() {
-            if (!this.legend) {
-                this.printer = new Print({
+            if (!this.print) {
+                this.print = new Print({
                     map: this.map,
                     url: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export Web Map Task"
                   }, "print");
 
-                this.printer.startup();
+                this.print.startup();
 
             }
             this.inherited(arguments);
