@@ -6,20 +6,17 @@
 /**
  * @class view.SearchView
  */
-define(["dojo/_base/declare",
+define([
+    "require",
+    "dojo/_base/declare",
     "dojo/_base/lang",
-    "esri/layers/FeatureLayer",
     "esri/tasks/locator",
     "esri/tasks/find",
     "esri/dijit/Search",
     "esri/symbols/PictureMarkerSymbol",
     "esri/InfoTemplate",
-    "dojo/text!app/templates/search_result.html"], function(declare, lang, FeatureLayer, Locator, FindTask, Search,
+    "dojo/text!app/templates/search_result.html"], function(require, declare, lang, Locator, FindTask, Search,
                                                         PictureMarkerSymbol, InfoTemplate, templateString) {
-
-    const MyFeatureLayer = declare(FeatureLayer, {
-        getGeometryType: function() { return "esriGeometryPolyline"}
-    });
 
     const SearchView = declare(null, {
         constructor: function(options) {
@@ -30,37 +27,23 @@ define(["dojo/_base/declare",
             locator.outSpatialReference = this.map.spatialReference;
             var barrios = new Locator(CONFIG.root_url + "/Locator/Barrios/GeocodeServer");
             barrios.outSpatialReference = this.map.spatialReference;
-            var calleSearch = {
-                featureLayer: new MyFeatureLayer(CONFIG.root_url + "/Mapa_Web/Mapa_General/MapServer/15", {
-                    layerDefinition: {
-                        "geometryType": "esriGeometryPolygon"
-                    }
-                }),
-                searchFields: ["nombre"],
-                suggestionTemplate: "${nombre}, Party: ${alias}",
-                exactMatch: false,
-                outFields: ["*"],
-                name: "Calles",
-                placeholder: "Nombre de calle",
-                maxResults: 6,
-                maxSuggestions: 6,
-                enableSuggestions: true,
-                minCharacters: 0,
-                returnGeometry: true,
-                localSearchOptions: {distance: 5000}
-            };
+            var lotes = new Locator(CONFIG.root_url + "/Locator/Lotes_CCC_Busqueda/GeocodeServer");
+            lotes.outSpatialReference = this.map.spatialReference;
+            var copropiedad = new Locator(CONFIG.root_url + "/Locator/COPROPIEDAD/GeocodeServer");
+            copropiedad.outSpatialReference = this.map.spatialReference;
             var defaultSettings = {
                 singleLineFieldName: "Single Line Input",
                 outFields: ["Match_addr"],
-                highlightSymbol: new PictureMarkerSymbol("esri/dijit/images/sdk_gps_location.png", 36, 36).setOffset(9, 18),
+                highlightSymbol: new PictureMarkerSymbol(require.toUrl("esri") + "/dijit/images/sdk_gps_location.png", 36, 36).setOffset(9, 18),
                 //Create an InfoTemplate
                 infoTemplate: new InfoTemplate("Ubicación", templateString)
             };
             var search = new Search({
                 sources: [
-                    lang.mixin({}, { locator: locator, name: "GeoCalles", placeholder: "Buscar dirección"}, defaultSettings),
+                    lang.mixin({}, { locator: locator, name: "Direcciones", placeholder: "Buscar dirección"}, defaultSettings),
                     lang.mixin({}, { locator: barrios, name: "Barrios", placeholder: "Buscar barrios"}, defaultSettings),
-                    calleSearch
+                    lang.mixin({}, { locator: lotes, name: "Lotes", placeholder: "Buscar lotes"}, defaultSettings),
+                    lang.mixin({}, { locator: copropiedad, name: "Copropiedad", placeholder: "Buscar lotes con copropiedad"}, defaultSettings)
                 ],
                 map: this.map,
                 enableSearchingAll: true,

@@ -1,10 +1,10 @@
 /**
- * ToolbarItem view
+ * ToolbarItem
  * @author agimenez
  */
 
 /**
- * @class view.ToolbarItemView
+ * @class lib.ToolbarItem
  */
 define(["dojo/_base/declare",
     "dojo/_base/lang",
@@ -13,15 +13,13 @@ define(["dojo/_base/declare",
     "dojo/dom-class",
     "dojo/query",
     "dojo/dom-attr"], function(declare, lang, on, dom, domClass, query, dojoAttr) {
-    const ToolbarItemView = declare(null, {
+    const ToolbarItem = declare(null, {
         node: null,
         action: null,
         group: "",
         constructor: function() {
-            if (this.node !== null) {
-                if (this.group !== "") {
-                    query("#navigator-top .btn-ico." + this.group).on("click", lang.hitch(this, 'uncheck'));
-                }
+            if (this.group !== "") {
+                query("#navigator-top .btn-ico." + this.group).on("click", lang.hitch(this, 'uncheck'));
             }
             if (this.action !== null) {
                 this.button = dom.byId(this.action);
@@ -64,5 +62,5 @@ define(["dojo/_base/declare",
             }
         }
     });
-    return ToolbarItemView;
+    return ToolbarItem;
 });

@@ -8,37 +8,25 @@
  */
 define(["dojo/_base/declare",
     "dojo/_base/lang",
-    "dojo/_base/Color",
-    "dojo/dom",
-    "dojo/dom-construct",
     "app/lib/ToolbarItem",
-    "app/models/IdentifyModel",
-    "esri/dijit/Popup",
-    "esri/symbols/SimpleFillSymbol",
-    "esri/symbols/SimpleLineSymbol",
-    "esri/dijit/Popup"
-    ], function(declare, lang, Color, dom, domConstruct, ToolbarItemView, IdentifyModel,
-                Popup, SimpleFillSymbol, SimpleLineSymbol) {
-    const IdentifyView = declare(ToolbarItemView, {
+    "app/models/IdentifyModel"], function(declare, lang, ToolbarItem, IdentifyModel) {
+    const IdentifyView = declare(ToolbarItem, {
         identify: null,
         constructor: function(options) {
             declare.safeMixin(this, {
-                action: "identify-action"
+                action: "identify-action",
+                group: "toolbar-group"
             });
             this.inherited(arguments);
             this.map = options.map;
             this.service = CONFIG.root_url + options.service;
         },
+        hide: function () {
+            this.map.infoWindow.hide();
+            this.inherited(arguments);
+        },
         show: function() {
             if (!this.identify) {
-                this.map.infoWindow = new Popup({
-                    fillSymbol: new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
-                                new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-                                new Color([255,0,0]), 2),
-                                new Color([255,255,0,0.25]))
-                }, domConstruct.create("div", null, dom.byId("map")));
-                this.map.infoWindow.setMap(this.map);
-                this.map.infoWindow.startup();
                 this.identify = new IdentifyModel({
                      map: this.map,
                      service: this.service

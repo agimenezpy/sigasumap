@@ -12,9 +12,9 @@ define(["dojo/_base/declare",
     "esri/basemaps",
     "esri/dijit/Basemap",
     "esri/dijit/BasemapLayer",
-    "esri/dijit/BasemapGallery"], function(declare, lang, ToolbarItemView, esriBasemaps, Basemap, BasemapLayer,
+    "esri/dijit/BasemapGallery"], function(declare, lang, ToolbarItem, esriBasemaps, Basemap, BasemapLayer,
                                            BasemapGallery) {
-    const BasemapView = declare(ToolbarItemView, {
+    const BasemapView = declare(ToolbarItem, {
         basemapGallery: null,
         constructor: function(options) {
             declare.safeMixin(this, {

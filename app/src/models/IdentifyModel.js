@@ -3,21 +3,25 @@
  */
 
 /**
- * Tarea de identificacion
+ * Tarea de identificación
  *
  * @class models.IdentifyModel
  */
 define(["dojo/_base/declare",
     "dojo/_base/lang",
     "dojo/_base/array",
+    "dojo/string",
+    "app/lib/LayerUtils",
     "esri/InfoTemplate",
     "esri/tasks/IdentifyTask",
-    "esri/tasks/IdentifyParameters"], function(declare, lang, array, InfoTemplate, IdentifyTask, IdentifyParameters) {
+    "esri/tasks/IdentifyParameters",
+    "dojo/text!app/templates/identify_result.html"],
+    function(declare, lang, arrayUtils, string, LayerUtils, InfoTemplate, IdentifyTask, IdentifyParameters, templateString) {
     const IdentifyModel = declare(null, {
         defaults: {
             tolerance: 1,
             returnGeometry: true,
-            layerOption: IdentifyParameters.LAYER_OPTION_VISIBLE,
+            layerOption: IdentifyParameters.LAYER_OPTION_VISIBLE
         },
         service: null,
         map: null,
@@ -25,7 +29,12 @@ define(["dojo/_base/declare",
             this.params = new IdentifyParameters();
             lang.mixin(this.params, this.defaults);
             this.map = options.map;
+            var selected = this.map.basemapLayerIds[0];
+            this.params.layerIds = LayerUtils.getLayerIds(this.map.getLayer(selected));
             this.service = options.service;
+            this.template = new InfoTemplate();
+            this.template.setTitle("${layerName}");
+            this.template.setContent(templateString);
         },
         doIdentify: function(evt) {
             this.params.geometry = evt.mapPoint;
@@ -40,28 +49,22 @@ define(["dojo/_base/declare",
 
             this.map.infoWindow.setFeatures([ deferred ]);
             this.map.infoWindow.show(evt.mapPoint);
+            this.map.centerAt(evt.mapPoint);
         },
         onResult: function(response) {
-            return array.map(response, function (result) {
+            var self = this;
+            return arrayUtils.map(response, function (result) {
                 var feature = result.feature;
                 feature.attributes.layerName = result.layerName;
-                if (!result.displayFieldName) {
-                    result.displayFieldName = "NOMBRE";
-                    if (!feature.attributes["NOMBRE"]) {
-                        result.displayFieldName = "nombre";
-                    }
-                }
-                if (result.layerName.match("Manzana.*")) {
-                    result.displayFieldName = "numero";
-                }
-                var msg = "<b>${layerName}</b> <br/>${" + result.displayFieldName + "} <br/>";
+                var msg = "";
                 for (var item in feature.attributes) {
                     if (!item.match("Shape.*|ID|layer")) {
-                        msg += "<i>" + item + ":</i> ${" + item + "}<br/>";
+                        msg += string.substitute("<label>${label}: </label><i>${value}</i><br>",
+                            {label: item, value: feature.attributes[item]});
                     }
                 }
-                var template = new InfoTemplate(result.layerName, msg);
-                feature.setInfoTemplate(template);
+                feature.attributes.extra = msg;
+                feature.setInfoTemplate(self.template);
                 return feature;
             });
         }

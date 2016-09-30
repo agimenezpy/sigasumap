@@ -12,11 +12,14 @@ define(["dojo/_base/declare",
     "app/lib/ToolbarItem",
     "esri/request",
     "esri/layers/ArcGISDynamicMapServiceLayer",
-    "esri/dijit/LayerList"], function(declare, lang, arrayUtil, ToolbarItemView, esriRequest,
+    "esri/dijit/LayerList"], function(declare, lang, arrayUtil, ToolbarItem, esriRequest,
                                       ArcGISDynamicMapServiceLayer, LayerList) {
     const MyLayerList = declare(LayerList, {
          _getLayerTitle: function (e) {
-             var title = e.layer.description || e.layer.layerInfos[0].name;
+             var title = e.layer.description;
+             if (title === "" && e.layer.layerInfos.length > 0) {
+                 title = e.layer.layerInfos[0].name;
+             }
              if (title !== "") {
                  return title;
              }
@@ -25,7 +28,7 @@ define(["dojo/_base/declare",
              }
          }
     });
-    const LayersView = declare(ToolbarItemView, {
+    const LayersView = declare(ToolbarItem, {
         layerList: null,
         constructor: function(options) {
             declare.safeMixin(this, {
@@ -59,7 +62,7 @@ define(["dojo/_base/declare",
         },
         buildLayers: function(response) {
             var self = this;
-            arrayUtil.forEach(response.services, function(item, index) {
+            arrayUtil.forEach(response.services, function(item) {
                     if (item.name.match(/Mapa_General|Mapa_Base/) !== null) {
                         return;
                     }

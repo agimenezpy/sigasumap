@@ -8,8 +8,8 @@
  */
 define(["dojo/_base/declare",
     "app/lib/ToolbarItem",
-    "esri/dijit/Measurement"], function(declare, ToolbarItemView, Measurement) {
-    const MeasureView = declare(ToolbarItemView, {
+    "esri/dijit/Measurement"], function(declare, ToolbarItem, Measurement) {
+    const MeasureView = declare(ToolbarItem, {
         measure: null,
         constructor: function(options) {
             declare.safeMixin(this, {

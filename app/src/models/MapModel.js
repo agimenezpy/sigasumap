@@ -1,9 +1,11 @@
 /**
- * @class model.Map
+ * Map Model
+ * @author agimenez
  */
 
 /**
  * Modelo del mapa
+ * @class model.Map
  */
 define(["dojo/_base/declare",
     "dojo/_base/lang"], function(declare, lang) {

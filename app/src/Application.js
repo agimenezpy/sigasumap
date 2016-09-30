@@ -51,7 +51,6 @@ define(["dojo/_base/declare",
             var layersView = new LayersView({
                 map: mapView.map
             });
-            layersView.show();
             var legendView = new LegendView({
                 map: mapView.map
             });

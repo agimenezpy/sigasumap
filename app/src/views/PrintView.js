@@ -7,8 +7,10 @@
  * @class view.PrintView
  */
 define(["dojo/_base/declare",
+    "dojo/dom",
     "app/lib/ToolbarItem",
-    "esri/dijit/Print"], function(declare, ToolbarItemView, Print) {
+    "app/models/PrintModel",
+    "dojo/text!app/templates/print_dialog.html"], function(declare, dom, ToolbarItemView, PrintModel, templateString) {
     const PrintView = declare(ToolbarItemView, {
         print: null,
         constructor: function(options) {
@@ -19,16 +21,15 @@ define(["dojo/_base/declare",
             });
             this.inherited(arguments);
             this.map = options.map;
+            dom.byId("print").innerHTML = templateString;
         },
         show: function() {
             if (!this.print) {
-                this.print = new Print({
+                this.print = new PrintModel({
                     map: this.map,
-                    url: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export Web Map Task"
-                  }, "print");
-
+                    service: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export Web Map Task"
+                }, "printButton");
                 this.print.startup();
-
             }
             this.inherited(arguments);
         }
