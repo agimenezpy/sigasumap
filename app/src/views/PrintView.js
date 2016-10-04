@@ -13,6 +13,7 @@ define(["dojo/_base/declare",
     "dojo/text!app/templates/print_dialog.html"], function(declare, dom, ToolbarItemView, PrintModel, templateString) {
     const PrintView = declare(ToolbarItemView, {
         print: null,
+        service: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export Web Map Task",
         constructor: function(options) {
             declare.safeMixin(this, {
                 node: "print",
@@ -20,14 +21,14 @@ define(["dojo/_base/declare",
                 group: "toolbar-group"
             });
             this.inherited(arguments);
-            this.map = options.map;
+            this.mapView = options.mapView;
             dom.byId("print").innerHTML = templateString;
         },
         show: function() {
             if (!this.print) {
                 this.print = new PrintModel({
-                    map: this.map,
-                    service: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export Web Map Task"
+                    map: this.mapView.map,
+                    service: this.service
                 }, "printButton");
                 this.print.startup();
             }

@@ -18,12 +18,12 @@ define(["dojo/_base/declare",
                 group: "toolbar-group"
             });
             this.inherited(arguments);
-            this.map = options.map;
+            this.mapView = options.mapView;
         },
         show: function() {
             if (!this.legend) {
                 this.legend = new Legend({
-                    map: this.map
+                    map: this.mapView.map
                     }, this.node);
                 this.legend.startup();
             }

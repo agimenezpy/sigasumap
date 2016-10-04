@@ -9,8 +9,8 @@
 define(["dojo/_base/declare",
     "dojo/_base/lang",
     "dojo/dom",
+    "dojo/dom-class",
     "dojo/number",
-    "dijit/registry",
     "esri/map",
     "esri/config",
     "esri/basemaps",
@@ -21,10 +21,12 @@ define(["dojo/_base/declare",
     "esri/dijit/Attribution",
     "esri/tasks/GeometryService",
     "app/lib/ResizedMap",
-    "app/models/MapModel"], function(declare, lang, dom, number, dijit, Map, esriConfig, esriBasemaps,
+    "app/models/MapModel"], function(declare, lang, dom, domClass, number,
+                                     Map, esriConfig, esriBasemaps,
                                      Extent, Scalebar, HomeButton, LocateButton,
                                      Attribution, GeometryService, ResizedMap, MapModel) {
     const MapView = declare(null, {
+        extent: [ -57.671486, -25.368339, -57.525007, -25.225538],
         model: new MapModel({
             name: "asuncion",
             extent: [432442.999187, 7194095.990115, 447118.346893, 7209975.084757],
@@ -32,6 +34,8 @@ define(["dojo/_base/declare",
             service: "/Mapa_Web/Mapa_General/MapServer"
         }),
         fmt: { pattern: "#.00" },
+        large: "col-lg-12 col-md-12 col-sm-12 col-xs-12",
+        small: "col-lg-9 col-md-8 col-sm-7 hidden-xs",
         constructor: function (options) {
             this.options = lang.mixin({}, options);
             esriBasemaps[this.model.get("name")] = {
@@ -46,21 +50,22 @@ define(["dojo/_base/declare",
         },
         show: function () {
             var extent = this.model.get("extent");
-            this.map = new ResizedMap("map", lang.mixin({}, this.options, {
-                basemap: this.model.get("name"),
+            this.resizer = new ResizedMap("map", lang.mixin({}, this.options, {
+                basemap: "streets",//this.model.get("name"),
                 autoResize: true,
                 scrollWheelZoom: true,
                 extent: new Extent({
-                    "xmin": extent[0],
-                    "ymin": extent[1],
-                    "xmax": extent[2],
-                    "ymax": extent[3],
+                    "xmin": this.extent[0],
+                    "ymin": this.extent[1],
+                    "xmax": this.extent[2],
+                    "ymax": this.extent[3],
                     "spatialReference": {
-                        "wkid": this.model.get("wkid")
+                        "wkid": 4326//this.model.get("wkid")
                     }
                 }),
                 showAttribution: false
-            })).createMap();
+            }));
+            this.map = this.resizer.createMap();
             var scalebar = new Scalebar({
                 map: this.map,
                 scalebarUnit: 'metric'
@@ -87,8 +92,37 @@ define(["dojo/_base/declare",
                 + number.format(evt.mapPoint.y, this.fmt);
         },
         resizeMap: function() {
-            this.map.resize();
-            this.map.reposition();
+            this.resizer._setMapDiv(true);
+        },
+        wide: function () {
+            var panel = dom.byId("tocPanel");
+            var mapPanel = dom.byId("mapPanel");
+            domClass.add(panel, "hidden");
+            domClass.remove(mapPanel, this.small);
+            domClass.add(mapPanel, this.large);
+            this.resizeMap();
+        },
+        open: function () {
+            var panel = dom.byId("tocPanel");
+            var mapPanel = dom.byId("mapPanel");
+            domClass.remove(panel, "hidden");
+            domClass.remove(mapPanel, this.large);
+            domClass.add(mapPanel, this.small);
+            this.resizeMap();
+        },
+        basemapChange: function(current) {
+            if (this.map.getBasemap() !== "asuncion") {
+                 var extent = new Extent({
+                    "xmin": this.extent[0],
+                    "ymin": this.extent[1],
+                    "xmax": this.extent[2],
+                    "ymax": this.extent[3],
+                    "spatialReference": {
+                        "wkid": 4326
+                    }
+                });
+                this.map.setExtent(extent, true);
+            }
         }
     });
 

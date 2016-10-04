@@ -12,8 +12,8 @@ define(["dojo/_base/declare",
     "esri/basemaps",
     "esri/dijit/Basemap",
     "esri/dijit/BasemapLayer",
-    "esri/dijit/BasemapGallery"], function(declare, lang, ToolbarItem, esriBasemaps, Basemap, BasemapLayer,
-                                           BasemapGallery) {
+    "esri/dijit/BasemapGallery"], function(declare, lang, ToolbarItem, esriBasemaps,
+                                           Basemap, BasemapLayer, BasemapGallery) {
     const BasemapView = declare(ToolbarItem, {
         basemapGallery: null,
         constructor: function(options) {
@@ -23,13 +23,13 @@ define(["dojo/_base/declare",
                 group: "toolbar-group"
             });
             this.inherited(arguments);
-            this.map = options.map;
+            this.mapView = options.mapView;
         },
         show: function() {
             if (!this.basemapGallery) {
                 this.basemapGallery = new BasemapGallery({
                     showArcGISBasemaps: true,
-                    map: this.map
+                    map: this.mapView.map
                     }, this.node);
                 var basemap = esriBasemaps["asuncion"];
                 var layer = new BasemapLayer({
@@ -42,6 +42,7 @@ define(["dojo/_base/declare",
                     thumbnailUrl: basemap.thumbnailUrl
                 }));
                 this.basemapGallery.startup();
+                this.basemapGallery.on("selection-change", lang.hitch(this.mapView, this.mapView.basemapChange));
             }
             this.inherited(arguments);
         }

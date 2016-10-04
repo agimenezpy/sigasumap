@@ -41,7 +41,7 @@ define(["dojo/_base/declare",
             });
             mapView.show();
             var baseView = new BasemapView({
-                map: mapView.map,
+                mapView: mapView,
                 showArcGISBasemaps: true
             });
             var searchView = new SearchView({
@@ -49,16 +49,16 @@ define(["dojo/_base/declare",
             });
             searchView.show();
             var layersView = new LayersView({
-                map: mapView.map
+                mapView: mapView
             });
             var legendView = new LegendView({
-                map: mapView.map
+                mapView: mapView
             });
             var measureView = new MeasureView({
                 map: mapView.map
             });
             var printView = new PrintView({
-                map: mapView.map
+                mapView: mapView
             });
             var identifyView = new IdentifyView({
                 map: mapView.map,

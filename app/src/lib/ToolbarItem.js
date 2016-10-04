@@ -16,6 +16,7 @@ define(["dojo/_base/declare",
     const ToolbarItem = declare(null, {
         node: null,
         action: null,
+        mapView: null,
         group: "",
         constructor: function() {
             if (this.group !== "") {
@@ -31,20 +32,24 @@ define(["dojo/_base/declare",
         },
         show: function() {
             if (this.node !== null) {
-                domClass.add(this.node, 'show');
                 domClass.remove(this.node, 'hidden');
             }
             if (!this.checked()) {
                 domClass.add(this.button.parentNode, "active");
             }
+            if (this.mapView !== null) {
+                this.mapView.open();
+            }
         },
         hide: function () {
             if (this.node !== null) {
                 domClass.add(this.node, 'hidden');
-                domClass.remove(this.node, 'show');
             }
             if (this.checked()) {
                 domClass.remove(this.button.parentNode, "active");
+            }
+            if (this.mapView !== null) {
+                this.mapView.wide();
             }
         },
         toggle: function() {

@@ -20,6 +20,7 @@ define(["dojo/_base/declare",
             this.inherited(arguments);
             this.map = options.map;
             this.service = CONFIG.root_url + options.service;
+            this.mapView = options.mapView;
         },
         hide: function () {
             this.map.infoWindow.hide();

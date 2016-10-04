@@ -37,7 +37,7 @@ define(["dojo/_base/declare",
                 group: "toolbar-group"
             });
             this.inherited(arguments);
-            this.map = options.map;
+            this.mapView = options.mapView;
         },
         show: function() {
             if (!this.layerList) {
@@ -45,7 +45,7 @@ define(["dojo/_base/declare",
                     showLegend: false,
                     showSubLayers: false,
                     showOpacitySlider: true,
-                    map: this.map
+                    map: this.mapView.map
                     }, this.node);
                 var layersRequest = esriRequest({
                     url: CONFIG.root_url + "/Mapa_Web",
