@@ -36,7 +36,7 @@ module.exports = function() {
         port: 9001
       },
       server: {
-        baseDir: ['dist', "bower_components"]
+        baseDir: ['dist']
       },
       middleware: [ proxyMiddleware ]
     });

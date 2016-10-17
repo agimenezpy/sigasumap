@@ -12,7 +12,8 @@
     "start": "gulp.cmd start",
     "preinstall": "bower install",
     "build": "gulp build",
-    "clean": "gulp clean"
+    "clean": "gulp clean",
+    "dist": "gulp dist"
   },
   "keywords": [
     "maps",

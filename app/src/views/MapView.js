@@ -51,7 +51,7 @@ define(["dojo/_base/declare",
         show: function () {
             var extent = this.model.get("extent");
             this.resizer = new ResizedMap("map", lang.mixin({}, this.options, {
-                basemap: "streets",//this.model.get("name"),
+                basemap: this.model.get("name"),
                 autoResize: true,
                 scrollWheelZoom: true,
                 extent: new Extent({

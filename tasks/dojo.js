@@ -7,9 +7,9 @@ module.exports = function() {
         paths.bower + 'dojo/dojo.js',
         'load=build',
         '--profile',
-        paths.src + '../build.profile.js',
+        'build.profile.js',
         '--releaseDir',
-        paths.dest
+        '../' + paths.dest
     ], {stdio: 'inherit'});
 
     return cmd.on('close', function (code) {
