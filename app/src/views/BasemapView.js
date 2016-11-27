@@ -42,9 +42,12 @@ define(["dojo/_base/declare",
                     thumbnailUrl: basemap.thumbnailUrl
                 }));
                 this.basemapGallery.startup();
-                this.basemapGallery.on("selection-change", lang.hitch(this.mapView, this.mapView.basemapChange));
+                this.basemapGallery.on("selection-change", lang.hitch(this, this.basemapChange));
             }
             this.inherited(arguments);
+        },
+        basemapChange: function() {
+            this.mapView.setBasemap(this.basemapGallery.getSelected());
         }
     });
     return BasemapView;

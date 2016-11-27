@@ -20,7 +20,7 @@ define(["dojo/_base/declare",
     "esri/symbols/SimpleMarkerSymbol",
     "esri/symbols/SimpleLineSymbol",
     "esri/symbols/SimpleFillSymbol",
-    "dojo/text!app/templates/search_result.html"],
+    "dojo/text!app/templates/feature_result.html"],
     function(declare, lang, arrayUtils, Color, string, LayerUtils, InfoTemplate, FindTask, FindParameters,
              SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol, templateString) {
     const FindModel = declare(null, {
@@ -34,8 +34,6 @@ define(["dojo/_base/declare",
             this.params = new FindParameters();
             lang.mixin(this.params, this.defaults);
             this.map = options.map;
-            var selected = this.map.basemapLayerIds[0];
-            this.params.layerIds = LayerUtils.getLayerIds(selected);
             this.params.outSpatialReference = this.map.spatialReference;
             this.service = options.service;
             this.template = new InfoTemplate();
@@ -51,12 +49,14 @@ define(["dojo/_base/declare",
                                 new Color([255, 255, 0, 0.25]))];
         },
         doSearch: function(searchText) {
+            var selected = this.map.basemapLayerIds[0];
+            this.params.layerIds = LayerUtils.getLayerIds(this.map.getLayer(selected), /^Calle$/);
             this.params.searchText = searchText;
 
-            var searchTask = new SearchTask(this.service);
+            var searchTask = new FindTask(this.service);
             var deferred = searchTask.execute(this.params);
 
-            deferred.addCallback(lang.hitch(this, this.onResult));
+            return deferred;
         },
         onResult: function(response) {
             var self = this;
@@ -72,6 +72,7 @@ define(["dojo/_base/declare",
                 }
                 feature.attributes.extra = msg;
                 feature.setInfoTemplate(self.template);
+                feature.address = { name: result.value, layername: result.layerName };
                 return feature;
             });
         }

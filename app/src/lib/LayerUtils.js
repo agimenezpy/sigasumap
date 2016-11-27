@@ -9,11 +9,15 @@
 define(["dojo/_base/declare",
     "dojo/_base/array"], function(declare, arrayUtils) {
     const LayerUtils = declare(null, {
-        getLayerIds: function(layerInfos) {
+        getLayerIds: function(layer) {
             var layers = [];
-            arrayUtils.forEach(layerInfos, function(item) {
+            var matchObj = /^(Zonas|Barrios|Manzana|Lote|Calle|Avenidas Principales|Lotes)$/;
+            if (arguments.length > 1) {
+                matchObj = arguments[1];
+            }
+            arrayUtils.forEach(layer.layerInfos, function(item) {
                 if (item.subLayerIds === null) {
-                    if (item.name.search(/^(Zonas|Barrios|Manzana|Lote|Calle|Avenidas Principales|Lotes)$/) !== -1) {
+                    if (item.name.search(matchObj) !== -1) {
                         layers.push(item.id);
                     }
                 }

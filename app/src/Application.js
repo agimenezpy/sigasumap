@@ -25,14 +25,13 @@ define(["dojo/_base/declare",
     const Application = declare(null, {
         startup: function() {
             dom.byId("navigator-top").innerHTML = templateString;
-            query('#tocPanel > div').forEach(function(item) {
+            query('#tocPanel > div, #measure').forEach(function(item) {
                 domClass.add(item, "hidden");
             });
             query('[data-toggle="popover"]').popover({
                 trigger: 'hover',
                 container: 'body'
             });
-
 
             var mapView = new MapView({
                 slider: true,
@@ -45,7 +44,7 @@ define(["dojo/_base/declare",
                 showArcGISBasemaps: true
             });
             var searchView = new SearchView({
-                map: mapView.map
+                mapView: mapView
             });
             searchView.show();
             var layersView = new LayersView({

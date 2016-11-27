@@ -15,7 +15,7 @@ define(["dojo/_base/declare",
     "esri/InfoTemplate",
     "esri/tasks/IdentifyTask",
     "esri/tasks/IdentifyParameters",
-    "dojo/text!app/templates/identify_result.html"],
+    "dojo/text!app/templates/feature_result.html"],
     function(declare, lang, arrayUtils, string, LayerUtils, InfoTemplate, IdentifyTask, IdentifyParameters, templateString) {
     const IdentifyModel = declare(null, {
         defaults: {
@@ -29,14 +29,14 @@ define(["dojo/_base/declare",
             this.params = new IdentifyParameters();
             lang.mixin(this.params, this.defaults);
             this.map = options.map;
-            var selected = this.map.basemapLayerIds[0];
-            this.params.layerIds = LayerUtils.getLayerIds(this.map.getLayer(selected));
             this.service = options.service;
             this.template = new InfoTemplate();
             this.template.setTitle("${layerName}");
             this.template.setContent(templateString);
         },
         doIdentify: function(evt) {
+            var selected = this.map.basemapLayerIds[0];
+            this.params.layerIds = LayerUtils.getLayerIds(this.map.getLayer(selected));
             this.params.geometry = evt.mapPoint;
             this.params.mapExtent = this.map.extent;
             this.params.width  = this.map.width;

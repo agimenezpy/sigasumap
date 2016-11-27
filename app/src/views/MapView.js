@@ -55,12 +55,12 @@ define(["dojo/_base/declare",
                 autoResize: true,
                 scrollWheelZoom: true,
                 extent: new Extent({
-                    "xmin": this.extent[0],
-                    "ymin": this.extent[1],
-                    "xmax": this.extent[2],
-                    "ymax": this.extent[3],
+                    "xmin": extent[0],
+                    "ymin": extent[1],
+                    "xmax": extent[2],
+                    "ymax": extent[3],
                     "spatialReference": {
-                        "wkid": 4326//this.model.get("wkid")
+                        "wkid": this.model.get("wkid")
                     }
                 }),
                 showAttribution: false
@@ -110,8 +110,8 @@ define(["dojo/_base/declare",
             domClass.add(mapPanel, this.small);
             this.resizeMap();
         },
-        basemapChange: function(current) {
-            if (this.map.getBasemap() !== "asuncion") {
+        setBasemap: function(basemap) {
+            if (basemap !== "asuncion") {
                  var extent = new Extent({
                     "xmin": this.extent[0],
                     "ymin": this.extent[1],

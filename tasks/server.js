@@ -11,11 +11,13 @@ module.exports = function() {
     'use strict';
 
     var proxy = httpProxy.createProxyServer({
-         target: 'http://sig.mca.gov.py/'
+         //target: 'http://sig.mca.gov.py/'
+         target: 'http://localhost:8399/'
     });
 
     proxy.on('proxyReq', function(proxyReq, req, res, options) {
-        proxyReq.setHeader('Host', 'sig.mca.gov.py');
+        //proxyReq.setHeader('Host', 'sig.mca.gov.py');
+        proxyReq.setHeader('Host', 'localhost:9000');
     });
 
     var proxyMiddleware = function(req, res, next) {
