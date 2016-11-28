@@ -70,13 +70,13 @@ define(["dojo/_base/declare",
         },
         _search : function (e) {
             e || (e = {
-                    text : this.value,
-                    magicKey : null,
-                    geometry : null,
-                    point : null,
-                    index : this.activeSourceIndex,
-                    latlon : null
-                });
+                text : this.value,
+                magicKey : null,
+                geometry : null,
+                point : null,
+                index : this.activeSourceIndex,
+                latlon : null
+            });
             var source = this.sources[e.index];
             var t = new deferred;
             if (source.finder) {
@@ -89,22 +89,21 @@ define(["dojo/_base/declare",
             }
         },
         search : function (e) {
-				var t = new deferred;
-				return this._mapLoaded().then(lang.hitch(this, function () {
-						this._searchDeferred(e).then(lang.hitch(this, function (e) {
-								var s = e.results;
-								this.set("searchResults", s),
-								0 === e.numResults && (this._noResults(e.value), this._showNoResultsMenu()),
-								this._hideLoading(),
-								this.emit("search-results", e),
-								this._selectFirstResult(s, e.activeSourceIndex),
-								t.resolve(s)
-							}), lang.hitch(this, function (e) {
-								t.reject(e)
-							}))
-					})),
-				t.promise
-			},
+            var t = new deferred;
+            return this._mapLoaded().then(lang.hitch(this, function () {
+                this._searchDeferred(e).then(lang.hitch(this, function (e) {
+                    var s = e.results;
+                    this.set("searchResults", s),
+                    0 === e.numResults && (this._noResults(e.value), this._showNoResultsMenu()),
+                    this._hideLoading(),
+                    this.emit("search-results", e),
+                    this._selectFirstResult(s, e.activeSourceIndex),
+                    t.resolve(s)
+                }), lang.hitch(this, function (e) {
+                    t.reject(e)
+                }))
+            })), t.promise
+        }
     });
     return MySearch;
 });
