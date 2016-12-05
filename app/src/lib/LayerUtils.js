@@ -23,6 +23,15 @@ define(["dojo/_base/declare",
                 }
             });
             return layers;
+        },
+        getVisibleLayers: function(map) {
+             var layers = [];
+            arrayUtils.forEach(map.layerIds, function(value) {
+                if (map.getLayer(value).visible) {
+                    layers.push(value);
+                }
+            });
+            return layers;
         }
     });
     return new LayerUtils();

@@ -26,28 +26,34 @@ define(["dojo/_base/declare",
         service: null,
         map: null,
         constructor: function(options) {
-            this.params = new IdentifyParameters();
-            lang.mixin(this.params, this.defaults);
             this.map = options.map;
             this.service = options.service;
             this.template = new InfoTemplate();
             this.template.setTitle("${layerName}");
             this.template.setContent(templateString);
         },
+        getParams: function(evt, selected) {
+            var params = new IdentifyParameters();
+            lang.mixin(params, this.defaults);
+            params.layerIds = LayerUtils.getLayerIds(this.map.getLayer(selected));
+            params.geometry = evt.mapPoint;
+            params.mapExtent = this.map.extent;
+            params.width  = this.map.width;
+            params.height = this.map.height;
+            return params;
+        },
         doIdentify: function(evt) {
-            var selected = this.map.basemapLayerIds[0];
-            this.params.layerIds = LayerUtils.getLayerIds(this.map.getLayer(selected));
-            this.params.geometry = evt.mapPoint;
-            this.params.mapExtent = this.map.extent;
-            this.params.width  = this.map.width;
-            this.params.height = this.map.height;
-
+            var self = this;
             var identifyTask = new IdentifyTask(this.service);
-            var deferred = identifyTask.execute(this.params);
+            var promises = [];
+            arrayUtils.forEach(LayerUtils.getVisibleLayers(this.map), function(selected){
+                var params = self.getParams(evt, selected);
+                var deferred = identifyTask.execute(params);
+                deferred.addCallback(lang.hitch(self, self.onResult));
+                promises.push(deferred);
+            });
 
-            deferred.addCallback(lang.hitch(this, this.onResult));
-
-            this.map.infoWindow.setFeatures([ deferred ]);
+            this.map.infoWindow.setFeatures(promises);
             this.map.infoWindow.show(evt.mapPoint);
             this.map.centerAt(evt.mapPoint);
         },

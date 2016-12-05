@@ -30,6 +30,13 @@ define(["dojo/_base/declare",
         },
         service: null,
         map: null,
+        markerSymbol: new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_SQUARE, 10,
+                            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+                            new Color([255, 0, 0]), 1), new Color([0, 255, 0, 0.25])),
+        lineSymbol: new SimpleLineSymbol(SimpleLineSymbol.STYLE_DASH, new Color([255, 0, 0]), 1),
+        polygonSymbol: new SimpleFillSymbol(SimpleFillSymbol.STYLE_NONE,
+                        new SimpleLineSymbol(SimpleLineSymbol.STYLE_DASHDOT,
+                            new Color([255, 0, 0]), 2), new Color([255, 255, 0, 0.25])),
         constructor: function(options) {
             this.params = new FindParameters();
             lang.mixin(this.params, this.defaults);
@@ -39,18 +46,10 @@ define(["dojo/_base/declare",
             this.template = new InfoTemplate();
             this.template.setTitle("${layerName}");
             this.template.setContent(templateString);
-            this.symbols = [new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_SQUARE, 10,
-                                new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-                                new Color([255, 0, 0]), 1), new Color([0, 255, 0, 0.25])),
-                            new SimpleLineSymbol(SimpleLineSymbol.STYLE_DASH, new Color([255, 0, 0]), 1),
-                            new SimpleFillSymbol(SimpleFillSymbol.STYLE_NONE,
-                                new SimpleLineSymbol(SimpleLineSymbol.STYLE_DASHDOT,
-                                    new Color([255, 0, 0]), 2),
-                                new Color([255, 255, 0, 0.25]))];
         },
         doSearch: function(searchText) {
             var selected = this.map.basemapLayerIds[0];
-            this.params.layerIds = LayerUtils.getLayerIds(this.map.getLayer(selected), /^Calle$/);
+            this.params.layerIds = LayerUtils.getLayerIds(this.map.getLayer(selected));
             this.params.searchText = searchText;
 
             var searchTask = new FindTask(this.service);
@@ -75,6 +74,39 @@ define(["dojo/_base/declare",
                 feature.address = { name: result.value, layername: result.layerName };
                 return feature;
             });
+        },
+        onResultGroup: function (response) {
+            var groups = {};
+
+            arrayUtils.forEach(response, function (result) {
+                var graphic = result.feature;
+                switch (graphic.geometry.type) {
+                    case "point":
+                        graphic.setSymbol(this.markerSymbol);
+                        break;
+                    case "polyline":
+                        graphic.setSymbol(this.lineSymbol);
+                        break;
+                    case "polygon":
+                        graphic.setSymbol(this.polygonSymbol);
+                        break;
+                }
+                if (!groups[result.layerName])
+                    groups[result.layerName] = {};
+                if (!groups[result.layerName][result.value]) {
+                    groups[result.layerName][result.value] = {"graphs": [], "ext": null};
+                }
+                var ext = groups[result.layerName][result.value]["ext"];
+                if (!ext) {
+                    ext = graphic.geometry.getExtent();
+                }
+                else {
+                    ext = ext.union(graphic.geometry.getExtent());
+                }
+                groups[result.layerName][result.value]["ext"] = ext;
+                groups[result.layerName][result.value]["graphs"].push(graphic);
+            }, this);
+            return groups;
         }
     });
     return FindModel;

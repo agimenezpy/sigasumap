@@ -12,15 +12,14 @@ define(["dojo/_base/declare",
     "dojo/dom-class",
     "dojo/query",
     "app/views/MapView",
-    "app/views/BasemapView",
-    "app/views/SearchView",
+    "app/views/FindView",
     "app/views/LayersView",
     "app/views/LegendView",
     "app/views/MeasureView",
     "app/views/PrintView",
     "app/views/IdentifyView",
     "dojo/text!app/templates/navigator.html"
-], function(declare, dom, domClass, query, MapView, BasemapView, SearchView,
+], function(declare, dom, domClass, query, MapView, FindView,
             LayersView, LegendView, MeasureView, PrintView, IdentifyView, templateString) {
     const Application = declare(null, {
         startup: function() {
@@ -39,14 +38,10 @@ define(["dojo/_base/declare",
                 fitExtent: true
             });
             mapView.show();
-            var baseView = new BasemapView({
-                mapView: mapView,
-                showArcGISBasemaps: true
-            });
-            var searchView = new SearchView({
+            var findView = new FindView({
                 mapView: mapView
             });
-            searchView.show();
+            findView.show();
             var layersView = new LayersView({
                 mapView: mapView
             });
