@@ -7,12 +7,11 @@
  * @class view.MeasureView
  */
 define(["dojo/_base/declare",
-    "dojo/dom",
     "dojo/query",
     "app/lib/ToolbarItem",
     "esri/units",
     "esri/dijit/Measurement",
-    "dojo/text!app/templates/measurement.html"], function(declare, dom, query, ToolbarItem, units,
+    "dojo/text!app/templates/measurement.html"], function(declare, query, ToolbarItem, units,
                                                           Measurement, templateString) {
     const MeasureView = declare(ToolbarItem, {
         measure: null,
@@ -22,14 +21,13 @@ define(["dojo/_base/declare",
                 action: "measure-action",
                 hideOthers: false
             });
-            dom.byId("measure").innerHTML = templateString;
-            this.map = options.map;
             this.inherited(arguments);
+            query("#measure").addContent(templateString);
         },
         show: function() {
             if (!this.measure) {
                 this.measure = new Measurement({
-                    map: this.map,
+                    map: this.mapView.map,
                     defaultAreaUnit: units.HECTARES,
                     defaultLengthUnit: units.KILOMETERS
                 }, query("#" + this.node + " .panel-body")[0]);

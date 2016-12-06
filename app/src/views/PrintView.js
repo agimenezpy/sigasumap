@@ -7,10 +7,10 @@
  * @class view.PrintView
  */
 define(["dojo/_base/declare",
-    "dojo/dom",
+    "dojo/query",
     "app/lib/ToolbarItem",
     "app/models/PrintModel",
-    "dojo/text!app/templates/print_dialog.html"], function(declare, dom, ToolbarItemView, PrintModel, templateString) {
+    "dojo/text!app/templates/print_dialog.html"], function(declare, query, ToolbarItemView, PrintModel, templateString) {
     const PrintView = declare(ToolbarItemView, {
         print: null,
         service: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export Web Map Task",
@@ -21,8 +21,7 @@ define(["dojo/_base/declare",
                 group: "toolbar-group"
             });
             this.inherited(arguments);
-            this.mapView = options.mapView;
-            dom.byId("print").innerHTML = templateString;
+            query("#print").addContent(templateString);
         },
         show: function() {
             if (!this.print) {

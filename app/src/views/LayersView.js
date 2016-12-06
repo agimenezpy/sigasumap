@@ -37,7 +37,6 @@ define(["dojo/_base/declare",
                 group: "toolbar-group"
             });
             this.inherited(arguments);
-            this.mapView = options.mapView;
         },
         show: function() {
             if (!this.layerList) {
@@ -46,13 +45,13 @@ define(["dojo/_base/declare",
                     showSubLayers: false,
                     showOpacitySlider: true,
                     map: this.mapView.map
-                    }, this.node);
+                }, this.node);
                 var layersRequest = esriRequest({
                     url: CONFIG.root_url + "/Mapa_Web",
                     content: { f: "json" },
                     handleAs: "json",
                     callbackParamName: "callback"
-                  });
+                });
 
                 layersRequest.then(lang.hitch(this, this.buildLayers));
             }

@@ -58,21 +58,13 @@ define(["dojo/_base/declare",
             this.map.centerAt(evt.mapPoint);
         },
         onResult: function(response) {
-            var self = this;
             return arrayUtils.map(response, function (result) {
                 var feature = result.feature;
+                feature.attributes.displayFieldName = result.value;
                 feature.attributes.layerName = result.layerName;
-                var msg = "";
-                for (var item in feature.attributes) {
-                    if (!item.match("Shape.*|ID|layer")) {
-                        msg += string.substitute("<label>${label}: </label><i>${value}</i><br>",
-                            {label: item, value: feature.attributes[item]});
-                    }
-                }
-                feature.attributes.extra = msg;
-                feature.setInfoTemplate(self.template);
+                feature.setInfoTemplate(this.template);
                 return feature;
-            });
+            }, this);
         }
     });
     return IdentifyModel;

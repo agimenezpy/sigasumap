@@ -15,12 +15,12 @@ define([
     "esri/tasks/locator",
     "esri/symbols/PictureMarkerSymbol",
     "esri/InfoTemplate",
-    "dojo/text!app/templates/search_result.html"], function(require, declare, lang, Search, FindModel, Locator,
+    "dojo/text!app/templates/feature_result.html"], function(require, declare, lang, Search, FindModel, Locator,
                                                         PictureMarkerSymbol, InfoTemplate, templateString) {
     const SearchView = declare(null, {
         constructor: function(options) {
-            this.map = options.mapView.map;
-            this.service = CONFIG.root_url + options.mapView.model.get("service");
+            this.map = options.map;
+            this.service = options.service;
         },
         show: function() {
             var find = new FindModel({

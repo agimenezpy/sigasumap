@@ -20,8 +20,8 @@ define([
                                                             FindModel, templateString, resultString) {
     const FindView = declare(null, {
         constructor: function(options) {
-            this.map = options.mapView.map;
-            this.service = CONFIG.root_url + options.mapView.model.get("service");
+            this.map = options.map;
+            this.service = options.service;
             query("#search").addContent(templateString);
             this.searchText = query("#searchText");
             this.searchResults = query("#searchResults");
@@ -34,7 +34,6 @@ define([
             });
 
             this.searchText.on("focus", lang.hitch(this, this.togglePanel));
-
             this.searchText.on("keypress", lang.hitch(this, this.doSearch));
         },
         togglePanel: function () {
@@ -61,22 +60,25 @@ define([
         },
         showResults: function(response) {
             var results = this.find.onResultGroup(response);
-            var content = "";
             this.data = {};
             this.searchResults.empty();
+            var count = 0;
             for (var group in results) {
-                var i = 0;
+                var rows = 0;
                 this.data[group] = [];
                 for (var result in results[group]) {
-                    content += string.substitute(resultString, {
-                        id: group + "_" + i++,
+                    this.searchResults.addContent(string.substitute(resultString, {
+                        id: group + "_" + rows++,
                         result: result,
                         group: group
-                    });
-                    this.data[group].push(results[group][result])
+                    }));
+                    this.data[group].push(results[group][result]);
+                }
+                count++;
+                if (count > 6) {
+                    break;
                 }
             }
-            this.searchResults.addContent(content);
             query("#searchResults a").on("click", lang.hitch(this, this.showFeature));
             this.showPanel();
         },

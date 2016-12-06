@@ -8,8 +8,6 @@
  * @class js.Application
  */
 define(["dojo/_base/declare",
-    "dojo/dom",
-    "dojo/dom-class",
     "dojo/query",
     "app/views/MapView",
     "app/views/FindView",
@@ -19,17 +17,14 @@ define(["dojo/_base/declare",
     "app/views/PrintView",
     "app/views/IdentifyView",
     "dojo/text!app/templates/navigator.html"
-], function(declare, dom, domClass, query, MapView, FindView,
+], function(declare, query, MapView, FindView,
             LayersView, LegendView, MeasureView, PrintView, IdentifyView, templateString) {
     const Application = declare(null, {
         startup: function() {
-            dom.byId("navigator-top").innerHTML = templateString;
-            query('#tocPanel > div, #measure').forEach(function(item) {
-                domClass.add(item, "hidden");
-            });
-            query('[data-toggle="popover"]').popover({
-                trigger: 'hover',
-                container: 'body'
+            query("#navigator-top").addContent(templateString);
+            query('#tocPanel > div, #measure').addClass("hidden");
+            query('[data-toggle="tooltip"]').tooltip({
+                trigger: 'hover'
             });
 
             var mapView = new MapView({
@@ -39,7 +34,8 @@ define(["dojo/_base/declare",
             });
             mapView.show();
             var findView = new FindView({
-                mapView: mapView
+                map: mapView.map,
+                service: CONFIG.root_url + mapView.model.get("service")
             });
             findView.show();
             var layersView = new LayersView({
@@ -49,14 +45,13 @@ define(["dojo/_base/declare",
                 mapView: mapView
             });
             var measureView = new MeasureView({
-                map: mapView.map
+                mapView: mapView
             });
             var printView = new PrintView({
                 mapView: mapView
             });
             var identifyView = new IdentifyView({
-                map: mapView.map,
-                service: mapView.model.get("service")
+                mapView: mapView
             });
         }
     });

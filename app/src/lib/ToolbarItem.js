@@ -18,7 +18,7 @@ define(["dojo/_base/declare",
         action: null,
         mapView: null,
         group: "",
-        constructor: function() {
+        constructor: function(options) {
             if (this.group !== "") {
                 query("#navigator-top .btn-ico." + this.group).on("click", lang.hitch(this, 'uncheck'));
             }
@@ -26,6 +26,7 @@ define(["dojo/_base/declare",
                 this.button = dom.byId(this.action);
                 on(this.button, "click", lang.hitch(this, 'toggle'));
             }
+            this.mapView = options.mapView;
         },
         checked: function() {
             return domClass.contains(this.button.parentNode, "active");
