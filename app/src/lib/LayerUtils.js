@@ -11,15 +11,16 @@ define(["dojo/_base/declare",
     const LayerUtils = declare(null, {
         getLayerIds: function(layer) {
             var layers = [];
-            var matchObj = /^(Zonas|Barrios|Manzana|Lote|Calle|Avenidas Principales|Lotes)$/;
+            var matchObj = null;
             if (arguments.length > 1) {
                 matchObj = arguments[1];
             }
             arrayUtils.forEach(layer.layerInfos, function(item) {
                 if (item.subLayerIds === null) {
-                    if (item.name.search(matchObj) !== -1) {
-                        layers.push(item.id);
+                    if (matchObj !== null && item.name.search(matchObj) === -1) {
+                        return;
                     }
+                    layers.push(item.id);
                 }
             });
             return layers;

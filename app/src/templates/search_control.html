@@ -1,7 +1,15 @@
 <div class="form-group has-feedback">
     <input id="searchText" type="text" placeholder="Buscar en el mapa" class="form-control" autocomplete="off">
-    <span class="glyphicon glyphicon-search form-control-feedback gray"></span>
+    <i class="glyphicon glyphicon-search form-control-feedback gray"></i>
 </div>
 <div class="panel panel-default hidden">
-    <div id="searchResults" class="panel-body"></div>
+    <div class="panel-body">
+        <div id="searchResults"></div>
+        <div id="searchNoResults" class='text-center'>
+            <h4>
+                <span class='glyphicon glyphicon-exclamation-sign text-warning'></span>
+            </h4>
+            <p class='text-mutted'>No se encontraron coincidencias</p>
+        </div>
+    </div>
 </div>

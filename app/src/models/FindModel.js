@@ -28,6 +28,7 @@ define(["dojo/_base/declare",
             returnGeometry: true,
             searchFields: ["NOMBRE_ZON", "nombre", "numero", "cuenta", "NOMBRE_DE_"]
         },
+        layersForSearch: /^(Zonas|Barrios|Manzana|Lote|Calle|Avenidas Principales|Lotes)$/,
         service: null,
         map: null,
         markerSymbol: new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_SQUARE, 10,
@@ -49,7 +50,7 @@ define(["dojo/_base/declare",
         },
         doSearch: function(searchText) {
             var selected = this.map.basemapLayerIds[0];
-            this.params.layerIds = LayerUtils.getLayerIds(this.map.getLayer(selected));
+            this.params.layerIds = LayerUtils.getLayerIds(this.map.getLayer(selected), this.layersForSearch);
             this.params.searchText = searchText;
 
             var searchTask = new FindTask(this.service);

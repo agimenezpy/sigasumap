@@ -17,7 +17,6 @@ define(["dojo/_base/declare",
         constructor: function(options) {
             declare.safeMixin(this, {
                 node: "print",
-                action: "print-action",
                 group: "toolbar-group"
             });
             this.inherited(arguments);

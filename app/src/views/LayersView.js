@@ -33,7 +33,6 @@ define(["dojo/_base/declare",
         constructor: function(options) {
             declare.safeMixin(this, {
                 node: "layers",
-                action: "layers-action",
                 group: "toolbar-group"
             });
             this.inherited(arguments);

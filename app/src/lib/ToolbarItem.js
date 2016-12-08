@@ -15,45 +15,39 @@ define(["dojo/_base/declare",
     "dojo/dom-attr"], function(declare, lang, on, dom, domClass, query, dojoAttr) {
     const ToolbarItem = declare(null, {
         node: null,
-        action: null,
         mapView: null,
-        group: "",
+        sideBar: true,
         constructor: function(options) {
-            if (this.group !== "") {
-                query("#navigator-top .btn-ico." + this.group).on("click", lang.hitch(this, 'uncheck'));
-            }
-            if (this.action !== null) {
-                this.button = dom.byId(this.action);
-                on(this.button, "click", lang.hitch(this, 'toggle'));
-            }
+            this.button = query("a[data-target='#" + this.node + "']");
+            this.button.on("click", lang.hitch(this, this.toggle));
             this.mapView = options.mapView;
         },
         checked: function() {
-            return domClass.contains(this.button.parentNode, "active");
+            return domClass.contains(this.getMenuItem(), "active");
         },
         show: function() {
-            if (this.node !== null) {
-                domClass.remove(this.node, 'hidden');
-            }
-            if (!this.checked()) {
-                domClass.add(this.button.parentNode, "active");
-            }
-            if (this.mapView !== null) {
+            query("#navigator-top li").removeClass("active");
+            domClass.add(this.getMenuItem(), "active");
+            if (this.sideBar) {
                 this.mapView.open();
+            }
+            else {
+                this.mapView.wide();
+            }
+            if (this.node !== null) {
+                query("#tocPanel > div").addClass("hidden");
+                domClass.remove(this.node, 'hidden');
             }
         },
         hide: function () {
             if (this.node !== null) {
                 domClass.add(this.node, 'hidden');
             }
-            if (this.checked()) {
-                domClass.remove(this.button.parentNode, "active");
-            }
-            if (this.mapView !== null) {
-                this.mapView.wide();
-            }
+            this.mapView.wide();
+            domClass.remove(this.getMenuItem(), "active");
         },
-        toggle: function() {
+        toggle: function(event) {
+            query('.navbar-collapse').removeClass('in');
             if (!this.checked()) {
                 this.show();
             }
@@ -61,11 +55,8 @@ define(["dojo/_base/declare",
                 this.hide();
             }
         },
-        uncheck: function (evt) {
-            var toggle = evt.target.parentNode;
-            if (this.checked() && dojoAttr.get(toggle, "id") !== this.action) {
-                this.hide();
-            }
+        getMenuItem: function () {
+            return this.button.closest("li")[0];
         }
     });
     return ToolbarItem;

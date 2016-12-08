@@ -10,15 +10,15 @@
 define(["dojo/_base/declare",
     "dojo/query",
     "app/views/MapView",
-    "app/views/FindView",
+    "app/views/SearchView",
     "app/views/LayersView",
     "app/views/LegendView",
     "app/views/MeasureView",
     "app/views/PrintView",
     "app/views/IdentifyView",
     "dojo/text!app/templates/navigator.html"
-], function(declare, query, MapView, FindView,
-            LayersView, LegendView, MeasureView, PrintView, IdentifyView, templateString) {
+], function(declare, query, MapView, SearchView, LayersView, LegendView,
+            MeasureView, PrintView, IdentifyView, templateString) {
     const Application = declare(null, {
         startup: function() {
             query("#navigator-top").addContent(templateString);
@@ -33,11 +33,11 @@ define(["dojo/_base/declare",
                 fitExtent: true
             });
             mapView.show();
-            var findView = new FindView({
+            var searchView = new SearchView({
                 map: mapView.map,
                 service: CONFIG.root_url + mapView.model.get("service")
             });
-            findView.show();
+            searchView.show();
             var layersView = new LayersView({
                 mapView: mapView
             });

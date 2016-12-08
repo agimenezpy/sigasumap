@@ -10,59 +10,103 @@ define([
     "require",
     "dojo/_base/declare",
     "dojo/_base/lang",
-    "app/models/SearchModel",
+    "dojo/_base/array",
+    "dojo/query",
+    "dojo/string",
+    "dojo/dom-attr",
     "app/models/FindModel",
-    "esri/tasks/locator",
-    "esri/symbols/PictureMarkerSymbol",
-    "esri/InfoTemplate",
-    "dojo/text!app/templates/feature_result.html"], function(require, declare, lang, Search, FindModel, Locator,
-                                                        PictureMarkerSymbol, InfoTemplate, templateString) {
+    "dojo/text!app/templates/search_control.html",
+    "dojo/text!app/templates/search_result.html"], function(require, declare, lang, arrayUtils, query, string, domAttr,
+                                                            FindModel, templateString, resultString) {
     const SearchView = declare(null, {
         constructor: function(options) {
             this.map = options.map;
             this.service = options.service;
+            query("#search").addContent(templateString);
+            this.searchText = query("#searchText");
+            this.searchResults = query("#searchResults");
+            this.searchNoResults = query("#searchNoResults");
+            this.data = null;
         },
         show: function() {
-            var find = new FindModel({
+            this.find = new FindModel({
                 map: this.map,
                 service: this.service
             });
-            var locator = new Locator(CONFIG.root_url + "/Locator/Direccion/GeocodeServer");
-            locator.outSpatialReference = this.map.spatialReference;
-            var barrios = new Locator(CONFIG.root_url + "/Locator/Barrios/GeocodeServer");
-            barrios.outSpatialReference = this.map.spatialReference;
-            var lotes = new Locator(CONFIG.root_url + "/Locator/Lotes/GeocodeServer");
-            lotes.outSpatialReference = this.map.spatialReference;
-            var copropiedad = new Locator(CONFIG.root_url + "/Locator/COPROPIEDAD/GeocodeServer");
-            copropiedad.outSpatialReference = this.map.spatialReference;
-            var defaultSettings = {
-                singleLineFieldName: "Single Line Input",
-                outFields: ["Match_addr"],
-                highlightSymbol: new PictureMarkerSymbol(require.toUrl("esri") + "/dijit/images/sdk_gps_location.png", 36, 36).setOffset(9, 18),
-                //Create an InfoTemplate
-                infoTemplate: new InfoTemplate("Ubicación", templateString),
-                enableSuggestions: false
-            };
-            var search = new Search({
-                sources: [
-                    lang.mixin({}, { finder: find, name: "Mapa", placeholder: "Buscar en el mapa",
-                        searchTemplate: "${layername}: ${name}"}),
-                    lang.mixin({}, { locator: locator, name: "Direcciones", placeholder: "Buscar dirección"}, defaultSettings),
-                    lang.mixin({}, { locator: barrios, name: "Barrios", placeholder: "Buscar barrios"}, defaultSettings),
-                    lang.mixin({}, { locator: lotes, name: "Lotes", placeholder: "Buscar lotes"}, defaultSettings)
-                    //lang.mixin({}, { locator: copropiedad, name: "Copropiedad", placeholder: "Buscar lotes con copropiedad"}, defaultSettings)
-                ],
-                map: this.map,
-                enableSearchingAll: false,
-                enableSuggestions: true,
-                autoNavigate: true,
-                autoSelect: true,
-                autoComplete: true,
-                addLayersFromMap: false,
-                value: ""
-            }, "search");
 
-            search.startup();
+            this.searchText.on("blur", lang.hitch(this, this.togglePanel));
+            this.searchText.on("focus", lang.hitch(this, this.togglePanel));
+            this.searchText.on("keydown", lang.hitch(this, this.doSearch));
+        },
+        togglePanel: function () {
+            if (this.data !== null) {
+                this.showPanel();
+            }
+            else {
+                this.hidePanel();
+            }
+        },
+        showPanel: function () {
+            query("#search .panel").removeClass('hidden');
+        },
+        hidePanel: function () {
+            query("#search .panel").addClass('hidden');
+        },
+        doSearch: function(evt){
+            var keyCode = evt.which || evt.keyCode;
+            if (keyCode == 13) {
+                this.searchText.closest("div.form-group").addClass("loading");
+                this.data = null;
+                var deferred = this.find.doSearch(this.searchText.val());
+                deferred.addCallback(lang.hitch(this, this.showResults));
+            }
+            else if (keyCode == 8 || keyCode == 46) {
+                this.data = null;
+                this.searchResults.empty();
+            }
+            this.hidePanel();
+        },
+        showResults: function(response) {
+            var results = this.find.onResultGroup(response);
+            this.data = {};
+            this.searchResults.empty();
+            var count = 0;
+            for (var group in results) {
+                var rows = 0;
+                this.data[group] = [];
+                for (var result in results[group]) {
+                    this.searchResults.addContent(string.substitute(resultString, {
+                        id: group + "_" + rows++,
+                        result: result,
+                        group: group
+                    }));
+                    this.data[group].push(results[group][result]);
+                    count++;
+                    if (count > 6) {
+                        break;
+                    }
+                }
+            }
+            this.searchText.closest("div.form-group").removeClass("loading");
+            if (count > 0) {
+                query("#searchResults a").on("click", lang.hitch(this, this.showFeature));
+                this.searchNoResults.addClass("hidden");
+            }
+            else {
+                this.data = null;
+                this.searchNoResults.removeClass("hidden");
+            }
+            this.showPanel();
+        },
+        showFeature: function(evt) {
+            var key = domAttr.get(evt.target, "data-value").split("_");
+            var feature = this.data[key[0]][key[1]];
+            this.map.graphics.clear();
+            for (var g = 0; g < feature["graphs"].length; g++) {
+                this.map.graphics.add(feature["graphs"][g]);
+            }
+            this.map.setExtent(feature["ext"]);
+            this.hidePanel();
         }
     });
     return SearchView;

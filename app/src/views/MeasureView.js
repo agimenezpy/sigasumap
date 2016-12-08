@@ -18,8 +18,7 @@ define(["dojo/_base/declare",
         constructor: function(options) {
             declare.safeMixin(this, {
                 node: "measure",
-                action: "measure-action",
-                hideOthers: false
+                sideBar: false
             });
             this.inherited(arguments);
             query("#measure").addContent(templateString);
