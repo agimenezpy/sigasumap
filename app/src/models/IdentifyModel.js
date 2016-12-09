@@ -23,11 +23,9 @@ define(["dojo/_base/declare",
             returnGeometry: true,
             layerOption: IdentifyParameters.LAYER_OPTION_VISIBLE
         },
-        service: null,
         map: null,
         constructor: function(options) {
             this.map = options.map;
-            this.service = options.service;
             this.template = new InfoTemplate();
             this.template.setTitle("${layerName}");
             this.template.setContent(templateString);

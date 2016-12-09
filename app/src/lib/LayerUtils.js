@@ -33,6 +33,15 @@ define(["dojo/_base/declare",
                 }
             });
             return layers;
+        },
+        getDisplayField: function(layer, layerIds) {
+            var fields = [];
+            arrayUtils.forEach(layer.layerInfos, function(item) {
+                if (item.id in layerIds) {
+                    fields.push(item.displayFieldName);
+                }
+            });
+            return fields;
         }
     });
     return new LayerUtils();

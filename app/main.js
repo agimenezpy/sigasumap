@@ -10,6 +10,8 @@ require([
     "app/Application",
     "dojo/text!./app/config.json",
     "bootstrap/Collapse",
+    "bootstrap/Tab",
+    "bootstrap/Popover",
     "bootstrap/Tooltip",
     "dojo/domReady!"], function(declare, JSON, LoadingView, Application, config) {
 

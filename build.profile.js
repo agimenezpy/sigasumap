@@ -144,7 +144,8 @@ var profile = {
             include: [
                 'bootstrap/Collapse',
                 'bootstrap/Tooltip',
-                'bootstrap/Popover'
+                'bootstrap/Popover',
+                'bootstrap/Tab'
             ]
         },
         'moment/moment': {}

@@ -6,63 +6,113 @@
 /**
  * @class view.LocateView
  */
-define([
-    "require",
-    "dojo/_base/declare",
+define(["dojo/_base/declare",
     "dojo/_base/lang",
-    "app/models/SearchModel",
-    "app/models/FindModel",
-    "esri/tasks/locator",
-    "esri/symbols/PictureMarkerSymbol",
-    "esri/InfoTemplate",
-    "dojo/text!app/templates/feature_result.html"], function(require, declare, lang, Search, FindModel, Locator,
-                                                        PictureMarkerSymbol, InfoTemplate, templateString) {
-    const LocateView = declare(null, {
+    "dojo/query",
+    "dojo/string",
+    "app/lib/ToolbarItem",
+    "app/models/LocateModel",
+    "dojo/text!app/templates/locator_address.html",
+    "dojo/text!app/templates/locator_parcel.html",
+    "dojo/text!app/templates/locator_control.html"], function(declare, lang, query, string, ToolbarItem,
+                                                              LocateModel, templateAddress, templateParcel,
+                                                              templateString) {
+    const LocateView = declare(ToolbarItem, {
+        templateResultsCount: "<p class='text-info'>${count} Resultado(s) Encontrado(s)</p>",
+        templateNoResults: "<p class='text-warning'>Resultados no encontrados</p>",
         constructor: function(options) {
-            this.map = options.map;
+            declare.safeMixin(this, {
+                node: "locate",
+                group: "toolbar-group"
+            });
+            this.inherited(arguments);
+            this.map = this.mapView.map;
             this.service = options.service;
+            query("#locate").addContent(templateString);
+            query("#address").addContent(templateAddress);
+            query("#parcel").addContent(templateParcel);
+            query('#locatorTabs a').on("click", function (e) {
+                e.preventDefault();
+                query(this).tab('show');
+            });
+            this.addressForm = query("#address form");
+            this.parcelForm = query("#parcel form");
         },
         show: function() {
-            var find = new FindModel({
-                map: this.map,
-                service: this.service
-            });
-            var locator = new Locator(CONFIG.root_url + "/Locator/Direccion/GeocodeServer");
-            locator.outSpatialReference = this.map.spatialReference;
-            var barrios = new Locator(CONFIG.root_url + "/Locator/Barrios/GeocodeServer");
-            barrios.outSpatialReference = this.map.spatialReference;
-            var lotes = new Locator(CONFIG.root_url + "/Locator/Lotes/GeocodeServer");
-            lotes.outSpatialReference = this.map.spatialReference;
-            var copropiedad = new Locator(CONFIG.root_url + "/Locator/COPROPIEDAD/GeocodeServer");
-            copropiedad.outSpatialReference = this.map.spatialReference;
-            var defaultSettings = {
-                singleLineFieldName: "Single Line Input",
-                outFields: ["Match_addr"],
-                highlightSymbol: new PictureMarkerSymbol(require.toUrl("esri") + "/dijit/images/sdk_gps_location.png", 36, 36).setOffset(9, 18),
-                //Create an InfoTemplate
-                infoTemplate: new InfoTemplate("Ubicación", templateString),
-                enableSuggestions: false
-            };
-            var search = new Search({
-                sources: [
-                    lang.mixin({}, { finder: find, name: "Mapa", placeholder: "Buscar en el mapa",
-                        searchTemplate: "${layername}: ${name}"}),
-                    lang.mixin({}, { locator: locator, name: "Direcciones", placeholder: "Buscar dirección"}, defaultSettings),
-                    lang.mixin({}, { locator: barrios, name: "Barrios", placeholder: "Buscar barrios"}, defaultSettings),
-                    lang.mixin({}, { locator: lotes, name: "Lotes", placeholder: "Buscar lotes"}, defaultSettings)
-                    //lang.mixin({}, { locator: copropiedad, name: "Copropiedad", placeholder: "Buscar lotes con copropiedad"}, defaultSettings)
-                ],
-                map: this.map,
-                enableSearchingAll: false,
-                enableSuggestions: true,
-                autoNavigate: true,
-                autoSelect: true,
-                autoComplete: true,
-                addLayersFromMap: false,
-                value: ""
-            }, "search");
-
-            search.startup();
+            if (!this.locators) {
+                this.locators = [new LocateModel({
+                    map: this.map,
+                    service: this.service[0],
+                    callback: lang.hitch(this, this.onAddressResult)
+                }),
+                    new LocateModel({
+                    map: this.map,
+                    service: this.service[1],
+                    callback: lang.hitch(this, this.onParcelResult)
+                })];
+                this.clearResults();
+                this.addressForm.on("submit", lang.hitch(this, this.searchAddress));
+                this.parcelForm.on("submit", lang.hitch(this, this.searchParcel));
+            }
+            this.inherited(arguments);
+        },
+        clearResults: function () {
+            query("#addressResults").empty();
+            query("#parcelResults").empty();
+        },
+        searchAddress: function () {
+            this.clearResults();
+            var searchText = "";
+            var address = string.trim(query("#addressText").val());
+            if (address !== "") {
+                searchText += address.toUpperCase();
+            }
+            var number = string.trim(query("#numberText").val());
+            if (number !== "") {
+                searchText += " " + number;
+            }
+            var intersect = string.trim(query("#intersectionText").val());
+            if (intersect !== "") {
+                searchText += " & " + intersect.toUpperCase();
+            }
+            this.locators[0].doLocate(searchText);
+        },
+        searchParcel: function () {
+            this.clearResults();
+            var searchText = "";
+            var zone = string.trim(query("#zoneText").val());
+            if (zone !== "") {
+                searchText += string.pad(zone, 2, "0");
+            }
+            var block = string.trim(query("#blockText").val());
+            if (block !== "") {
+                searchText += string.pad(block, 4, "0");
+            }
+            var parcel = string.trim(query("#parcelText").val());
+            if (parcel !== "") {
+                searchText += string.pad(parcel, 2, "0");
+            }
+            this.locators[1].doLocate(searchText);
+        },
+        onAddressResult: function (results) {
+            this.onResult(results, "#addressResults");
+        },
+        onParcelResult: function (results) {
+            this.onResult(results, "#parcelResults");
+        },
+        onResult: function (results, resultDiv) {
+            if (results.length > 0) {
+                var location = results[0].geom;
+                this.map.infoWindow.setFeatures([results[0].graphic]);
+                this.map.infoWindow.show(location);
+                this.map.centerAndZoom(location, this.map.getMaxZoom());
+                query(resultDiv).addContent(string.substitute(this.templateResultsCount, {
+                    count: results.length
+                }));
+            }
+            else {
+                query(resultDiv).addContent(this.templateNoResults);
+            }
         }
     });
     return LocateView;

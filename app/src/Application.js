@@ -11,13 +11,14 @@ define(["dojo/_base/declare",
     "dojo/query",
     "app/views/MapView",
     "app/views/SearchView",
+    "app/views/LocateView",
     "app/views/LayersView",
     "app/views/LegendView",
     "app/views/MeasureView",
     "app/views/PrintView",
     "app/views/IdentifyView",
     "dojo/text!app/templates/navigator.html"
-], function(declare, query, MapView, SearchView, LayersView, LegendView,
+], function(declare, query, MapView, SearchView, LocateView, LayersView, LegendView,
             MeasureView, PrintView, IdentifyView, templateString) {
     const Application = declare(null, {
         startup: function() {
@@ -35,9 +36,16 @@ define(["dojo/_base/declare",
             mapView.show();
             var searchView = new SearchView({
                 map: mapView.map,
-                service: CONFIG.root_url + mapView.model.get("service")
             });
             searchView.show();
+            var locateView = new LocateView({
+                mapView: mapView,
+                service: [
+                    CONFIG.root_url + "/Locator/geocalles/GeocodeServer",
+                    CONFIG.root_url + "/Locator/Lotes_CCC_Busqueda/GeocodeServer",
+                    CONFIG.root_url + "/Locator/COPROPIEDAD/GeocodeServer"
+                ]
+            });
             var layersView = new LayersView({
                 mapView: mapView
             });

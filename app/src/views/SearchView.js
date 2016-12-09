@@ -11,13 +11,14 @@ define([
     "dojo/_base/declare",
     "dojo/_base/lang",
     "dojo/_base/array",
+    "dojo/promise/all",
     "dojo/query",
     "dojo/string",
     "dojo/dom-attr",
     "app/models/FindModel",
     "dojo/text!app/templates/search_control.html",
-    "dojo/text!app/templates/search_result.html"], function(require, declare, lang, arrayUtils, query, string, domAttr,
-                                                            FindModel, templateString, resultString) {
+    "dojo/text!app/templates/search_result.html"], function(require, declare, lang, arrayUtils, all, query, string,
+                                                            domAttr, FindModel, templateString, resultString) {
     const SearchView = declare(null, {
         constructor: function(options) {
             this.map = options.map;
@@ -29,14 +30,16 @@ define([
             this.data = null;
         },
         show: function() {
-            this.find = new FindModel({
-                map: this.map,
-                service: this.service
-            });
+            if (!this.find) {
+                this.find = new FindModel({
+                    map: this.map,
+                    service: this.service
+                });
 
-            this.searchText.on("blur", lang.hitch(this, this.togglePanel));
-            this.searchText.on("focus", lang.hitch(this, this.togglePanel));
-            this.searchText.on("keydown", lang.hitch(this, this.doSearch));
+                this.searchText.on("blur", lang.hitch(this, this.togglePanel));
+                this.searchText.on("focus", lang.hitch(this, this.togglePanel));
+                this.searchText.on("keydown", lang.hitch(this, this.doSearch));
+            }
         },
         togglePanel: function () {
             if (this.data !== null) {
@@ -58,7 +61,7 @@ define([
                 this.searchText.closest("div.form-group").addClass("loading");
                 this.data = null;
                 var deferred = this.find.doSearch(this.searchText.val());
-                deferred.addCallback(lang.hitch(this, this.showResults));
+                all(deferred).then(lang.hitch(this, this.showResults));
             }
             else if (keyCode == 8 || keyCode == 46) {
                 this.data = null;
@@ -66,8 +69,15 @@ define([
             }
             this.hidePanel();
         },
+        groupResults: function (response) {
+            var results = {};
+            arrayUtils.forEach(response, function(item) {
+                lang.mixin(results, this.find.onResultGroup(item));
+            }, this);
+            return results;
+        },
         showResults: function(response) {
-            var results = this.find.onResultGroup(response);
+            var results = this.groupResults(response);
             this.data = {};
             this.searchResults.empty();
             var count = 0;
@@ -76,7 +86,7 @@ define([
                 this.data[group] = [];
                 for (var result in results[group]) {
                     this.searchResults.addContent(string.substitute(resultString, {
-                        id: group + "_" + rows++,
+                        id: group + ":" + rows++,
                         result: result,
                         group: group
                     }));
@@ -99,7 +109,7 @@ define([
             this.showPanel();
         },
         showFeature: function(evt) {
-            var key = domAttr.get(evt.target, "data-value").split("_");
+            var key = domAttr.get(evt.target, "data-value").split(":");
             var feature = this.data[key[0]][key[1]];
             this.map.graphics.clear();
             for (var g = 0; g < feature["graphs"].length; g++) {

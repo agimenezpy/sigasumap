@@ -25,11 +25,9 @@ define(["dojo/_base/declare",
              SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol, templateString) {
     const FindModel = declare(null, {
         defaults: {
-            returnGeometry: true,
-            searchFields: ["NOMBRE_ZON", "nombre", "numero", "cuenta", "NOMBRE_DE_"]
+            returnGeometry: true
         },
         layersForSearch: /^(Zonas|Barrios|Manzana|Lote|Calle|Avenidas Principales|Lotes)$/,
-        service: null,
         map: null,
         markerSymbol: new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_SQUARE, 10,
                             new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
@@ -39,24 +37,36 @@ define(["dojo/_base/declare",
                         new SimpleLineSymbol(SimpleLineSymbol.STYLE_DASHDOT,
                             new Color([255, 0, 0]), 2), new Color([255, 255, 0, 0.25])),
         constructor: function(options) {
-            this.params = new FindParameters();
-            lang.mixin(this.params, this.defaults);
             this.map = options.map;
-            this.params.outSpatialReference = this.map.spatialReference;
-            this.service = options.service;
             this.template = new InfoTemplate();
             this.template.setTitle("${layerName}");
             this.template.setContent(templateString);
         },
+        getParams: function(layer) {
+            var params = new FindParameters();
+            lang.mixin(params, this.defaults);
+            params.outSpatialReference = this.map.spatialReference;
+            if (layer.id == "layer0") {
+                params.layerIds = LayerUtils.getLayerIds(layer, this.layersForSearch);
+            }
+            else {
+                params.layerIds = LayerUtils.getLayerIds(layer);
+            }
+            params.searchFields = LayerUtils.getDisplayField(layer, params.layerIds);
+            return params;
+        },
         doSearch: function(searchText) {
-            var selected = this.map.basemapLayerIds[0];
-            this.params.layerIds = LayerUtils.getLayerIds(this.map.getLayer(selected), this.layersForSearch);
-            this.params.searchText = searchText;
+            var promises = [];
+            arrayUtils.forEach(LayerUtils.getVisibleLayers(this.map), function(selected){
+                var layer = this.map.getLayer(selected);
+                var searchTask = new FindTask(layer.url);
+                var params = this.getParams(layer);
+                params.searchText = searchText;
+                var deferred = searchTask.execute(params);
+                promises.push(deferred);
+            }, this);
 
-            var searchTask = new FindTask(this.service);
-            var deferred = searchTask.execute(this.params);
-
-            return deferred;
+            return promises;
         },
         onResult: function(response) {
             var self = this;
