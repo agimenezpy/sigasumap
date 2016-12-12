@@ -1,6 +1,6 @@
 <h3>Lotes</h3>
 <form  onsubmit="return false">
-    <h4>Lote</h4>
+    <h4>Cuenta corriente catastral</h4>
     <div class="form-group">
         <label class="sr-only" for="zoneText">Zona</label>
         <div class="input-group">
@@ -26,23 +26,24 @@
         </div>
     </div>
     <i class="text-muted">Escriba la cuenta corriente conocida (10-380-0)</i>
-    <h4>Co-propiedad</h4>
-    <div class="form-group">
-        <label class="sr-only" for="buildText">Edificio</label>
-        <div class="input-group">
-            <div class="input-group-addon">E</div>
-            <input id="buildText" type="number" autocomplete="off" class="form-control"
-            placeholder="Edificio">
-        </div>
-    </div>
+    <h4>Sub-cuenta</h4>
     <div class="form-group">
         <label class="sr-only" for="floorText">Piso</label>
         <div class="input-group">
             <div class="input-group-addon">P</div>
-            <input id="floorText" type="number" autocomplete="off" class="form-control"
+            <input id="floorText" type="text" autocomplete="off" class="form-control"
             placeholder="Piso">
         </div>
     </div>
+    <div class="form-group">
+        <label class="sr-only" for="flatText">Departamento</label>
+        <div class="input-group">
+            <div class="input-group-addon">D</div>
+            <input id="flatText" type="number" autocomplete="off" class="form-control"
+            placeholder="Departamento">
+        </div>
+    </div>
+    <i class="text-muted">Escriba la sub-cuenta conocida (12-0588-29 00000)</i>
     <hr>
     <div class="form-group">
         <button class="btn btn-default btn-md" type="reset">Limpiar</button>

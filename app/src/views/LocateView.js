@@ -49,6 +49,11 @@ define(["dojo/_base/declare",
                     map: this.map,
                     service: this.service[1],
                     callback: lang.hitch(this, this.onParcelResult)
+                }),
+                    new LocateModel({
+                    map: this.map,
+                    service: this.service[2],
+                    callback: lang.hitch(this, this.onParcelResult)
                 })];
                 this.clearResults();
                 this.addressForm.on("submit", lang.hitch(this, this.searchAddress));
@@ -63,13 +68,13 @@ define(["dojo/_base/declare",
         searchAddress: function () {
             this.clearResults();
             var searchText = "";
+            var number = string.trim(query("#numberText").val());
+            if (number !== "") {
+                searchText += number + " ";
+            }
             var address = string.trim(query("#addressText").val());
             if (address !== "") {
                 searchText += address.toUpperCase();
-            }
-            var number = string.trim(query("#numberText").val());
-            if (number !== "") {
-                searchText += " " + number;
             }
             var intersect = string.trim(query("#intersectionText").val());
             if (intersect !== "") {
@@ -92,7 +97,25 @@ define(["dojo/_base/declare",
             if (parcel !== "") {
                 searchText += string.pad(parcel, 2, "0");
             }
-            this.locators[1].doLocate(searchText);
+            var floor = string.trim(query("#floorText").val());
+            if (floor !== "") {
+                if (floor.match(/^[0-9]+$/)) {
+                    floor = string.pad(floor, 2, "0");
+                }
+                else {
+                    floor = string.pad(" ", 2, floor.charAt(0)).toUpperCase();
+                }
+            }
+            var flat = string.trim(query("#flatText").val());
+            if (flat !== "") {
+                flat = string.pad(flat, 3, "0");
+            }
+            var locator = this.locators[1];
+            if (floor !== "" && flat !== "") {
+                searchText += floor + flat;
+                locator = this.locators[2];
+            }
+            locator.doLocate(searchText);
         },
         onAddressResult: function (results) {
             this.onResult(results, "#addressResults");

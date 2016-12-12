@@ -47,7 +47,7 @@ define(["require",
         },
         onResult: function(response) {
             var data = arrayUtils.map(response, function (result) {
-                if (result.score > 60) {
+                if (result.score > 40) {
                     var attributes = { address: result.address, score:result.score};
                     var graphic = new Graphic(result.location, this.highlightSymbol,
                         attributes, this.infoTemplate);
