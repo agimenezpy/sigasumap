@@ -36,10 +36,10 @@ var profile = {
   packages: [
     // 'app' is a sample path for your application
     // set this accordingly
-    /*{
+    {
         name: 'app',
         location: '../app/src'
-    },*/
+    },
     'bootstrap',
     'dijit',
     'dojo',
@@ -103,6 +103,18 @@ var profile = {
                 'dojox/gfx/filters',
                 'dojox/gfx/svgext',
                 'dojox/gfx/shape',
+                'dojo/NodeList-data',
+                'dojo/NodeList-manipulate',
+                'dojo/NodeList-traverse',
+                'dojo/json',
+                'dojo/text',
+                'dojo/domReady'
+            ],
+            // You can define the locale for your application if you like
+            includeLocales: ['es-py']
+        },
+        'esri/esri': {
+            include: [
                 "esri/map",
                 "esri/basemaps",
                 "esri/config",
@@ -136,19 +148,45 @@ var profile = {
                 "esri/tasks/find",
                 "esri/symbols/PictureMarkerSymbol"
             ],
-            // You can define the locale for your application if you like
-            includeLocales: ['es-py']
+            includeLocales: ['es-es']
         },
-        //'../app/main': {},
-        'bootstrap': {
+        'app/main': {
             include: [
+                '../app/main',
+                'app/lib/LayerUtils',
+                'app/lib/ResizedMap',
+                'app/lib/ToolbarItem',
+                'app/models/FindModel',
+                'app/models/IdentifyModel',
+                'app/models/LocateModel',
+                'app/models/MapModel',
+                'app/models/PrintModel',
+                'app/models/SearchModel',
+                'app/views/BasemapView',
+                'app/views/IdentifyView',
+                'app/views/LayersView',
+                'app/views/LegendView',
+                'app/views/LoadingView',
+                'app/views/LocateView',
+                'app/views/MapView',
+                'app/views/MeasureView',
+                'app/views/PrintView',
+                'app/views/SearchView',
+                'app/Application'
+            ]
+        },
+        'bootstrap/bootstrap': {
+            include: [
+                'bootstrap/Support',
                 'bootstrap/Collapse',
                 'bootstrap/Tooltip',
                 'bootstrap/Popover',
                 'bootstrap/Tab'
             ]
         },
-        'moment/moment': {}
+        'moment/moment': {
+            include: ['moment/locale/es']
+        }
     },
     // Providing hints to the build system allows code to be conditionally removed on a more granular level than simple
     // module dependencies can allow. This is especially useful for creating tiny mobile builds. Keep in mind that dead

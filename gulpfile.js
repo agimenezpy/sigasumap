@@ -17,10 +17,14 @@ gulp.task('dojo_dev', require('./tasks/dojo_dev'));
 // Less & CSS styles
 gulp.task('styles', require('./tasks/styles'));
 
-// Ejecutamos estas tareas por defecto
-gulp.task('build', ['assets', 'styles', 'dojo_dev']);
+// Vendor
+gulp.task('vendor', require('./tasks/vendor'));
 
-gulp.task('dist', ['dojo']);
+// Ejecutamos estas tareas por defecto
+gulp.task('build', ['assets', 'styles', 'vendor']);
+
+// Dist
+gulp.task('dist', ['clean', 'dojo']);
 
 // Ejecuta tareas por defecto y levanta server con endpoints de prueba
-gulp.task('start', ['build'], require('./tasks/server'));
+gulp.task('start', ['build', 'dojo_dev'], require('./tasks/server'));

@@ -2,38 +2,47 @@ var gulp    = require('gulp');
 var $ = require('gulp-load-plugins')();
 var paths   = require('./paths');
 
-// Compilamos archivos CSS de terceros (ejemplo: boostrap.css) y 
-// los metemos todos en un mismo archivo: vendor.css
-// 
-// Copiaremos ese archivo a: paths.dest + '/css'
-gulp.task('vendor-styles', function() {
-   gulp.src([
-      paths.node + '/bootstrap/dist/css/bootstrap.min.css',
-      paths.node + '/bootstrap/dist/css/bootstrap-theme.min.css'
+gulp.task('vendor-images', function() {
+    gulp.src([
+      paths.build + '/dojo/resources/*.gif'
     ])
-    .pipe($.concat("vendor.css"))
-    .pipe(gulp.dest(paths.dest + 'css/'));
+    .pipe(gulp.dest(paths.dest + "/dojo/resources/"));
 
-  gulp.src(paths.node + '/bootstrap/dist/fonts/*')
-      .pipe(gulp.dest(paths.dest + 'fonts/'));
-
+    return gulp.src([
+      paths.build + '/esri/dijit/images/*'
+    ])
+    .pipe(gulp.dest(paths.dest + "esri/dijit/images/"));
 });
 
-// Compilamos archivos JS de terceros (ejemplo: boostrap.js) y 
-// los metemos todos en un mismo archivo: vendor.js
-// 
-// Copiaremos ese archivo a: paths.dest + '/js'
-gulp.task('vendor-scripts', function() {
-  return gulp.src([
-      paths.node + '/jquery/dist/jquery.min.js',
-      paths.node + '/bootstrap/dist/js/bootstrap.min.js'
+gulp.task('vendor-styles', function() {
+    gulp.src([
+      paths.build + '/esri/css/esri.css'
     ])
-    .pipe($.plumber())
-    //.pipe($.concat("vendor.js"))
-    .pipe(gulp.dest(paths.dest + 'js/'));
+    .pipe(gulp.dest(paths.dest + "/esri/css/"));
+
+   return gulp.src([
+      paths.build + '/dijit/themes/claro/claro.css'
+    ])
+    .pipe(gulp.dest(paths.dest + "/dijit/themes/"));
+});
+
+gulp.task('vendor-scripts', function() {
+    gulp.src([
+      paths.build + '/dojo/dojo.js'
+    ])
+    .pipe(gulp.dest(paths.dest + "/dojo/"));
+
+    gulp.src([
+      paths.build + '/esri/esri.js'
+    ])
+    .pipe(gulp.dest(paths.dest + "/esri/"));
+
+    return gulp.src([
+      paths.build + '/bootstrap/bootstrap.js'
+    ])
+    .pipe(gulp.dest(paths.dest + "/bootstrap"));
 });
 
 module.exports = function() {
-  gulp.start('vendor-styles');
-  gulp.start('vendor-scripts');  
+  gulp.start('vendor-images', 'vendor-styles', 'vendor-scripts');
 };

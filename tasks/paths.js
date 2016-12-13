@@ -9,6 +9,7 @@
 module.exports = {
   src: './app/',
   dest: './dist/',
+  build: './build/',
   vendor: './app/vendor/',
   assets: './app/assets/',
   node: './node_modules/',
