@@ -202,7 +202,10 @@ li > a.btn-ico {
   width: @loaderSize;
   height: @loaderSize;
 
-  animation: spin 0.6s infinite linear;
+  .animation(spin);
+  .animation-duration(0.6s);
+  .animation-iteration-count(infinite);
+  .animation-direction(linear);
 
   border-radius: @circularRadius;
 
@@ -215,9 +218,9 @@ li > a.btn-ico {
 
 @keyframes spin {
   from {
-    transform: rotate(0deg);
+    .rotate(0deg);
   }
   to {
-    transform: rotate(360deg);
+    .rotate(360deg);
   }
 }

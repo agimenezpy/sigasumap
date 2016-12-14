@@ -35,7 +35,7 @@ define(["dojo/_base/declare",
             });
             mapView.show();
             var searchView = new SearchView({
-                map: mapView.map,
+                map: mapView.map
             });
             searchView.show();
             var locateView = new LocateView({

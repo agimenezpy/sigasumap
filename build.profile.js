@@ -108,13 +108,16 @@ var profile = {
                 'dojo/NodeList-traverse',
                 'dojo/json',
                 'dojo/text',
-                'dojo/domReady'
+                'dojo/domReady',
+                'dojo/request/xhr'
             ],
             // You can define the locale for your application if you like
             includeLocales: ['es-py']
         },
         'esri/esri': {
             include: [
+                "dijit/form/HorizontalSlider",
+                "dijit/form/HorizontalRuleLabels",
                 "esri/map",
                 "esri/basemaps",
                 "esri/config",
@@ -150,7 +153,7 @@ var profile = {
             ],
             includeLocales: ['es-es']
         },
-        'app/main': {
+        /*'app/main': {
             include: [
                 '../app/main',
                 'app/lib/LayerUtils',
@@ -174,7 +177,7 @@ var profile = {
                 'app/views/SearchView',
                 'app/Application'
             ]
-        },
+        },*/
         'bootstrap/bootstrap': {
             include: [
                 'bootstrap/Support',
