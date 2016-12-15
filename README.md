@@ -22,7 +22,8 @@ Para empezar el entorno de desarrollo se debe realizar:
 
 `` 
 npm install
-npm postinstall
-npm dist
+npm run dist
+npm run build
 ``
 
+El contenido de la aplicaci

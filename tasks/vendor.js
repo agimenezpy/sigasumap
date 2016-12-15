@@ -42,7 +42,7 @@ gulp.task('vendor-styles', function() {
     ])
     .pipe(gulp.dest(paths.dest + "/esri/css/"));
 
-    return gulp.src([
+    gulp.src([
       paths.build + '/esri/dijit/font/*'
     ])
     .pipe(gulp.dest(paths.dest + "esri/dijit/font/"));

@@ -12,7 +12,7 @@ gulp.task('assets',require('./tasks/assets'));
 gulp.task('dojo', require('./tasks/dojo'));
 
 // Dojo dev
-gulp.task('dojo_dev', require('./tasks/dojo_dev'));
+gulp.task('app_dev', require('./tasks/app_dev'));
 
 // Less & CSS styles
 gulp.task('styles', require('./tasks/styles'));
@@ -24,7 +24,7 @@ gulp.task('vendor', require('./tasks/vendor'));
 gulp.task('build', ['assets', 'styles', 'vendor']);
 
 // Dist
-gulp.task('dist', ['clean', 'dojo']);
+gulp.task('dist', ['clean', 'dojo', 'app_dev']);
 
 // Ejecuta tareas por defecto y levanta server con endpoints de prueba
-gulp.task('start', ['build', 'dojo_dev'], require('./tasks/server'));
+gulp.task('start', ['build', 'app_dev'], require('./tasks/server'));

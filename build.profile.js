@@ -40,7 +40,10 @@ var profile = {
         name: 'app',
         location: '../app/src'
     },
-    'bootstrap',
+    {
+        name: 'bootstrap',
+        location: 'dojo-bootstrap'
+    },
     'dijit',
     'dojo',
     'dojox',

@@ -12,7 +12,7 @@ module.exports = function() {
     gulp.src(paths.src + '/images/**/*')
         .pipe(gulp.dest(paths.dest + '/images/'));
 
-    gulp.src(paths.node + 'bootstrap/fonts/**/*')
+    gulp.src(paths.bower + 'bootstrap/fonts/**/*')
         .pipe(gulp.dest(paths.dest + '/fonts/'));
 
     var opts = { data: config };
