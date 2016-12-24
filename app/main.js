@@ -13,6 +13,7 @@ require([
     "bootstrap/Tab",
     "bootstrap/Popover",
     "bootstrap/Tooltip",
+    "bootstrap/Typeahead",
     "dojo/domReady!"], function(declare, JSON, LoadingView, Application, config) {
 
     window.CONFIG = JSON.parse(config);

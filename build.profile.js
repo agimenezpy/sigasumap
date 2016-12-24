@@ -187,7 +187,8 @@ var profile = {
                 'bootstrap/Collapse',
                 'bootstrap/Tooltip',
                 'bootstrap/Popover',
-                'bootstrap/Tab'
+                'bootstrap/Tab',
+                'bootstrap/Typeahead'
             ]
         },
         'moment/moment': {

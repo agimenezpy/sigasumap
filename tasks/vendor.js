@@ -31,7 +31,9 @@ gulp.task('vendor-images', function() {
         paths.build + '/esri/dijit/images/Measure_Point16.png',
         paths.build + '/esri/dijit/images/sdk_gps_location.png',
         paths.build + '/esri/dijit/images/button-hover.png',
-        paths.build + '/esri/dijit/images/button-active.png'
+        paths.build + '/esri/dijit/images/button-active.png',
+        paths.build + '/esri/dijit/images/home-spinner.gif ',
+        paths.build + '/esri/dijit/images/locate-spinner.gif'
     ])
     .pipe(gulp.dest(paths.dest + "esri/dijit/images/"));
 });

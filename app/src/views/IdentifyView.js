@@ -32,7 +32,6 @@ define(["dojo/_base/declare",
             this.identifyNoResults = query("#identifyNoResults");
         },
         hide: function () {
-            this.map.infoWindow.hide();
             this.active = false;
             this.inherited(arguments);
         },
@@ -47,12 +46,13 @@ define(["dojo/_base/declare",
                 connect.connect(this.map.infoWindow, "onClearFeatures", lang.hitch(this, this.clearPanel));
                 this.active = true;
             }
-            this.clearPanel();
+            this.map.infoWindow.hide();
+            this.map.infoWindow.clearFeatures();
             this.inherited(arguments);
         },
         showTable: function() {
             var feature = this.map.infoWindow.getSelectedFeature();
-            if (feature) {
+            if (feature && this.checked()) {
                 this.identifyResults.empty();
                 var content = "";
                 var info = feature.attributes;
@@ -69,13 +69,17 @@ define(["dojo/_base/declare",
             }
         },
         clearPanel: function () {
-            this.identifyResults.empty();
-            this.identifyResults.addClass("hidden");
-            this.identifyNoResults.removeClass("hidden");
+            if (this.checked()) {
+                this.identifyResults.empty();
+                this.identifyResults.addClass("hidden");
+                this.identifyNoResults.removeClass("hidden");
+            }
         },
         onIdentify: function(evt) {
             if (this.checked()) {
-                this.identify.doIdentify(evt);
+                this.map.infoWindow.clearFeatures();
+                var promises = this.identify.doIdentify(evt);
+                this.map.infoWindow.setFeatures(promises);
             }
         }
     });

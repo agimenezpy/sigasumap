@@ -74,12 +74,12 @@ define(["dojo/_base/declare",
                 var feature = result.feature;
                 feature.attributes.layerName = result.layerName;
                 var msg = "";
-                for (var item in feature.attributes) {
+                arrayUtils.forEach(feature.attributes, function(item) {
                     if (!item.match("Shape.*|ID|layer")) {
                         msg += string.substitute("<label>${label}: </label><i>${value}</i><br>",
                             {label: item, value: feature.attributes[item]});
                     }
-                }
+                });
                 feature.attributes.extra = msg;
                 feature.setInfoTemplate(self.template);
                 feature.address = { name: result.value, layername: result.layerName };
@@ -90,16 +90,16 @@ define(["dojo/_base/declare",
             var groups = {};
 
             arrayUtils.forEach(response, function (result) {
-                var graphic = result.feature;
-                switch (graphic.geometry.type) {
+                var feature = result.feature;
+                switch (feature.geometry.type) {
                     case "point":
-                        graphic.setSymbol(this.markerSymbol);
+                        feature.setSymbol(this.markerSymbol);
                         break;
                     case "polyline":
-                        graphic.setSymbol(this.lineSymbol);
+                        feature.setSymbol(this.lineSymbol);
                         break;
                     case "polygon":
-                        graphic.setSymbol(this.polygonSymbol);
+                        feature.setSymbol(this.polygonSymbol);
                         break;
                 }
                 if (!groups[result.layerName])
@@ -109,13 +109,13 @@ define(["dojo/_base/declare",
                 }
                 var ext = groups[result.layerName][result.value]["ext"];
                 if (!ext) {
-                    ext = graphic.geometry.getExtent();
+                    ext = feature.geometry.getExtent();
                 }
                 else {
-                    ext = ext.union(graphic.geometry.getExtent());
+                    ext = ext.union(feature.geometry.getExtent());
                 }
                 groups[result.layerName][result.value]["ext"] = ext;
-                groups[result.layerName][result.value]["graphs"].push(graphic);
+                groups[result.layerName][result.value]["graphs"].push(feature);
             }, this);
             return groups;
         }

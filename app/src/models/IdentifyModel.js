@@ -50,10 +50,8 @@ define(["dojo/_base/declare",
                 deferred.addCallback(lang.hitch(this, this.onResult));
                 promises.push(deferred);
             }, this);
-
-            this.map.infoWindow.setFeatures(promises);
-            this.map.infoWindow.show(evt.mapPoint);
-            this.map.centerAt(evt.mapPoint);
+            
+            return promises;
         },
         onResult: function(response) {
             return arrayUtils.map(response, function (result) {

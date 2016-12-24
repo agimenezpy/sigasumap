@@ -32,8 +32,7 @@ define([
         show: function() {
             if (!this.find) {
                 this.find = new FindModel({
-                    map: this.map,
-                    service: this.service
+                    map: this.map
                 });
 
                 this.searchText.on("blur", lang.hitch(this, this.togglePanel));

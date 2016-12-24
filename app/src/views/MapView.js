@@ -8,6 +8,7 @@
  */
 define(["dojo/_base/declare",
     "dojo/_base/lang",
+    "dojo/_base/connect",
     "dojo/dom",
     "dojo/dom-class",
     "dojo/number",
@@ -21,7 +22,7 @@ define(["dojo/_base/declare",
     "esri/dijit/Attribution",
     "esri/tasks/GeometryService",
     "app/lib/ResizedMap",
-    "app/models/MapModel"], function(declare, lang, dom, domClass, number,
+    "app/models/MapModel"], function(declare, lang, connect, dom, domClass, number,
                                      Map, esriConfig, esriBasemaps,
                                      Extent, Scalebar, HomeButton, LocateButton,
                                      Attribution, GeometryService, ResizedMap, MapModel) {
@@ -86,6 +87,31 @@ define(["dojo/_base/declare",
             attribution.startup();
 
             this.map.on("mouse-move", lang.hitch(this, this.showCoordinates));
+            connect.connect(this.map.infoWindow, "onSelectionChange", lang.hitch(this, this.onSelectFeature));
+        },
+        onSelectFeature: function() {
+            var feature = this.map.infoWindow.getSelectedFeature();
+            if (feature) {
+                this.map.infoWindow.hide();
+                var geometry = feature.geom || feature.geometry;
+                var extent = geometry.getExtent();
+                var location = (extent && extent.getCenter()) || geometry;
+                this.map.infoWindow.show(location);
+                if (extent) {
+                    this.map.setExtent(extent);
+                    this.map.centerAt(location);
+                }
+                else {
+                    var maxZoom = this.map.getMaxZoom();
+                    if (this.map.getZoom() != maxZoom) {
+                        this.map.centerAndZoom(location, maxZoom);
+                    }
+                    else {
+                        this.map.centerAt(location);
+                    }
+                    this.map.infoWindow.markerSymbol = geometry.symbol;
+                }
+            }
         },
         showCoordinates: function (evt) {
             dom.byId("coordinates").innerHTML = number.format(evt.mapPoint.x, this.fmt) + " , "

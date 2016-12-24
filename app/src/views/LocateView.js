@@ -8,14 +8,16 @@
  */
 define(["dojo/_base/declare",
     "dojo/_base/lang",
+    "dojo/_base/array",
     "dojo/query",
     "dojo/string",
     "app/lib/ToolbarItem",
     "app/models/LocateModel",
+    "app/models/QueryModel",
     "dojo/text!app/templates/locator_address.html",
     "dojo/text!app/templates/locator_parcel.html",
-    "dojo/text!app/templates/locator_control.html"], function(declare, lang, query, string, ToolbarItem,
-                                                              LocateModel, templateAddress, templateParcel,
+    "dojo/text!app/templates/locator_control.html"], function(declare, lang, arrayUtils, query, string, ToolbarItem,
+                                                              LocateModel, QueryModel, templateAddress, templateParcel,
                                                               templateString) {
     const LocateView = declare(ToolbarItem, {
         templateResultsCount: "<p class='text-info'>${count} Resultado(s) Encontrado(s)</p>",
@@ -37,6 +39,7 @@ define(["dojo/_base/declare",
             });
             this.addressForm = query("#address form");
             this.parcelForm = query("#parcel form");
+            this.searchStreet = query("#address input.autocomplete")
         },
         show: function() {
             if (!this.locators) {
@@ -55,13 +58,41 @@ define(["dojo/_base/declare",
                     service: this.service[2],
                     callback: lang.hitch(this, this.onParcelResult)
                 })];
-                this.clearResults();
+                this.query = new QueryModel({
+                    map: this.map
+                });
                 this.addressForm.on("submit", lang.hitch(this, this.searchAddress));
                 this.parcelForm.on("submit", lang.hitch(this, this.searchParcel));
+                this.searchStreet.typeahead({
+                    source: lang.hitch(this, this.onAutoComplete),
+                    minLength: 5,
+                    items: 6
+                });
             }
+            this.map.infoWindow.hide();
+            this.map.infoWindow.clearFeatures();
+            this.clearResults();
+            this.autocomplete = false;
             this.inherited(arguments);
         },
+        onAutoComplete: function (query, callback) {
+            if (!this.autocomplete) {
+                this.autocomplete = true;
+                var deferred = this.query.doSearch(query);
+                var self = this;
+                deferred.then(function (response) {
+                    var names = self.query.onResult(response);
+                    callback(names);
+                    self.autocomplete = false;
+                },
+                function(err){
+                    self.autocomplete = false;
+                });
+            }
+        },
         clearResults: function () {
+            this.map.infoWindow.hide();
+            this.map.infoWindow.clearFeatures();
             query("#addressResults").empty();
             query("#parcelResults").empty();
         },
@@ -125,10 +156,9 @@ define(["dojo/_base/declare",
         },
         onResult: function (results, resultDiv) {
             if (results.length > 0) {
-                var location = results[0].geom;
-                this.map.infoWindow.setFeatures([results[0].graphic]);
-                this.map.infoWindow.show(location);
-                this.map.centerAndZoom(location, this.map.getMaxZoom());
+                this.map.infoWindow.setFeatures(arrayUtils.map(results, function(item) {
+                    return item.graphic;
+                }));
                 query(resultDiv).addContent(string.substitute(this.templateResultsCount, {
                     count: results.length
                 }));
