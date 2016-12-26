@@ -78,6 +78,7 @@ define(["dojo/_base/declare",
         onIdentify: function(evt) {
             if (this.checked()) {
                 this.map.infoWindow.clearFeatures();
+                this.map.infoWindow.show(evt.mapPoint);
                 var promises = this.identify.doIdentify(evt);
                 this.map.infoWindow.setFeatures(promises);
             }

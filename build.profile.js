@@ -36,10 +36,10 @@ var profile = {
   packages: [
     // 'app' is a sample path for your application
     // set this accordingly
-    {
+    /*{
         name: 'app',
         location: '../app/src'
-    },
+    },*/
     {
         name: 'bootstrap',
         location: 'dojo-bootstrap'
@@ -158,7 +158,6 @@ var profile = {
         },
         /*'app/main': {
             include: [
-                '../app/main',
                 'app/lib/LayerUtils',
                 'app/lib/ResizedMap',
                 'app/lib/ToolbarItem',

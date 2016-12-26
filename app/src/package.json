@@ -1,5 +1,6 @@
 {
     "name": "app",
     "description": "Mapa de Asuncion",
-    "version": "1.0"
+    "version": "1.0",
+    "dojoBuild": "sigasu.profile.js"
 }

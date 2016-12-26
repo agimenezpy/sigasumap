@@ -1,8 +1,8 @@
 {
   "base_url": "http://www.asuncion.gov.py/",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "title": "Mapa Catastral de Asunción",
   "description": "Mapa de Asunción disponible para consultar información sobre lotes, espacios, zonificaciones, puntos de interes, ubicación de direcciones y más ... ",
   "keywords": "mapa asuncion oficial informacion geografica sig gis arcgis direcciones",
-  "root_url": "http://localhost:9000/arcgis/rest/services"
+  "root_url": "/arcgis/rest/services"
 }

@@ -11,12 +11,12 @@ module.exports = function() {
     'use strict';
 
     var proxy = httpProxy.createProxyServer({
-         target: 'http://mapai.asuncion.gov.py/'
+         target: 'http://www.asuncion.gov.py/'
          //target: 'http://localhost:8399/'
     });
 
     proxy.on('proxyReq', function(proxyReq, req, res, options) {
-        proxyReq.setHeader('Host', 'mapai.asuncion.gov.py');
+        proxyReq.setHeader('Host', 'www.asuncion.gov.py');
         //proxyReq.setHeader('Host', 'localhost:9000');
     });
 
@@ -53,7 +53,7 @@ module.exports = function() {
       'app/src/**/*.html',
       'app/less/**'
     ]).on('change', function() {
-        gulp.start("build", "app_dev");
+        gulp.start("build");
         reload();
     });
     

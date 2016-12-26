@@ -21,10 +21,10 @@ gulp.task('styles', require('./tasks/styles'));
 gulp.task('vendor', require('./tasks/vendor'));
 
 // Ejecutamos estas tareas por defecto
-gulp.task('build', ['assets', 'styles', 'vendor']);
+gulp.task('build', ['assets', 'styles', 'vendor', 'app_dev']);
 
 // Dist
-gulp.task('dist', ['clean', 'dojo', 'app_dev']);
+gulp.task('dist', ['clean-build', 'dojo']);
 
 // Ejecuta tareas por defecto y levanta server con endpoints de prueba
-gulp.task('start', ['build', 'app_dev'], require('./tasks/server'));
+gulp.task('start', ['build'], require('./tasks/server'));
