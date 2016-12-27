@@ -26,7 +26,7 @@ define(["dojo/_base/declare",
                                      Map, esriConfig, esriBasemaps,
                                      Extent, Scalebar, HomeButton, LocateButton,
                                      Attribution, GeometryService, ResizedMap, MapModel) {
-    const MapView = declare(null, {
+    var MapView = declare(null, {
         extent: [ -57.671486, -25.368339, -57.525007, -25.225538],
         model: new MapModel({
             name: "asuncion",

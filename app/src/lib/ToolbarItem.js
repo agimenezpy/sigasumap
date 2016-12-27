@@ -13,7 +13,7 @@ define(["dojo/_base/declare",
     "dojo/dom-class",
     "dojo/query",
     "dojo/dom-attr"], function(declare, lang, on, dom, domClass, query, dojoAttr) {
-    const ToolbarItem = declare(null, {
+    var ToolbarItem = declare(null, {
         node: null,
         mapView: null,
         sideBar: true,

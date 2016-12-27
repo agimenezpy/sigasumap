@@ -9,7 +9,7 @@
 define(["dojo/_base/declare",
         "dojo/dom",
         "dojo/dom-style"], function(declare, dom, domStyle){
-    const LoadingView = declare(null, {
+    var LoadingView = declare(null, {
         overlayNode: null,
         constructor: function(srcNodeRef){
             // save a reference to the overlay

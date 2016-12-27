@@ -8,6 +8,40 @@
  * Look to `util/build/buildControlDefault.js` for more information on available options and their default values.
  */
 
+var esriDeps = [
+    "dijit/form/HorizontalSlider",
+    "dijit/form/HorizontalRuleLabels",
+    "esri/map",
+    "esri/basemaps",
+    "esri/config",
+    "esri/request",
+    "esri/InfoTemplate",
+    "esri/dijit/LayerList",
+    "esri/dijit/Legend",
+    "esri/dijit/Scalebar",
+    "esri/dijit/HomeButton",
+    "esri/dijit/LocateButton",
+    "esri/dijit/Attribution",
+    "esri/dijit/Measurement",
+    "esri/dijit/Search",
+    "esri/dijit/Print",
+    'esri/dijit/Attribution',
+    "esri/symbols/SimpleMarkerSymbol",
+    "esri/symbols/SimpleLineSymbol",
+    "esri/symbols/SimpleFillSymbol",
+    "esri/layers/ArcGISDynamicMapServiceLayer",
+    "esri/geometry/Extent",
+    "esri/tasks/FindTask",
+    "esri/tasks/FindParameters",
+    "esri/tasks/IdentifyTask",
+    "esri/tasks/IdentifyParameters",
+    "esri/tasks/PrintTemplate",
+    "esri/tasks/GeometryService",
+    "esri/tasks/locator",
+    "esri/tasks/find",
+    "esri/symbols/PictureMarkerSymbol"
+];
+
 var profile = {
     // `basePath` is relative to the directory containing this profile file; in this case, it is being set to the
     // src/ directory, which is the same place as the `baseUrl` directory in the loader configuration.
@@ -34,12 +68,10 @@ var profile = {
   // A list of packages that will be built. The same packages defined in the loader should be defined here in the
   // build profile.
   packages: [
-    // 'app' is a sample path for your application
-    // set this accordingly
-    /*{
+    {
         name: 'app',
         location: '../app/src'
-    },*/
+    },
     {
         name: 'bootstrap',
         location: 'dojo-bootstrap'
@@ -98,8 +130,6 @@ var profile = {
             boot: true,
             customBase: true,
             include: [
-                // include the app, set accordingly for your application
-                //'../app/main.js',
                 // dependencies of esri/map that will be requested if not included
                 'dojox/gfx/path',
                 'dojox/gfx/svg',
@@ -112,74 +142,16 @@ var profile = {
                 'dojo/json',
                 'dojo/text',
                 'dojo/domReady',
-                'dojo/request/xhr'
+                'dojo/request/xhr',
+                'dojo/number'
             ],
             // You can define the locale for your application if you like
             includeLocales: ['es-py']
         },
         'esri/esri': {
-            include: [
-                "dijit/form/HorizontalSlider",
-                "dijit/form/HorizontalRuleLabels",
-                "esri/map",
-                "esri/basemaps",
-                "esri/config",
-                "esri/request",
-                "esri/InfoTemplate",
-                "esri/dijit/Basemap",
-                "esri/dijit/BasemapLayer",
-                "esri/dijit/BasemapGallery",
-                "esri/dijit/LayerList",
-                "esri/dijit/Legend",
-                "esri/dijit/Scalebar",
-                "esri/dijit/HomeButton",
-                "esri/dijit/LocateButton",
-                "esri/dijit/Attribution",
-                "esri/dijit/Measurement",
-                "esri/dijit/Search",
-                "esri/dijit/Print",
-                'esri/dijit/Attribution',
-                "esri/symbols/SimpleMarkerSymbol",
-                "esri/symbols/SimpleLineSymbol",
-                "esri/symbols/SimpleFillSymbol",
-                "esri/layers/ArcGISDynamicMapServiceLayer",
-                "esri/geometry/Extent",
-                "esri/tasks/FindTask",
-                "esri/tasks/FindParameters",
-                "esri/tasks/IdentifyTask",
-                "esri/tasks/IdentifyParameters",
-                "esri/tasks/PrintTemplate",
-                "esri/tasks/GeometryService",
-                "esri/tasks/locator",
-                "esri/tasks/find",
-                "esri/symbols/PictureMarkerSymbol"
-            ],
+            include: esriDeps,
             includeLocales: ['es-es']
         },
-        /*'app/main': {
-            include: [
-                'app/lib/LayerUtils',
-                'app/lib/ResizedMap',
-                'app/lib/ToolbarItem',
-                'app/models/FindModel',
-                'app/models/IdentifyModel',
-                'app/models/LocateModel',
-                'app/models/MapModel',
-                'app/models/PrintModel',
-                'app/models/SearchModel',
-                'app/views/BasemapView',
-                'app/views/IdentifyView',
-                'app/views/LayersView',
-                'app/views/LegendView',
-                'app/views/LoadingView',
-                'app/views/LocateView',
-                'app/views/MapView',
-                'app/views/MeasureView',
-                'app/views/PrintView',
-                'app/views/SearchView',
-                'app/Application'
-            ]
-        },*/
         'bootstrap/bootstrap': {
             include: [
                 'bootstrap/Support',
@@ -192,6 +164,30 @@ var profile = {
         },
         'moment/moment': {
             include: ['moment/locale/es']
+        },
+        'app/app': {
+            include: [
+                'app/Application',
+                'app/lib/LayerUtils',
+                'app/lib/ResizedMap',
+                'app/lib/ToolbarItem',
+                'app/models/FindModel',
+                'app/models/IdentifyModel',
+                'app/models/LocateModel',
+                'app/models/MapModel',
+                'app/models/PrintModel',
+                'app/models/SearchModel',
+                'app/views/IdentifyView',
+                'app/views/LayersView',
+                'app/views/LegendView',
+                'app/views/LoadingView',
+                'app/views/LocateView',
+                'app/views/MapView',
+                'app/views/MeasureView',
+                'app/views/PrintView',
+                'app/views/SearchView'
+            ],
+            exclude: esriDeps
         }
     },
     // Providing hints to the build system allows code to be conditionally removed on a more granular level than simple

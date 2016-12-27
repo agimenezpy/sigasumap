@@ -26,4 +26,5 @@ npm run dist
 npm run build
 ``
 
-El contenido de la aplicaci
+Copiar el contenido de la aplicación que se encuentra en `dist/*` al directorio
+ de destino de despliegue `www`. 

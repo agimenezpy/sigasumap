@@ -14,7 +14,7 @@ define(["dojo/_base/declare",
     "esri/layers/ArcGISDynamicMapServiceLayer",
     "esri/dijit/LayerList"], function(declare, lang, arrayUtil, ToolbarItem, esriRequest,
                                       ArcGISDynamicMapServiceLayer, LayerList) {
-    const MyLayerList = declare(LayerList, {
+    var MyLayerList = declare(LayerList, {
          _getLayerTitle: function (e) {
              var title = e.layer.description;
              if (title === "" && e.layer.layerInfos.length > 0) {
@@ -28,7 +28,7 @@ define(["dojo/_base/declare",
              }
          }
     });
-    const LayersView = declare(ToolbarItem, {
+    var LayersView = declare(ToolbarItem, {
         layerList: null,
         constructor: function(options) {
             declare.safeMixin(this, {

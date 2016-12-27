@@ -17,7 +17,7 @@ define(["dojo/_base/declare",
     "dojo/text!app/templates/identify_results.html",
     "dojo/text!app/templates/identify_row.html"], function(declare, lang, connect, query, string, ToolbarItem,
                                                            IdentifyModel, templateString, templateResults, templateRow) {
-    const IdentifyView = declare(ToolbarItem, {
+    var IdentifyView = declare(ToolbarItem, {
         identify: null,
         active: false,
         constructor: function(options) {

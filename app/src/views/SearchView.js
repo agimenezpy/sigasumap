@@ -19,7 +19,7 @@ define([
     "dojo/text!app/templates/search_control.html",
     "dojo/text!app/templates/search_result.html"], function(require, declare, lang, arrayUtils, all, query, string,
                                                             domAttr, FindModel, templateString, resultString) {
-    const SearchView = declare(null, {
+    var SearchView = declare(null, {
         constructor: function(options) {
             this.map = options.map;
             this.service = options.service;

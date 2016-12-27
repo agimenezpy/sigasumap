@@ -20,7 +20,7 @@ define(["dojo/_base/declare",
     "dojo/text!app/templates/navigator.html"
 ], function(declare, query, MapView, SearchView, LocateView, LayersView, LegendView,
             MeasureView, PrintView, IdentifyView, templateString) {
-    const Application = declare(null, {
+    var Application = declare(null, {
         startup: function() {
             query("#navigator-top").addContent(templateString);
             query('#tocPanel > div, #measure').addClass("hidden");

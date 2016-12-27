@@ -23,7 +23,7 @@ define(["dojo/_base/declare",
     "dojo/text!app/templates/feature_result.html"],
     function(declare, lang, arrayUtils, Color, string, LayerUtils, InfoTemplate, FindTask, FindParameters,
              SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol, templateString) {
-    const FindModel = declare(null, {
+    var FindModel = declare(null, {
         defaults: {
             returnGeometry: true
         },

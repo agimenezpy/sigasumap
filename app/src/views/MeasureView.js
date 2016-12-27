@@ -13,7 +13,7 @@ define(["dojo/_base/declare",
     "esri/dijit/Measurement",
     "dojo/text!app/templates/measurement.html"], function(declare, query, ToolbarItem, units,
                                                           Measurement, templateString) {
-    const MeasureView = declare(ToolbarItem, {
+    var MeasureView = declare(ToolbarItem, {
         measure: null,
         constructor: function(options) {
             declare.safeMixin(this, {

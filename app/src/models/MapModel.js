@@ -9,7 +9,7 @@
  */
 define(["dojo/_base/declare",
     "dojo/_base/lang"], function(declare, lang) {
-    const MapModel = declare(null, {
+    var MapModel = declare(null, {
         defaults: {
             name: "Sample",
             extent: [-180, -90, 180, 90],

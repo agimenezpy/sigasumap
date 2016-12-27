@@ -8,7 +8,7 @@
  */
 define(["dojo/_base/declare",
     "dojo/_base/array"], function(declare, arrayUtils) {
-    const LayerUtils = declare(null, {
+    var LayerUtils = declare(null, {
         getLayerIds: function(layer) {
             var layers = [];
             var matchObj = null;

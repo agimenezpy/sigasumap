@@ -53,7 +53,7 @@ module.exports = function() {
       'app/src/**/*.html',
       'app/less/**'
     ]).on('change', function() {
-        gulp.start("build");
+        gulp.start("dev", 'app-dev');
         reload();
     });
     

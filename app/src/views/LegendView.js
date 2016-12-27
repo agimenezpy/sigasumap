@@ -9,7 +9,7 @@
 define(["dojo/_base/declare",
     "app/lib/ToolbarItem",
     "esri/dijit/Legend"], function(declare, ToolbarItem, Legend) {
-    const LegendView = declare(ToolbarItem, {
+    var LegendView = declare(ToolbarItem, {
         legend: null,
         constructor: function(options) {
             declare.safeMixin(this, {

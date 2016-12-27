@@ -15,7 +15,7 @@ define(["dojo/_base/declare",
     "esri/dijit/Print",
     "esri/request",
     "esri/config"], function(declare, lang, arrayUtils, PrintTemplate, Print, esriRequest, esriConfig) {
-    const PrintModel = declare(null, {
+    var PrintModel = declare(null, {
         service: null,
         map: null,
         node: null,

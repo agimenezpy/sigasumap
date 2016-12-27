@@ -18,7 +18,7 @@ var profile = (function(){
 
     var copyOnly = function(filename, mid){
         var list = {
-			"app/sigasu.profile" : true,
+			"app/app.profile" : true,
             "app/package.json"      : true,
             "app/README.md"         : true
         };

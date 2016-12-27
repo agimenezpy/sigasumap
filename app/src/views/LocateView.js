@@ -19,7 +19,7 @@ define(["dojo/_base/declare",
     "dojo/text!app/templates/locator_control.html"], function(declare, lang, arrayUtils, query, string, ToolbarItem,
                                                               LocateModel, QueryModel, templateAddress, templateParcel,
                                                               templateString) {
-    const LocateView = declare(ToolbarItem, {
+    var LocateView = declare(ToolbarItem, {
         templateResultsCount: "<p class='text-info'>${count} Resultado(s) Encontrado(s)</p>",
         templateNoResults: "<p class='text-warning'>Resultados no encontrados</p>",
         constructor: function(options) {

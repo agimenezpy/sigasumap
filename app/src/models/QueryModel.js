@@ -16,7 +16,7 @@ define(["dojo/_base/declare",
     "esri/tasks/FindTask",
     "esri/tasks/FindParameters"],
     function(declare, lang, arrayUtils, string, LayerUtils, FindTask, FindParameters) {
-    const QueryModel = declare(null, {
+    var QueryModel = declare(null, {
         defaults: {
             returnGeometry: false
         },

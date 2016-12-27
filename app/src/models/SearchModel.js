@@ -15,7 +15,7 @@ define(["dojo/_base/declare",
     "dijit/focus",
     "esri/promiseList",
     "esri/dijit/Search"], function(declare, lang, arrays, domAttr, query, deferred, focus, promise, Search) {
-    const MySearch = declare(Search, {
+    var MySearch = declare(Search, {
         _suggest: function(event) {
             var source = this.sources[event.index];
             if (source.finder) {

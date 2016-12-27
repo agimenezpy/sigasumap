@@ -20,7 +20,7 @@ define(["require",
     "dojo/text!app/templates/locator_result.html"],
     function(require, declare, lang, arrayUtils, Color, Graphic, InfoTemplate, Locator,
              PictureMarkerSymbol, templateString) {
-    const LocateModel = declare(null, {
+    var LocateModel = declare(null, {
         defaults: {
             singleLineFieldName: "Single Line Input",
             outFields: ["Match_addr"]
