@@ -35,9 +35,11 @@ define([
                     map: this.map
                 });
 
-                this.searchText.on("blur", lang.hitch(this, this.togglePanel));
+                this.searchText.on("blur", lang.hitch(this, this.togglePanel()));
                 this.searchText.on("focus", lang.hitch(this, this.togglePanel));
                 this.searchText.on("keydown", lang.hitch(this, this.doSearch));
+                this.searchText.on("change", lang.hitch(this, this.onChangeSearch));
+                this.searchText.siblings(".clear-input").on("click", lang.hitch(this, this.clearInput));
             }
         },
         togglePanel: function () {
@@ -54,19 +56,50 @@ define([
         hidePanel: function () {
             query("#search .panel").addClass('hidden');
         },
+        onChangeSearch: function(event) {
+            var input = query(event.target);
+            var clear = input.siblings(".clear-input");
+            if (string.trim(input.val()) === "") {
+                clear.addClass("hidden");
+            }
+            else {
+                clear.removeClass("hidden");
+            }
+        },
+        cancelSearch: function() {
+            this.deferred && !all(this.deferred).isFulfilled() && arrayUtils.forEach(this.deferred, function (item) {
+                item.reject();
+            });
+            this.searchText.closest("div.form-group").removeClass("loading");
+            this.isSearching = false;
+            this.data = null;
+            this.hidePanel();
+        },
+        clearInput: function(event) {
+            var clear = query(event.target);
+            var input = clear.siblings("input.form-control");
+            input.val("");
+            clear.addClass("hidden");
+            this.cancelSearch();
+        },
         doSearch: function(evt){
             var keyCode = evt.which || evt.keyCode;
             if (keyCode == 13) {
+                if (this.isSearching) {
+                    return;
+                }
+                this.cancelSearch();
+                this.isSearching = true;
                 this.searchText.closest("div.form-group").addClass("loading");
-                this.data = null;
-                var deferred = this.find.doSearch(this.searchText.val());
-                all(deferred).then(lang.hitch(this, this.showResults));
+                this.deferred = this.find.doSearch(this.searchText.val());
+                all(this.deferred).then(
+                    lang.hitch(this, this.showResults),
+                    lang.hitch(this, this.onError)
+                );
             }
-            else if (keyCode == 8 || keyCode == 46) {
-                this.data = null;
-                this.searchResults.empty();
+            else {
+                this.cancelSearch();
             }
-            this.hidePanel();
         },
         groupResults: function (response) {
             var results = {};
@@ -105,6 +138,7 @@ define([
                 this.data = null;
                 this.searchNoResults.removeClass("hidden");
             }
+            this.isSearching = false;
             this.showPanel();
         },
         showFeature: function(evt) {
@@ -116,6 +150,15 @@ define([
             }
             this.map.setExtent(feature["ext"]);
             this.hidePanel();
+        },
+        onError: function(error) {
+            if (error && error.response.status !== 200) {
+                this.data = null;
+                this.searchResults.empty();
+                this.searchNoResults.removeClass("hidden");
+                this.searchText.closest("div.form-group").removeClass("loading");
+                this.showPanel();
+            }
         }
     });
     return SearchView;

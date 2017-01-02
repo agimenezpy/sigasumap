@@ -1,38 +1,45 @@
-<h3>Lotes</h3>
-<form  onsubmit="return false">
-    <h4>Cuenta corriente catastral</h4>
-    <div class="form-group">
+<form>
+    <div class="control-label">Cuenta corriente catastral</div>
+    <div class="form-group has-feedback">
         <label class="sr-only" for="zoneText">Zona</label>
         <div class="input-group">
             <div class="input-group-addon">Z</div>
             <input id="zoneText" type="number" autocomplete="off" class="form-control"
-            placeholder="Zona" required="required">
+            placeholder="Zona" data-required="true" min="0">
+            <span class="glyphicon glyphicon-remove form-control-feedback gray clear-input hidden"></span>
+            <span class="help-block"></span>
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group has-feedback">
         <label class="sr-only" for="blockText">Manzana</label>
         <div class="input-group">
             <div class="input-group-addon">M</div>
             <input id="blockText" type="number" autocomplete="off" class="form-control"
-            placeholder="Manzana" required="required">
+            placeholder="Manzana" data-required="true" min="0">
+            <span class="glyphicon glyphicon-remove form-control-feedback gray clear-input hidden"></span>
+            <span class="help-block"></span>
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group has-feedback">
         <label class="sr-only" for="parcelText">Lote</label>
         <div class="input-group">
             <div class="input-group-addon">L</div>
             <input id="parcelText" type="number" autocomplete="off" class="form-control"
-               placeholder="Lote" required="required">
+               placeholder="Lote" data-required="true" min="0">
+            <span class="glyphicon glyphicon-remove form-control-feedback gray clear-input hidden"></span>
+            <span class="help-block"></span>
         </div>
     </div>
     <i class="text-muted">Escriba la cuenta corriente conocida (10-380-0)</i>
-    <h4>Sub-cuenta</h4>
+    <div class="control-label">Sub-cuenta</div>
     <div class="form-group">
         <label class="sr-only" for="floorText">Piso</label>
         <div class="input-group">
             <div class="input-group-addon">P</div>
             <input id="floorText" type="text" autocomplete="off" class="form-control"
             placeholder="Piso">
+            <span class="glyphicon glyphicon-remove form-control-feedback gray clear-input hidden"></span>
+            <span class="help-block"></span>
         </div>
     </div>
     <div class="form-group">
@@ -40,16 +47,18 @@
         <div class="input-group">
             <div class="input-group-addon">D</div>
             <input id="flatText" type="number" autocomplete="off" class="form-control"
-            placeholder="Departamento">
+            placeholder="Departamento" min="0">
+            <span class="glyphicon glyphicon-remove form-control-feedback gray clear-input hidden"></span>
+            <span class="help-block"></span>
         </div>
     </div>
     <i class="text-muted">Escriba la sub-cuenta conocida (12-0588-29 00000)</i>
     <hr>
     <div class="form-group">
-        <button class="btn btn-default btn-md" type="reset">Limpiar</button>
-        <button class="btn btn-success btn-md" type="submit">Buscar</button>
+        <button class="btn btn-success col-xs-12" type="submit">BUSCAR</button>
     </div>
 </form>
+<p class="clearfix"></p>
 <div id="parcelResults">
 
 </div>

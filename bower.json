@@ -4,7 +4,8 @@
   "dependencies": {
     "bootstrap": "^3.3.7",
     "dojo-bootstrap": "https://github.com/xsokev/Dojo-Bootstrap/zipball/master",
-    "esri": "arcgis-js-api#3.17.0"
+    "esri": "arcgis-js-api#3.17.0",
+    "bootswatch": "^3.3.7"
   },
   "resolutions": {
     "dojo": "v1.11.1/esri-3.17.0",

@@ -84,15 +84,15 @@
     <div id="main-region" class="container-fluid">
         <div class="row">
             <div id="tocPanel" class="col-lg-3 col-md-4 col-sm-5 col-xs-12 hidden">
-                <div id="identify"></div>
-                <div id="locate"></div>
-                <div id="legend"></div>
-                <div id="layers"></div>
-                <div id="print"></div>
+                <div id="identify" class="row"></div>
+                <div id="locate" class="row"></div>
+                <div id="legend" class="row"></div>
+                <div id="layers" class="row"></div>
+                <div id="print" class="row"></div>
             </div>
             <div id="mapPanel" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div id="measure"></div>
-                <div id="search"></div>
+                <div id="search" class="col-xs-8 col-sm-5 col-md-3 col-lg-3"></div>
                 <div id="map">
                     <div id="home"></div>
                     <div id="coordinates"></div>
@@ -131,6 +131,7 @@
 </script>
 
 <!-- build:template -->
+<% if (env === 'dev') { %>
 <script>
 // set up your dojoConfig
     dojoConfig = {
@@ -153,17 +154,23 @@
         ],
         paths: {
           app: location.pathname.replace(/\/[^/]+$/, '') + 'app/src'
-        }
+        },
+        deps: ['./app/main.js']
     };
 </script>
+<% } %>
 <!-- /build -->
 
 <!--<script src="https://js.arcgis.com/3.17compact/"></script>-->
 <script type="text/javascript" src="dojo/dojo.js"></script>
 <script type="text/javascript" src="bootstrap/bootstrap.js"></script>
 <script type="text/javascript" src="esri/esri.js"></script>
+<!-- build:template -->
+<% if (env === 'prod') { %>
 <script type="text/javascript" src="app/app.js"></script>
 <script type="text/javascript" src="app/main.js"></script>
+<% } %>
+<!-- /build -->
 
 </body>
 </html>

@@ -23,13 +23,14 @@ define(["dojo/_base/declare",
     var Application = declare(null, {
         startup: function() {
             query("#navigator-top").addContent(templateString);
-            query('#tocPanel > div, #measure').addClass("hidden");
+            query('#tocPanel > div.row, #measure').addClass("hidden");
             query('[data-toggle="tooltip"]').tooltip({
                 trigger: 'hover'
             });
 
             var mapView = new MapView({
                 slider: true,
+                sliderStyle: "small",
                 logo: false,
                 fitExtent: true
             });

@@ -45,6 +45,7 @@ define(["dojo/_base/declare",
                 connect.connect(this.map.infoWindow, "onSelectionChange", lang.hitch(this, this.showTable));
                 connect.connect(this.map.infoWindow, "onClearFeatures", lang.hitch(this, this.clearPanel));
                 this.active = true;
+                query(".showMap", this.node).on("click", lang.hitch(this, this.close));
             }
             this.map.infoWindow.hide();
             this.map.infoWindow.clearFeatures();
@@ -65,13 +66,13 @@ define(["dojo/_base/declare",
                     title: info.layerName, content: content
                 }));
                 this.identifyNoResults.addClass("hidden");
-                this.identifyResults.removeClass("hidden");
+                this.identifyResults.parent().removeClass("hidden");
             }
         },
         clearPanel: function () {
             if (this.checked()) {
                 this.identifyResults.empty();
-                this.identifyResults.addClass("hidden");
+                this.identifyResults.parent().addClass("hidden");
                 this.identifyNoResults.removeClass("hidden");
             }
         },

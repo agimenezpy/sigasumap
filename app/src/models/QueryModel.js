@@ -41,7 +41,7 @@ define(["dojo/_base/declare",
             params.searchText = searchText;
             return searchTask.execute(params);
         },
-        onResult: function(response, callback) {
+        onResult: function(response) {
             var unique = {};
 
             var names = arrayUtils.filter(response, function (result) {

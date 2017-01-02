@@ -32,7 +32,6 @@ define(["require",
         constructor: function(options) {
             this.map = options.map;
             this.service = options.service;
-            this.callback = options.callback;
         },
         doLocate: function(searchText) {
             var locator = new Locator(this.service);
@@ -41,12 +40,10 @@ define(["require",
             };
             lang.mixin(params, this.defaults);
             locator.outSpatialReference = this.map.spatialReference;
-            var deferred = locator.addressToLocations(params);
-            deferred.addCallback(lang.hitch(this, this.onResult));
-            return deferred;
+            return locator.addressToLocations(params);
         },
         onResult: function(response) {
-            var data = arrayUtils.map(response, function (result) {
+            return arrayUtils.map(response, function (result) {
                 if (result.score > 50) {
                     var attributes = { address: result.address, score:result.score};
                     var graphic = new Graphic(result.location, this.highlightSymbol,
@@ -58,7 +55,6 @@ define(["require",
                     return feature;
                 }
             }, this);
-            this.callback(data);
         }
     });
     return LocateModel;

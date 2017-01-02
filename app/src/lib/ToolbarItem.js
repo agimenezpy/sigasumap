@@ -28,22 +28,10 @@ define(["dojo/_base/declare",
         show: function() {
             query("#navigator-top li").removeClass("active");
             domClass.add(this.getMenuItem(), "active");
-            if (this.sideBar) {
-                this.mapView.open();
-            }
-            else {
-                this.mapView.wide();
-            }
-            if (this.node !== null) {
-                query("#tocPanel > div").addClass("hidden");
-                domClass.remove(this.node, 'hidden');
-            }
+            this.open();
         },
         hide: function () {
-            if (this.node !== null) {
-                domClass.add(this.node, 'hidden');
-            }
-            this.mapView.wide();
+            this.close();
             domClass.remove(this.getMenuItem(), "active");
         },
         toggle: function(event) {
@@ -57,6 +45,24 @@ define(["dojo/_base/declare",
         },
         getMenuItem: function () {
             return this.button.closest("li")[0];
+        },
+        open: function() {
+            if (this.sideBar) {
+                this.mapView.open();
+            }
+            else {
+                this.mapView.wide();
+            }
+            if (this.node !== null) {
+                query("#tocPanel > div.row").addClass("hidden");
+                domClass.remove(this.node, 'hidden');
+            }
+        },
+        close: function() {
+            if (this.node !== null) {
+                domClass.add(this.node, 'hidden');
+            }
+            this.mapView.wide();
         }
     });
     return ToolbarItem;

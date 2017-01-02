@@ -20,8 +20,9 @@ define(["dojo/_base/declare",
                                                               LocateModel, QueryModel, templateAddress, templateParcel,
                                                               templateString) {
     var LocateView = declare(ToolbarItem, {
-        templateResultsCount: "<p class='text-info'>${count} Resultado(s) Encontrado(s)</p>",
-        templateNoResults: "<p class='text-warning'>Resultados no encontrados</p>",
+        templateResultsCount: "<p class='text-success'>${count} Resultado(s) Encontrado(s)</p>",
+        templateNoResults: "<p class='text-muted'>No se encontraron resultados</p>",
+        templateError: "<p class='text-danger'>Error al contactar con el servidor</p>",
         constructor: function(options) {
             declare.safeMixin(this, {
                 node: "locate",
@@ -39,19 +40,17 @@ define(["dojo/_base/declare",
             });
             this.addressForm = query("#address form");
             this.parcelForm = query("#parcel form");
-            this.searchStreet = query("#address input.autocomplete")
+            this.searchStreet = query("#address input.autocomplete");
         },
         show: function() {
             if (!this.locators) {
                 this.locators = [new LocateModel({
                     map: this.map,
-                    service: this.service[0],
-                    callback: lang.hitch(this, this.onAddressResult)
+                    service: this.service[0]
                 }),
                     new LocateModel({
                     map: this.map,
-                    service: this.service[1],
-                    callback: lang.hitch(this, this.onParcelResult)
+                    service: this.service[1]
                 }),
                     new LocateModel({
                     map: this.map,
@@ -68,36 +67,69 @@ define(["dojo/_base/declare",
                     minLength: 5,
                     items: 6
                 });
+                this.searchStreet.on("blur", lang.hitch(this, this.cancelAutoComplete));
+                query("form input.form-control").on("change", lang.hitch(this, this.toggleClearIcon));
+                query("form .clear-input").on("click", lang.hitch(this, this.clearInput));
             }
             this.map.infoWindow.hide();
             this.map.infoWindow.clearFeatures();
             this.clearResults();
-            this.autocomplete = false;
+            this.isAutoComplete = false;
             this.inherited(arguments);
         },
         onAutoComplete: function (query, callback) {
-            if (!this.autocomplete) {
-                this.autocomplete = true;
-                var deferred = this.query.doSearch(query);
+            if (!this.isAutoComplete) {
+                this.isAutoComplete = true;
                 var self = this;
-                deferred.then(function (response) {
+                this.deferred && !this.deferred.isFulfilled() && this.deferred.reject();
+                this.deferred = this.query.doSearch(query);
+                this.deferred.then(function (response) {
                     var names = self.query.onResult(response);
                     callback(names);
-                    self.autocomplete = false;
+                    self.isAutoComplete = false;
                 },
                 function(err){
-                    self.autocomplete = false;
+                    self.isAutoComplete = false;
                 });
             }
+        },
+        cancelAutoComplete: function() {
+            this.isAutoComplete = false;
+            this.deferred && !this.deferred.isFulfilled() && this.deferred.reject();
+            this.deferred = null;
+        },
+        toggleClearIcon: function(event) {
+            var input = query(event.target);
+            var clear = input.siblings(".clear-input");
+            if (string.trim(input.val()) === "") {
+                clear.addClass("hidden");
+            }
+            else {
+                clear.removeClass("hidden");
+            }
+            input.parents(".form-group.has-error").removeClass("has-error");
+            input.siblings("span.help-block").html("");
+        },
+        clearInput: function(event) {
+            var clear = query(event.target);
+            var input = clear.siblings("input.form-control");
+            input.val("");
+            clear.addClass("hidden");
         },
         clearResults: function () {
             this.map.infoWindow.hide();
             this.map.infoWindow.clearFeatures();
             query("#addressResults").empty();
             query("#parcelResults").empty();
+            this.cancelAutoComplete();
         },
-        searchAddress: function () {
+        searchAddress: function (event) {
+            event.preventDefault();
             this.clearResults();
+            if (!this.validateForm(this.addressForm)) {
+                return;
+            }
+
             var searchText = "";
             var number = string.trim(query("#numberText").val());
             if (number !== "") {
@@ -111,10 +143,18 @@ define(["dojo/_base/declare",
             if (intersect !== "") {
                 searchText += " & " + intersect.toUpperCase();
             }
-            this.locators[0].doLocate(searchText);
+            var deferred = this.locators[0].doLocate(searchText);
+            deferred.then(lang.hitch(this, this.onAddressResult),
+                          lang.partial(lang.hitch(this, this.onError),
+                                       "#addressResults"));
         },
-        searchParcel: function () {
+        searchParcel: function (event) {
+            event.preventDefault();
             this.clearResults();
+            if (!this.validateForm(this.parcelForm)) {
+                return;
+            }
+
             var searchText = "";
             var zone = string.trim(query("#zoneText").val());
             if (zone !== "") {
@@ -146,13 +186,39 @@ define(["dojo/_base/declare",
                 searchText += floor + flat;
                 locator = this.locators[2];
             }
-            locator.doLocate(searchText);
+            var deferred = locator.doLocate(searchText);
+            deferred.then(lang.hitch(this, this.onParcelResult),
+                          lang.partial(lang.hitch(this, this.onError),
+                                      "#parcelResults"));
         },
-        onAddressResult: function (results) {
+        onAddressResult: function (response) {
+            var results = this.locators[0].onResult(response);
             this.onResult(results, "#addressResults");
         },
-        onParcelResult: function (results) {
+        onParcelResult: function (response) {
+            var results = this.locators[1].onResult(response);
             this.onResult(results, "#parcelResults");
+        },
+        validateForm: function (form) {
+            form.children(".form-group").removeClass("has-error");
+            query("span.help-block", form[0]).html("");
+            arrayUtils.forEach(query("input.form-control", form[0]), function(item) {
+                var input = query(item);
+                var value = string.trim(input.val());
+                if (input.attr("data-required")[0] === "true"
+                    && value === "") {
+                    input.parents(".form-group").addClass("has-error");
+                    input.siblings("span.help-block").html("Este valor es requerido");
+                }
+
+                if (input.attr("type")[0] === "number"
+                    && value !== ""
+                    && !/^\d+$/.test(value)) {
+                    input.parents(".form-group").addClass("has-error");
+                    input.siblings("span.help-block").html("Este valor debe ser un número");
+                }
+            });
+            return form.children(".has-error").length == 0;
         },
         onResult: function (results, resultDiv) {
             if (results.length > 0) {
@@ -165,6 +231,11 @@ define(["dojo/_base/declare",
             }
             else {
                 query(resultDiv).addContent(this.templateNoResults);
+            }
+        },
+        onError: function(resultDiv, error) {
+            if (error && error.response.status !== 200) {
+                query(resultDiv).addContent(this.templateError);
             }
         }
     });

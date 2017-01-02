@@ -146,7 +146,7 @@ var profile = {
                 'dojo/number'
             ],
             // You can define the locale for your application if you like
-            includeLocales: ['es-py']
+            includeLocales: ['es-es']
         },
         'esri/esri': {
             include: esriDeps,
