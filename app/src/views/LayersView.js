@@ -9,11 +9,13 @@
 define(["dojo/_base/declare",
     "dojo/_base/lang",
     "dojo/_base/array",
+    "dojo/query",
     "app/lib/ToolbarItem",
     "esri/request",
     "esri/layers/ArcGISDynamicMapServiceLayer",
-    "esri/dijit/LayerList"], function(declare, lang, arrayUtil, ToolbarItem, esriRequest,
-                                      ArcGISDynamicMapServiceLayer, LayerList) {
+    "esri/dijit/LayerList",
+    "dojo/text!app/templates/layers_control.html"], function(declare, lang, arrayUtil, query, ToolbarItem, esriRequest,
+                                      ArcGISDynamicMapServiceLayer, LayerList, templateString) {
     var MyLayerList = declare(LayerList, {
          _getLayerTitle: function (e) {
              var title = e.layer.description;
@@ -36,6 +38,7 @@ define(["dojo/_base/declare",
                 group: "toolbar-group"
             });
             this.inherited(arguments);
+            query("#layers").addContent(templateString);
         },
         show: function() {
             if (!this.layerList) {
@@ -44,7 +47,7 @@ define(["dojo/_base/declare",
                     showSubLayers: false,
                     showOpacitySlider: true,
                     map: this.mapView.map
-                }, this.node);
+                }, "layerList");
                 var layersRequest = esriRequest({
                     url: CONFIG.root_url + "/Mapa_Web",
                     content: { f: "json" },
@@ -53,10 +56,9 @@ define(["dojo/_base/declare",
                 });
 
                 layersRequest.then(lang.hitch(this, this.buildLayers));
+                query(".showMap", this.node).on("click", lang.hitch(this, this.close));
             }
-            else {
-                this.inherited(arguments);
-            }
+            this.inherited(arguments);
         },
         buildLayers: function(response) {
             var self = this;
