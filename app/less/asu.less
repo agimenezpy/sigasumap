@@ -7,6 +7,10 @@
 
 @import "../../bower_components/bootswatch/paper/bootswatch";
 
+html {
+  overflow: hidden;
+}
+
 .navbar {
   margin-bottom: 5px;
 }
@@ -77,6 +81,7 @@ li > a.btn-ico {
 
 .searchControl {
   &:extend(.panel);
+  margin-bottom: 0;
 
   input.form-control {
     padding-left: 15px;
@@ -199,4 +204,13 @@ li > a.btn-ico {
   .text-emphasis-variant(#31708f);
 }
 
+.small-padding {
+  padding: 5px;
+}
+
 @import "./loading";
+& {
+  @import "../../bower_components/semantic/src/definitions/modules/dimmer";
+  @import "../../bower_components/semantic/src/definitions/elements/loader";
+  @import "../../bower_components/semantic/src/definitions/elements/list";
+}

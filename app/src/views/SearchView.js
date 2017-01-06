@@ -131,7 +131,7 @@ define([
             }
             this.searchText.closest("div.form-group").removeClass("loading");
             if (count > 0) {
-                query("#searchResults a").on("click", lang.hitch(this, this.showFeature));
+                query("#searchResults div.content").on("click", lang.hitch(this, this.showFeature));
                 this.searchNoResults.addClass("hidden");
             }
             else {
@@ -142,7 +142,7 @@ define([
             this.showPanel();
         },
         showFeature: function(evt) {
-            var key = domAttr.get(evt.target, "data-value").split(":");
+            var key = domAttr.get(query(evt.target).closest("div.content")[0], "data-value").split(":");
             var feature = this.data[key[0]][key[1]];
             this.map.graphics.clear();
             for (var g = 0; g < feature["graphs"].length; g++) {

@@ -70,7 +70,9 @@ define(["dojo/_base/declare",
                 this.searchStreet.on("blur", lang.hitch(this, this.cancelAutoComplete));
                 query("form input.form-control").on("change", lang.hitch(this, this.toggleClearIcon));
                 query("form .clear-input").on("click", lang.hitch(this, this.clearInput));
+                query(".showMap", this.node).on("click", lang.hitch(this, this.hide));
             }
+            query("a.esri-icon-table", this.map.infoWindow.domNode).addClass("hidden");
             this.map.infoWindow.hide();
             this.map.infoWindow.clearFeatures();
             this.clearResults();
@@ -143,6 +145,7 @@ define(["dojo/_base/declare",
             if (intersect !== "") {
                 searchText += " & " + intersect.toUpperCase();
             }
+            query(".ui.dimmer", this.node).addClass("active");
             var deferred = this.locators[0].doLocate(searchText);
             deferred.then(lang.hitch(this, this.onAddressResult),
                           lang.partial(lang.hitch(this, this.onError),
@@ -186,6 +189,7 @@ define(["dojo/_base/declare",
                 searchText += floor + flat;
                 locator = this.locators[2];
             }
+            query(".ui.dimmer", this.node).addClass("active");
             var deferred = locator.doLocate(searchText);
             deferred.then(lang.hitch(this, this.onParcelResult),
                           lang.partial(lang.hitch(this, this.onError),
@@ -221,6 +225,7 @@ define(["dojo/_base/declare",
             return form.children(".has-error").length == 0;
         },
         onResult: function (results, resultDiv) {
+            query(".ui.dimmer", this.node).removeClass("active");
             if (results.length > 0) {
                 this.map.infoWindow.setFeatures(arrayUtils.map(results, function(item) {
                     return item.graphic;
@@ -234,6 +239,7 @@ define(["dojo/_base/declare",
             }
         },
         onError: function(resultDiv, error) {
+            query(".ui.dimmer", this.node).removeClass("active");
             if (error && error.response.status !== 200) {
                 query(resultDiv).addContent(this.templateError);
             }

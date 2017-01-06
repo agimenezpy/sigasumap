@@ -7,8 +7,11 @@
  * @class view.LegendView
  */
 define(["dojo/_base/declare",
+    "dojo/_base/lang",
+    "dojo/query",
     "app/lib/ToolbarItem",
-    "esri/dijit/Legend"], function(declare, ToolbarItem, Legend) {
+    "esri/dijit/Legend",
+    "dojo/text!app/templates/legend_control.html"], function(declare, lang, query, ToolbarItem, Legend, templateString) {
     var LegendView = declare(ToolbarItem, {
         legend: null,
         constructor: function(options) {
@@ -17,13 +20,15 @@ define(["dojo/_base/declare",
                 group: "toolbar-group"
             });
             this.inherited(arguments);
+            query("#" + this.node).addContent(templateString);
         },
         show: function() {
             if (!this.legend) {
                 this.legend = new Legend({
                     map: this.mapView.map
-                }, this.node);
+                }, "legendList");
                 this.legend.startup();
+                query(".showMap", this.node).on("click", lang.hitch(this, this.hide));
             }
             this.inherited(arguments);
         }

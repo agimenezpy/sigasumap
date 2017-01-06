@@ -14,12 +14,13 @@ define(["dojo/_base/declare",
     "app/lib/ToolbarItem",
     "app/models/IdentifyModel",
     "dojo/text!app/templates/identify_control.html",
-    "dojo/text!app/templates/identify_results.html",
+    "dojo/text!app/templates/identify_table.html",
     "dojo/text!app/templates/identify_row.html"], function(declare, lang, connect, query, string, ToolbarItem,
                                                            IdentifyModel, templateString, templateResults, templateRow) {
     var IdentifyView = declare(ToolbarItem, {
         identify: null,
         active: false,
+        showTableTemplate: "<a href='javascript:void(0)' title='Ver tabla' class='action esri-icon-table visible-xs'></a>",
         constructor: function(options) {
             declare.safeMixin(this, {
                 node: "identify",
@@ -30,6 +31,7 @@ define(["dojo/_base/declare",
             query("#identify").addContent(templateString);
             this.identifyResults = query("#identifyResults");
             this.identifyNoResults = query("#identifyNoResults");
+            query(".actionList", this.map.infoWindow.domNode).append(this.showTableTemplate);
         },
         hide: function () {
             this.active = false;
@@ -46,9 +48,11 @@ define(["dojo/_base/declare",
                 connect.connect(this.map.infoWindow, "onClearFeatures", lang.hitch(this, this.clearPanel));
                 this.active = true;
                 query(".showMap", this.node).on("click", lang.hitch(this, this.close));
+                query("a.esri-icon-table", this.map.infoWindow.domNode).on("click", lang.hitch(this, this.open));
             }
             this.map.infoWindow.hide();
             this.map.infoWindow.clearFeatures();
+            query("a.esri-icon-table", this.map.infoWindow.domNode).removeClass("hidden");
             this.inherited(arguments);
         },
         showTable: function() {

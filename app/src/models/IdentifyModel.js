@@ -15,7 +15,7 @@ define(["dojo/_base/declare",
     "esri/InfoTemplate",
     "esri/tasks/IdentifyTask",
     "esri/tasks/IdentifyParameters",
-    "dojo/text!app/templates/feature_result.html"],
+    "dojo/text!app/templates/identify_result.html"],
     function(declare, lang, arrayUtils, string, LayerUtils, InfoTemplate, IdentifyTask, IdentifyParameters, templateString) {
     var IdentifyModel = declare(null, {
         defaults: {

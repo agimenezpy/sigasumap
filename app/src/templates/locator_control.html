@@ -1,4 +1,7 @@
 <div class="col-md-12">
+    <div class="ui inverted dimmer">
+        <div class="ui loader"></div>
+    </div>
     <ul id="locatorTabs" class="nav nav-tabs nav-justified" role="tablist">
         <li class="active">
             <a href="#address" data-toggle="tab" role="tab">Direcciones</a>
@@ -7,9 +10,12 @@
             <a href="#parcel" data-toggle="tab" role="tab">Lotes</a>
         </li>
     </ul>
-
     <div class="tab-content">
         <div id="address" role="tabpanel" class="tab-pane active"></div>
         <div id="parcel" role="tabpanel" class="tab-pane"></div>
     </div>
+</div>
+
+<div class="visible-xs">
+    <button class="showMap btn btn-default col-xs-12">VER MAPA</button>
 </div>

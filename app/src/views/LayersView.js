@@ -38,7 +38,7 @@ define(["dojo/_base/declare",
                 group: "toolbar-group"
             });
             this.inherited(arguments);
-            query("#layers").addContent(templateString);
+            query("#" + this.node).addContent(templateString);
         },
         show: function() {
             if (!this.layerList) {
@@ -56,7 +56,7 @@ define(["dojo/_base/declare",
                 });
 
                 layersRequest.then(lang.hitch(this, this.buildLayers));
-                query(".showMap", this.node).on("click", lang.hitch(this, this.close));
+                query(".showMap", this.node).on("click", lang.hitch(this, this.hide));
             }
             this.inherited(arguments);
         },
