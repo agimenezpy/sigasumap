@@ -7,9 +7,16 @@ var reload      = browserSync.reload;
 
 module.exports = function () {
     "use strict";
-  return gulp.src(
-      paths.src + '/less/asu.less'
-     )
+
+    gulp.src(
+        paths.bower + 'semantic/src/theme.config.example'
+    )
+    .pipe($.rename("theme.config"))
+    .pipe(gulp.dest(paths.bower + 'semantic/src/'));
+
+    return gulp.src(
+        paths.src + '/less/asu.less'
+    )
     .pipe($.less())
     .pipe($.sourcemaps.init())
     .pipe($.autoprefixer({ cascade: true }))
