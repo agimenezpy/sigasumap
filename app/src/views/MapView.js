@@ -96,12 +96,24 @@ define(["dojo/_base/declare",
                 var geometry = feature.geom || feature.geometry;
                 var extent = geometry.getExtent();
                 var location = (extent && extent.getCenter()) || geometry;
-                this.map.centerAt(location);
+                if (extent) {
+                    this.map.setExtent(extent);
+                    this.map.centerAt(location);
+                }
+                else {
+                    var maxZoom = this.map.getMaxZoom();
+                    if (this.map.getZoom() != maxZoom) {
+                        this.map.centerAndZoom(location, maxZoom);
+                    }
+                    else {
+                        this.map.centerAt(location);
+                    }
+                    this.map.infoWindow.markerSymbol = geometry.symbol;
+                }
                 var self = this;
                 setTimeout(function() {
                     self.map.infoWindow.show(location);
                 }, 500);
-                this.map.infoWindow.markerSymbol = geometry.symbol;
             }
         },
         showCoordinates: function (evt) {

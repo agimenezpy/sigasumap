@@ -1,6 +1,6 @@
 {
   "name": "sig.mca.gov.py",
-  "version": "1.0.0",
+  "version": "1.1.4",
   "dependencies": {
     "bootstrap": "^3.3.7",
     "dojo-bootstrap": "https://github.com/xsokev/Dojo-Bootstrap/zipball/master",

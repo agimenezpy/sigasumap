@@ -208,6 +208,15 @@ li > a.btn-ico {
   padding: 5px;
 }
 
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
 @import "./loading";
 & {
   @import "../../bower_components/semantic/src/definitions/modules/dimmer";
