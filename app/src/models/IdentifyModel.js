@@ -19,7 +19,7 @@ define(["dojo/_base/declare",
     function(declare, lang, arrayUtils, string, LayerUtils, InfoTemplate, IdentifyTask, IdentifyParameters, templateString) {
     var IdentifyModel = declare(null, {
         defaults: {
-            tolerance: 1,
+            tolerance: 3, // Pixeles
             returnGeometry: true,
             layerOption: IdentifyParameters.LAYER_OPTION_VISIBLE
         },

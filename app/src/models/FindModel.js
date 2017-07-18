@@ -14,6 +14,8 @@ define(["dojo/_base/declare",
     "dojo/_base/Color",
     "dojo/string",
     "app/lib/LayerUtils",
+    "esri/geometry/Extent",
+    "esri/geometry/screenUtils",
     "esri/InfoTemplate",
     "esri/tasks/FindTask",
     "esri/tasks/FindParameters",
@@ -21,7 +23,8 @@ define(["dojo/_base/declare",
     "esri/symbols/SimpleLineSymbol",
     "esri/symbols/SimpleFillSymbol",
     "dojo/text!app/templates/feature_result.html"],
-    function(declare, lang, arrayUtils, Color, string, LayerUtils, InfoTemplate, FindTask, FindParameters,
+    function(declare, lang, arrayUtils, Color, string, LayerUtils, Extent, screenUtils,
+             InfoTemplate, FindTask, FindParameters,
              SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol, templateString) {
     var FindModel = declare(null, {
         defaults: {
@@ -109,7 +112,9 @@ define(["dojo/_base/declare",
                 }
                 var ext = groups[result.layerName][result.value]["ext"];
                 if (!ext) {
-                    ext = feature.geometry.getExtent();
+                    var geom = feature.geometry;
+                    ext = geom.getExtent() || new Extent(geom.x, geom.y, geom.x,
+                            geom.y, geom.spatialReference);
                 }
                 else {
                     ext = ext.union(feature.geometry.getExtent());
