@@ -4,5 +4,6 @@
   "title": "Mapa Catastral de Asunción",
   "description": "Mapa de Asunción disponible para consultar información sobre lotes, espacios, zonificaciones, puntos de interes, ubicación de direcciones y más ... ",
   "keywords": "mapa asuncion oficial informacion geografica sig gis arcgis direcciones",
-  "root_url": "/arcgis/rest/services"
+  "root_url": "/arcgis/rest/services",
+  "ga_id": "UA-102995133-1"
 }
