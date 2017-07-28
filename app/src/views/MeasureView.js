@@ -28,7 +28,7 @@ define(["dojo/_base/declare",
                 this.measure = new Measurement({
                     map: this.mapView.map,
                     defaultAreaUnit: units.HECTARES,
-                    defaultLengthUnit: units.KILOMETERS
+                    defaultLengthUnit: units.METERS
                 }, query("#" + this.node + " .panel-body")[0]);
                 this.measure.startup();
             }
