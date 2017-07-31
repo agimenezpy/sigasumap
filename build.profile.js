@@ -168,6 +168,7 @@ var profile = {
         'app/app': {
             include: [
                 'app/Application',
+                'app/lib/GoogleAnalytics',
                 'app/lib/LayerUtils',
                 'app/lib/ResizedMap',
                 'app/lib/ToolbarItem',
