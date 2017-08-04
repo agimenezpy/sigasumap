@@ -26,8 +26,8 @@
     <meta name="description" content="<%= description %>">
     <meta name="og:title" content="<%= title %>">
     <meta name="og:type" content="government">
-    <meta name="og:url" content="<%= base_url %>">
-    <meta name="og:image" content="<%= base_url %>/images/asu.png">
+    <meta name="og:url" content="<%= base_url %>/catastro/">
+    <meta name="og:image" content="<%= base_url %>/catastro/images/asu.png">
     <meta name="og:site_name" content="<%= title %>">
     <meta name="og:description" content="<%= description %>">
     <!-- /build -->
@@ -53,10 +53,10 @@
     <link rel="stylesheet" href="css/theme.min.css?v=<%= version %>">
     <!-- /build -->
 
-	<!--<link rel="stylesheet" href="https://js.arcgis.com/3.17/esri/css/esri.css">-->
-	<!--<link rel="stylesheet" href="https://js.arcgis.com/3.17/dijit/themes/claro/claro.css">-->
-	<link rel="stylesheet" href="esri/css/esri.css">
-	<link rel="stylesheet" href="dijit/themes/claro/claro.css">
+    <!--<link rel="stylesheet" href="https://js.arcgis.com/3.17/esri/css/esri.css">-->
+    <!--<link rel="stylesheet" href="https://js.arcgis.com/3.17/dijit/themes/claro/claro.css">-->
+    <link rel="stylesheet" href="esri/css/esri.css">
+    <link rel="stylesheet" href="dijit/themes/claro/claro.css">
 </head>
 
 <body class="claro">
@@ -167,8 +167,8 @@
 <script type="text/javascript" src="esri/esri.js"></script>
 <!-- build:template -->
 <% if (env === 'prod') { %>
-<script type="text/javascript" src="app/app.js"></script>
-<script type="text/javascript" src="app/main.js"></script>
+<script type="text/javascript" src="app/app.js?v=<%= version %>"></script>
+<script type="text/javascript" src="app/main.js?v=<%= version %>"></script>
 <% } %>
 <!-- /build -->
 

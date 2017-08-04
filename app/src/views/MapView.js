@@ -41,7 +41,7 @@ define(["dojo/_base/declare",
             this.options = lang.mixin({}, options);
             esriBasemaps[this.model.get("name")] = {
                 baseMapLayers: [{
-                    url:  CONFIG.root_url + this.model.get("service"),
+                    url:  CONFIG.base_url + CONFIG.root_url + this.model.get("service"),
                     copyright: "Departamento S.I.G. - Dirección de General de Desarrollo Urbano " +
                     "- Direcciónde Catastro Municipal."
                 }],
