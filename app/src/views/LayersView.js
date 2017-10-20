@@ -66,10 +66,13 @@ define(["dojo/_base/declare",
                     if (item.name.match(/Mapa_General|Mapa_Base/) !== null) {
                         return;
                     }
-                    var layer = new ArcGISDynamicMapServiceLayer(CONFIG.root_url + "/" + item.name + "/" + item.type, {
-                                                                visible:false,
-                                                                opacity:0.75,
-                                                                description: item.name.split("/")[0]
+                    var layer = new ArcGISDynamicMapServiceLayer(
+                                    CONFIG.base_url + 
+                                    CONFIG.root_url + "/" +
+                                    item.name + "/" + item.type, {
+                                    visible:false,
+                                    opacity:0.75,
+                                    description: item.name.split("/")[0]
                     });
                     self.layerList.map.addLayer(layer);
                 }

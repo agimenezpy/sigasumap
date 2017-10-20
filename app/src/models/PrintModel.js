@@ -60,9 +60,9 @@ define(["dojo/_base/declare",
                 plate.outSR = plate.processSR = 32721;
                 plate.layoutOptions = {
                     "authorText": "SIG Municipal",
-                    "copyrightText": "Municipalidad de Asunción",
+                    "copyrightText": "Municipalidad de Asuncion",
                     "legendLayers": [],
-                    "titleText": "Mapa de Asunción",
+                    "titleText": "MAPA DE ASUNCION",
                     "scalebarUnit": "Kilometers"
                 };
                 return plate;

@@ -55,7 +55,9 @@ define(["dojo/_base/declare",
             else {
                 params.layerIds = LayerUtils.getLayerIds(layer);
             }
-            params.searchFields = LayerUtils.getDisplayField(layer, params.layerIds);
+            //params.searchFields = LayerUtils.getDisplayField(layer, params.layerIds);
+            params.searchFields = ["nombre", "NOMBRE", "CCC", "NOMBRE_ZON",
+                "cuenta"];
             return params;
         },
         doSearch: function(searchText) {

@@ -90,7 +90,7 @@ define(["dojo/_base/declare",
                     callback(names);
                     self.isAutoComplete = false;
                 },
-                function(err){
+                function(error){
                     self.isAutoComplete = false;
                 });
             }

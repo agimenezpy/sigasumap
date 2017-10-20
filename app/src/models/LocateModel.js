@@ -43,18 +43,21 @@ define(["require",
             return locator.addressToLocations(params);
         },
         onResult: function(response) {
-            return arrayUtils.map(response, function (result) {
-                if (result.score > 50) {
-                    var attributes = { address: result.address, score:result.score};
-                    var graphic = new Graphic(result.location, this.highlightSymbol,
-                        attributes, this.infoTemplate);
-                    var feature = {};
-                    feature["graphic"] = graphic;
-                    feature["displayFieldName"] = result.address + " (" + result.score + ")";
-                    feature["geom"] = result.location;
-                    return feature;
-                }
-            }, this);
+            return arrayUtils.map(
+                arrayUtils.filter(response, function (result) {
+                    return result.score > 50;
+                }),
+                this.onFeature, this);
+        },
+        onFeature: function (result) {
+            var attributes = { address: result.address, score:result.score};
+            var graphic = new Graphic(result.location, this.highlightSymbol,
+                attributes, this.infoTemplate);
+            var feature = {};
+            feature["graphic"] = graphic;
+            feature["displayFieldName"] = result.address + " (" + result.score + ")";
+            feature["geom"] = result.location;
+            return feature;
         }
     });
     return LocateModel;
