@@ -30,23 +30,32 @@ gulp.task('vendor-images', function() {
 });
 
 gulp.task('vendor-styles', function() {
-    gulp.src([
-      paths.build + '/esri/themes/calcite/esri/esri.css'
-    ])
-    .pipe(gulp.dest(paths.dest + "esri/themes/calcite/esri/"));
+    gulp.src(paths.node + 'calcite-maps/dist/css/calcite-maps-bootstrap.min-v0.9.css')
+        .pipe(gulp.dest(paths.dest + '/css/'));
+
+    gulp.src(paths.node + 'calcite-maps/dist/css/calcite-maps-arcgis-4.x.min-v0.9.css')
+        .pipe(gulp.dest(paths.dest + '/css/'));
+
+    gulp.src(paths.node + 'calcite-maps/dist/fonts/**/*')
+        .pipe(gulp.dest(paths.dest + '/fonts/'));
 
     gulp.src([
-      paths.build + '/esri/themes/calcite/dijit/icons/fonts/*'
+      paths.node + '/arcgis-js-api/css/main.css'
+    ])
+    .pipe(gulp.dest(paths.dest + "esri/css/"));
+
+    gulp.src([
+      paths.node + '/esri/themes/calcite/dijit/icons/fonts/*'
     ])
     .pipe(gulp.dest(paths.dest + "esri/themes/calcite/dijit/icons/fonts"));
 
     gulp.src([
-      paths.build + '/esri/dijit/LayerList/css/LayerList.css'
+      paths.node + '/esri/dijit/LayerList/css/LayerList.css'
     ])
     .pipe(gulp.dest(paths.dest + "esri/dijit/LayerList/css/"));
 
    return gulp.src([
-      paths.build + '/esri/themes/calcite/dijit/calcite.css'
+      paths.node + '/esri/themes/calcite/dijit/calcite.css'
     ])
     .pipe(gulp.dest(paths.dest + "esri/themes/calcite/dijit/"));
 });
@@ -62,10 +71,6 @@ gulp.task('vendor-scripts', function() {
     ])
     .pipe(gulp.dest(paths.dest + "/esri/"));
 
-    return gulp.src([
-      paths.build + '/bootstrap/bootstrap.js'
-    ])
-    .pipe(gulp.dest(paths.dest + "/bootstrap"));
 });
 
 module.exports = function() {

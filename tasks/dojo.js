@@ -3,7 +3,7 @@ var paths = require('./paths');
 
 module.exports = function() {
     var cmd = spawn('node', [
-        paths.bower + 'dojo/dojo.js',
+        paths.node + 'dojo/dojo.js',
         'load=build',
         '--profile',
         'build.profile.js',

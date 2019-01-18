@@ -11,21 +11,21 @@
 var esriDeps = [
     "dijit/form/HorizontalSlider",
     "dijit/form/HorizontalRuleLabels",
-    "esri/map",
-    "esri/basemaps",
+    "esri/Map",
+    "esri/Basemap",
     "esri/config",
     "esri/request",
     "esri/InfoTemplate",
-    "esri/dijit/LayerList",
-    "esri/dijit/Legend",
-    "esri/dijit/Scalebar",
-    "esri/dijit/HomeButton",
-    "esri/dijit/LocateButton",
-    "esri/dijit/Attribution",
-    "esri/dijit/Measurement",
-    "esri/dijit/Search",
-    "esri/dijit/Print",
-    'esri/dijit/Attribution',
+    "esri/widgets/LayerList",
+    "esri/widgets/Legend",
+    "esri/widgets/ScaleBar",
+    "esri/widgets/Home",
+    "esri/widgets/Locate",
+    "esri/widgets/Attribution",
+    "esri/widgets/DirectLineMeasurement3D",
+    "esri/widgets/AreaMeasurement3D",
+    "esri/widgets/Search",
+    "esri/widgets/Print",
     "esri/symbols/SimpleMarkerSymbol",
     "esri/symbols/SimpleLineSymbol",
     "esri/symbols/SimpleFillSymbol",
@@ -45,7 +45,7 @@ var esriDeps = [
 var profile = {
     // `basePath` is relative to the directory containing this profile file; in this case, it is being set to the
     // src/ directory, which is the same place as the `baseUrl` directory in the loader configuration.
-    basePath: 'bower_components',
+    basePath: 'node_modules',
 
     // Builds a new release.
     action: 'release',
@@ -68,14 +68,6 @@ var profile = {
   // A list of packages that will be built. The same packages defined in the loader should be defined here in the
   // build profile.
   packages: [
-    {
-        name: 'app',
-        location: '../app/src'
-    },
-    {
-        name: 'bootstrap',
-        location: 'dojo-bootstrap'
-    },
     'dijit',
     'dojo',
     'dojox',
@@ -152,43 +144,8 @@ var profile = {
             include: esriDeps,
             includeLocales: ['es-es']
         },
-        'bootstrap/bootstrap': {
-            include: [
-                'bootstrap/Support',
-                'bootstrap/Collapse',
-                'bootstrap/Tooltip',
-                'bootstrap/Popover',
-                'bootstrap/Tab',
-                'bootstrap/Typeahead'
-            ]
-        },
         'moment/moment': {
             include: ['moment/locale/es']
-        },
-        'app/app': {
-            include: [
-                'app/Application',
-                'app/lib/GoogleAnalytics',
-                'app/lib/LayerUtils',
-                'app/lib/ResizedMap',
-                'app/lib/ToolbarItem',
-                'app/models/FindModel',
-                'app/models/IdentifyModel',
-                'app/models/LocateModel',
-                'app/models/MapModel',
-                'app/models/PrintModel',
-                'app/models/SearchModel',
-                'app/views/IdentifyView',
-                'app/views/LayersView',
-                'app/views/LegendView',
-                'app/views/LoadingView',
-                'app/views/LocateView',
-                'app/views/MapView',
-                'app/views/MeasureView',
-                'app/views/PrintView',
-                'app/views/SearchView'
-            ],
-            exclude: esriDeps
         }
     },
     // Providing hints to the build system allows code to be conditionally removed on a more granular level than simple
@@ -249,6 +206,9 @@ var profile = {
             'dojo-undef-api': 0
         },
         packages: [{
+            name: "build",
+            location: "dojo-util/build"
+        },{
             name: 'moment',
             location: 'moment',
             main: 'moment'

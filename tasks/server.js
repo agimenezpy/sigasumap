@@ -38,7 +38,7 @@ module.exports = function() {
         port: 9001
       },
       server: {
-        baseDir: ['dist']
+        baseDir: ['dist', 'node_modules']
       },
       middleware: [ proxyMiddleware ]
     });

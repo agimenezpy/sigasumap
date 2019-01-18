@@ -21,7 +21,6 @@ gulp.task('app-prod', ['clean-app'], function () {
  * Move assets to build
  */
 module.exports = function() {
-    "use strict";
 
     gulp.start('app-dev');
 };

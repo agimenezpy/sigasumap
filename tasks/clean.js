@@ -22,7 +22,6 @@ gulp.task('clean-app', function() {
 });
 
 module.exports = function() {
-    "use strict";
 
     gulp.start("clean-build", "clean-dist");
 };

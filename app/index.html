@@ -53,13 +53,13 @@
     <link rel="stylesheet" href="css/theme.min.css?v=<%= version %>">
     <!-- /build -->
 
-    <link rel="stylesheet" href="esri/themes/calcite/dijit/calcite.css">
-    <link rel="stylesheet" href="esri/themes/calcite/esri/esri.css">
+    <link rel="stylesheet" href="css/calcite-maps-bootstrap.min-v0.9.css">
+    <link rel="stylesheet" href="css/calcite-maps-arcgis-4.x.min-v0.9.css">
 
-    <link rel="stylesheet" href="esri/dijit/LayerList/css/LayerList.css">
+    <link rel="stylesheet" href="esri/css/main.css">
 </head>
 
-<body class="calcite">
+<body class="calcite-maps calcite-nav-top">
 
 <div id="app-container">
     <div id="header-content" class="navbar navbar-default">
@@ -133,35 +133,53 @@
 <!-- build:template -->
 <% if (env === 'dev') { %>
 <script>
-// set up your dojoConfig
-    dojoConfig = {
-        baseUrl: location.pathname.replace(/\/[^/]+$/, ''),
-        packages: [
-          'app',
-          'bootstrap',
-          'dijit',
-          'dojo',
-          'dojox',
-          'dstore',
-          'dgrid',
-          'xstyle',
-          'put-selector',
-          'esri', {
-            name: 'moment',
-            location: 'moment',
-            main: 'moment'
-          }
-        ],
-        paths: {
-          app: location.pathname.replace(/\/[^/]+$/, '') + 'app/src'
-        },
-        deps: ['./app/main.js']
-    };
+    var dojoConfig = this.dojoConfig || {}
+
+    (function() {
+        var config = dojoConfig;
+        config.baseUrl = location.pathname.replace(/\/[^/]+$/, '');
+        config.packages = [
+              'app',
+              '@dojo',
+              'cldrjs',
+              'globalize',
+              {
+                  name: "maquette",
+                  main: "dist/maquette.umd"
+              },
+              {
+                  name: "maquette-css-transitions",
+                  main: "dist/maquette-css-transitions.umd"
+              },
+              {
+                  name: "maquette-jsx",
+                  main: "dist/maquette-jsx.umd"
+              },
+              {
+                  name: "tslib",
+                  main: "tslib"
+              },
+              {
+                name: 'esri',
+                location: 'arcgis-js-api'
+              },
+              {
+                name: 'moment',
+                location: 'moment',
+                main: 'moment'
+              }
+            ],
+            paths: {
+              app: location.pathname.replace(/\/[^/]+$/, '') + 'app/src'
+            },
+            deps: ['./app/main.js']
+        }
+    )();
 </script>
 <% } %>
 <!-- /build -->
 
-<!--<script src="https://js.arcgis.com/3.17compact/"></script>-->
+<!--<script src="src="https://js.arcgis.com/4.8/""></script>-->
 <script type="text/javascript" src="dojo/dojo.js"></script>
 <script type="text/javascript" src="bootstrap/bootstrap.js"></script>
 <script type="text/javascript" src="esri/esri.js"></script>

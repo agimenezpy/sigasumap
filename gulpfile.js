@@ -1,5 +1,3 @@
-'use strict';
-
 var gulp = require('gulp');
 
 // clean
@@ -14,16 +12,13 @@ gulp.task('dojo', require('./tasks/dojo'));
 // Dojo dev
 gulp.task('app', require('./tasks/app'));
 
-// Less & CSS styles
-gulp.task('styles', require('./tasks/styles'));
-
 // Vendor
 gulp.task('vendor', require('./tasks/vendor'));
 
 // Ejecutamos estas tareas por defecto
-gulp.task('build', ['assets-prod', 'styles', 'vendor', 'app-prod']);
+gulp.task('build', ['assets-prod', 'vendor', 'app-prod']);
 
-gulp.task('dev', ['assets-dev', 'styles', 'vendor', 'app-dev']);
+gulp.task('dev', ['assets-dev', 'app-dev']);
 
 // Dist
 gulp.task('dist', ['clean-build', 'dojo']);

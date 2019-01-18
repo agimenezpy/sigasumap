@@ -12,6 +12,5 @@ module.exports = {
   build: './build/',
   vendor: './app/vendor/',
   assets: './app/assets/',
-  node: './node_modules/',
-  bower: './bower_components/'
+  node: './node_modules/'
 };
