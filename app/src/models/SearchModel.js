@@ -23,7 +23,7 @@ define(["dojo/_base/declare",
                     index: this.activeSourceIndex,
                     text: this.value
                 });
-                var t = new deferred,
+                var t = new deferred(),
                     search = "",
                     size = 0;
                 if (event.hasOwnProperty("text") && event.text) {
@@ -78,7 +78,7 @@ define(["dojo/_base/declare",
                 latlon : null
             });
             var source = this.sources[e.index];
-            var t = new deferred;
+            var t = new deferred();
             if (source.finder) {
                 e.length = 1;
                 t.resolve(e);
@@ -89,7 +89,7 @@ define(["dojo/_base/declare",
             }
         },
         search : function (e) {
-            var t = new deferred;
+            var t = new deferred();
             return this._mapLoaded().then(lang.hitch(this, function () {
                 this._searchDeferred(e).then(lang.hitch(this, function (e) {
                     var s = e.results;
@@ -98,11 +98,11 @@ define(["dojo/_base/declare",
                     this._hideLoading(),
                     this.emit("search-results", e),
                     this._selectFirstResult(s, e.activeSourceIndex),
-                    t.resolve(s)
+                    t.resolve(s);
                 }), lang.hitch(this, function (e) {
-                    t.reject(e)
-                }))
-            })), t.promise
+                    t.reject(e);
+                }));
+            })), t.promise;
         }
     });
     return MySearch;

@@ -10,13 +10,13 @@
 define(["dojo/_base/declare",
     "dojo/_base/lang",
     "dojo/_base/array",
-    "dojo/string",
     "app/lib/LayerUtils",
     "esri/InfoTemplate",
     "esri/tasks/IdentifyTask",
     "esri/tasks/IdentifyParameters",
     "dojo/text!app/templates/identify_result.html"],
-    function(declare, lang, arrayUtils, string, LayerUtils, InfoTemplate, IdentifyTask, IdentifyParameters, templateString) {
+    function(declare, lang, arrayUtils, LayerUtils, InfoTemplate, IdentifyTask,
+             IdentifyParameters, templateString) {
     var IdentifyModel = declare(null, {
         defaults: {
             tolerance: 3, // Pixeles
@@ -44,6 +44,10 @@ define(["dojo/_base/declare",
             var promises = [];
             arrayUtils.forEach(LayerUtils.getVisibleLayers(this.map), function(selected){
                 var layer = this.map.getLayer(selected);
+                if (selected == this.map.layerIds[0] &&
+                    (!layer.description || layer.description.indexOf("Mapa General") < 0)) {
+                    return;
+                }
                 var identifyTask = new IdentifyTask(layer.url);
                 var params = this.getParams(evt, layer);
                 var deferred = identifyTask.execute(params);

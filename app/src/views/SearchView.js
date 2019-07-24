@@ -149,8 +149,9 @@ define([
                 this.map.graphics.add(feature["graphs"][g]);
             }
             var ext = feature["ext"];
-            if (ext.getWidth() == 0
-                && ext.getHeight() == 0 && this.map.getZoom() < 10) {
+            if (ext.getWidth() === 0 && 
+                ext.getHeight() === 0 && 
+                this.map.getZoom() < 10) {
                 var self = this;
                 this.map.setZoom(10).then(function () {
                     self.map.setExtent(ext);

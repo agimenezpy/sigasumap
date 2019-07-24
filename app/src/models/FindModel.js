@@ -64,6 +64,10 @@ define(["dojo/_base/declare",
             var promises = [];
             arrayUtils.forEach(LayerUtils.getVisibleLayers(this.map), function(selected){
                 var layer = this.map.getLayer(selected);
+                if (selected == this.map.layerIds[0] &&
+                    (!layer.description || layer.description.indexOf("Mapa General") < 0)) {
+                    return;
+                }
                 var searchTask = new FindTask(layer.url);
                 var params = this.getParams(layer);
                 params.searchText = searchText;

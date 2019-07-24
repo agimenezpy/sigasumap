@@ -209,20 +209,19 @@ define(["dojo/_base/declare",
             arrayUtils.forEach(query("input.form-control", form[0]), function(item) {
                 var input = query(item);
                 var value = string.trim(input.val());
-                if (input.attr("data-required")[0] === "true"
-                    && value === "") {
+                if (input.attr("data-required")[0] === "true" && 
+                    value === "") {
                     input.parents(".form-group").addClass("has-error");
                     input.siblings("span.help-block").html("Este valor es requerido");
                 }
 
-                if (input.attr("type")[0] === "number"
-                    && value !== ""
-                    && !/^\d+$/.test(value)) {
+                if (input.attr("type")[0] === "number" && 
+                    value !== "" && !/^\d+$/.test(value)) {
                     input.parents(".form-group").addClass("has-error");
                     input.siblings("span.help-block").html("Este valor debe ser un número");
                 }
             });
-            return form.children(".has-error").length == 0;
+            return form.children(".has-error").length === 0;
         },
         onResult: function (results, resultDiv) {
             query(".ui.dimmer", this.node).removeClass("active");

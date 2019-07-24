@@ -17,7 +17,7 @@ define(["dojo/_base/declare",
             service: "/"
         },
         constructor: function(options) {
-            this.attributes = lang.mixin({}, this.defaults, options)
+            this.attributes = lang.mixin({}, this.defaults, options);
         },
         get: function(key) {
             return this.attributes[key] || "";

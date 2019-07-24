@@ -45,7 +45,7 @@ module.exports = function() {
 
     // miramos nuestro código
     // para detectar cambios y
-    // recargar autom�ticamente
+    // recargar automaticamente
     gulp.watch([
       'app/*.html',
       'app/*.js',

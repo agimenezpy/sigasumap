@@ -17,9 +17,10 @@ define(["dojo/_base/declare",
     "app/views/MeasureView",
     "app/views/PrintView",
     "app/views/IdentifyView",
+    "app/views/BasemapView",
     "dojo/text!app/templates/navigator.html"
 ], function(declare, query, MapView, SearchView, LocateView, LayersView, LegendView,
-            MeasureView, PrintView, IdentifyView, templateString) {
+            MeasureView, PrintView, IdentifyView, BasemapView, templateString) {
     var Application = declare(null, {
         startup: function() {
             query("#navigator-top").addContent(templateString);
@@ -60,6 +61,9 @@ define(["dojo/_base/declare",
                 mapView: mapView
             });
             var identifyView = new IdentifyView({
+                mapView: mapView
+            });
+            var baseMapView = new BasemapView({
                 mapView: mapView
             });
         }

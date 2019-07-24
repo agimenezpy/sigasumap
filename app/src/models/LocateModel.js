@@ -45,7 +45,7 @@ define(["require",
         onResult: function(response) {
             return arrayUtils.map(
                 arrayUtils.filter(response, function (result) {
-                    return result.score > 50;
+                    return result.score > 70;
                 }),
                 this.onFeature, this);
         },
@@ -53,10 +53,11 @@ define(["require",
             var attributes = { address: result.address, score:result.score};
             var graphic = new Graphic(result.location, this.highlightSymbol,
                 attributes, this.infoTemplate);
-            var feature = {};
-            feature["graphic"] = graphic;
-            feature["displayFieldName"] = result.address + " (" + result.score + ")";
-            feature["geom"] = result.location;
+            var feature = {
+                graphic: graphic,
+                displayFieldName: result.address + " (" + result.score + ")",
+                geom: result.location
+            };
             return feature;
         }
     });

@@ -12,9 +12,9 @@ define(["dojo/_base/declare",
     "dojo/dom",
     "dojo/dom-class",
     "dojo/number",
-    "esri/map",
     "esri/config",
     "esri/basemaps",
+    "esri/geometry/webMercatorUtils",
     "esri/geometry/Extent",
     "esri/dijit/Scalebar",
     "esri/dijit/HomeButton",
@@ -23,18 +23,23 @@ define(["dojo/_base/declare",
     "esri/tasks/GeometryService",
     "app/lib/ResizedMap",
     "app/models/MapModel"], function(declare, lang, connect, dom, domClass, number,
-                                     Map, esriConfig, esriBasemaps,
+                                     esriConfig, esriBasemaps, webMercatorUtils,
                                      Extent, Scalebar, HomeButton, LocateButton,
                                      Attribution, GeometryService, ResizedMap, MapModel) {
     var MapView = declare(null, {
         extent: [ -57.671486, -25.368339, -57.525007, -25.225538],
         model: new MapModel({
             name: "asuncion",
-            extent: [432442.999187, 7194095.990115, 447118.346893, 7209975.084757],
-            wkid: 32721,
-            service: "/Mapa_Web/Mapa_General/MapServer"
+            extent: //[432442.999187, 7194095.990115, 447118.346893, 7209975.084757],
+                    [-6425311.636116402, -2911217.8924963097,-6398357.155124107, -2901825.1653775224],
+            wkid: //32721,
+                  3857,
+                  
+            service: //"/Mapa_Web/Mapa_General/MapServer"
+                     "/Mapas/Mapa_Base/MapServer"
         }),
         fmt: { pattern: "#.00" },
+        fmt2: { pattern: "#.######" },
         large: "col-lg-12 col-md-12 col-sm-12 col-xs-12",
         small: "col-lg-9 col-md-8 col-sm-7 hidden-xs",
         constructor: function (options) {
@@ -52,7 +57,7 @@ define(["dojo/_base/declare",
         show: function () {
             var extent = this.model.get("extent");
             this.resizer = new ResizedMap("map", lang.mixin({}, this.options, {
-                basemap: this.model.get("name"),
+                //basemap: this.model.get("name"),
                 autoResize: true,
                 scrollWheelZoom: true,
                 extent: new Extent({
@@ -64,6 +69,7 @@ define(["dojo/_base/declare",
                         "wkid": this.model.get("wkid")
                     }
                 }),
+                spatialReference: this.model.get("wkid"),
                 showAttribution: false
             }));
             this.map = this.resizer.createMap();
@@ -85,7 +91,6 @@ define(["dojo/_base/declare",
                 map: this.map
             }, "attribution");
             attribution.startup();
-
             this.map.on("mouse-move", lang.hitch(this, this.showCoordinates));
             connect.connect(this.map.infoWindow, "onSelectionChange", lang.hitch(this, this.onSelectFeature));
         },
@@ -117,8 +122,17 @@ define(["dojo/_base/declare",
             }
         },
         showCoordinates: function (evt) {
-            dom.byId("coordinates").innerHTML = number.format(evt.mapPoint.x, this.fmt) + " , "
-                + number.format(evt.mapPoint.y, this.fmt);
+            var x = evt.mapPoint.x;
+            var y = evt.mapPoint.y;
+            var coords = [x, y];
+            var fmt = this.fmt;
+            if (this.model.get("wkid") == 3857) {
+                coords = webMercatorUtils.xyToLngLat(x, y);
+                fmt = this.fmt2;
+            }
+            dom.byId("coordinates").innerHTML = number.format(coords[0], fmt) + 
+                                                " , " + 
+                                                number.format(coords[1], fmt);
         },
         resizeMap: function() {
             this.resizer._setMapDiv(true);
@@ -140,7 +154,7 @@ define(["dojo/_base/declare",
             this.resizeMap();
         },
         setBasemap: function(basemap) {
-            if (basemap !== "asuncion") {
+            if (basemap.id !== "asuncion") {
                  var extent = new Extent({
                     "xmin": this.extent[0],
                     "ymin": this.extent[1],

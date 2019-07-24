@@ -37,7 +37,7 @@ define(["dojo/_base/declare",
         getDisplayField: function(layer, layerIds) {
             var fields = [];
             arrayUtils.forEach(layer.layerInfos, function(item) {
-                if (item.id in layerIds) {
+                if (layerIds.indexOf(item.id) != -1) {
                     fields.push(item.displayFieldName);
                 }
             });

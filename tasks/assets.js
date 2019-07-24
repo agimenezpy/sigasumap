@@ -22,11 +22,11 @@ function assets(prod) {
 }
 
 gulp.task('assets-dev', function() {
-    assets(false)
+    assets(false);
 });
 
 gulp.task('assets-prod', function() {
-    assets(true)
+    assets(true);
 });
 
 /**
