@@ -17,23 +17,24 @@ define(["dojo/_base/declare",
     "app/views/MeasureView",
     "app/views/PrintView",
     "app/views/IdentifyView",
-    "app/views/BasemapView",
+    //"app/views/BasemapView",
     "dojo/text!app/templates/navigator.html"
 ], function(declare, query, MapView, SearchView, LocateView, LayersView, LegendView,
-            MeasureView, PrintView, IdentifyView, BasemapView, templateString) {
+            MeasureView, PrintView, IdentifyView, templateString) {
     var Application = declare(null, {
         startup: function() {
             query("#navigator-top").addContent(templateString);
-            query('#tocPanel > div.row, #measure').addClass("hidden");
-            query('[data-toggle="tooltip"]').tooltip({
-                trigger: 'hover'
+            query("#tocPanel > div.row, #measure").addClass("hidden");
+            query("[data-toggle='tooltip']").tooltip({
+                trigger: "hover"
             });
 
             var mapView = new MapView({
                 slider: true,
                 sliderStyle: "small",
                 logo: false,
-                fitExtent: true
+                fitExtent: true,
+                isPinchZoom: true
             });
             mapView.show();
             var searchView = new SearchView({
@@ -63,9 +64,9 @@ define(["dojo/_base/declare",
             var identifyView = new IdentifyView({
                 mapView: mapView
             });
-            var baseMapView = new BasemapView({
+            /*var baseMapView = new BasemapView({
                 mapView: mapView
-            });
+            });*/
         }
     });
     return Application;

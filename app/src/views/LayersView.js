@@ -15,15 +15,8 @@ define(["dojo/_base/declare",
     "esri/layers/FeatureLayer",
     "esri/layers/ArcGISDynamicMapServiceLayer",
     "esri/dijit/LayerList",
-    "esri/symbols/SimpleLineSymbol",
-    "esri/symbols/SimpleFillSymbol",
-    "esri/symbols/TextSymbol",
-    "esri/renderers/SimpleRenderer",
-    "esri/layers/LabelClass",
-    "esri/Color",
     "dojo/text!app/templates/layers_control.html"], function(declare, lang, arrayUtil, query, ToolbarItem,
         esriRequest, FeatureLayer, ArcGISDynamicMapServiceLayer, LayerList,
-        SimpleLineSymbol, SimpleFillSymbol, TextSymbol, SimpleRenderer, LabelClass, Color,
         templateString) {
     var MyLayerList = declare(LayerList, {
          _getLayerTitle: function (e) {
@@ -85,34 +78,6 @@ define(["dojo/_base/declare",
                 });
                 self.layerList.map.addLayer(layer);
             });
-            var statesColor = new Color("#c6c6c6");
-            var statesLine = new SimpleLineSymbol("solid", statesColor, 1.5);
-            var statesSymbol = new SimpleFillSymbol("solid", statesLine, null);
-            var statesRenderer = new SimpleRenderer(statesSymbol);
-            var layer = new FeatureLayer(
-                CONFIG.base_url + 
-                CONFIG.root_url + "/" +
-                "Mapas/Mapa_Base/MapServer/29", {
-                    outFields: ["numero"],
-                    mode: FeatureLayer.MODE_ONDEMAND
-                });
-            layer.setRenderer(statesRenderer);
-
-            var statesLabel = new TextSymbol().setColor(new Color("#ccc"));
-            statesLabel.font.setSize("14pt");
-            statesLabel.font.setFamily("arial");
-
-            //this is the very least of what should be set within the JSON  
-            var json = {
-                "labelExpressionInfo": {"value": "{numero}"}
-            };
-
-            //create instance of LabelClass (note: multiple LabelClasses can be passed in as an array)
-            var labelClass = new LabelClass(json);
-            labelClass.symbol = statesLabel; // symbol also can be set in LabelClass' json
-            layer.setLabelingInfo([ labelClass ])
-
-            //this.layerList.map.addLayer(layer);
             this.layerList.startup();
             this.show();
         }

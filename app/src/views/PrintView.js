@@ -13,7 +13,7 @@ define(["dojo/_base/declare",
     "dojo/text!app/templates/print_dialog.html"], function(declare, query, ToolbarItemView, PrintModel, templateString) {
     var PrintView = declare(ToolbarItemView, {
         print: null,
-        service: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export Web Map Task",
+        service: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export Web Map Task",
         constructor: function(options) {
             declare.safeMixin(this, {
                 node: "print",

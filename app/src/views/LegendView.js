@@ -27,6 +27,7 @@ define(["dojo/_base/declare",
                 this.legend = new Legend({
                     map: this.mapView.map
                 }, "legendList");
+                this.legend._legendUrl = this.legend._legendUrl.replace("http:", "https:");
                 this.legend.startup();
                 query(".showMap", this.node).on("click", lang.hitch(this, this.hide));
             }

@@ -121,42 +121,42 @@
     var oldIE;
     var html = document.getElementsByTagName("html");
     var htmlClass = html[0].getAttribute("class");
-    if (htmlClass == 'ie6' || htmlClass == 'ie7' || htmlClass == 'ie8') {
+    if (htmlClass == "ie6" || htmlClass == "ie7" || htmlClass == "ie8") {
         oldIE = true;
     }
     if (oldIE) {
-        // Here's your JS for IE..
+        // Here"s your JS for IE..
         document.getElementById("loadingMessage").style.display = "none";
         alert("Esta version de navegador no es soportado por la aplicación. Por favor intente acceder con un navegador moderno.");
     }
 </script>
 
 <!-- build:template -->
-<% if (env === 'dev') { %>
+<% if (env === "dev") { %>
 <script>
 // set up your dojoConfig
     dojoConfig = {
-        baseUrl: location.pathname.replace(/\/[^/]+$/, ''),
+        baseUrl: location.pathname.replace(/\/[^/]+$/, ""),
         packages: [
-          'app',
-          'bootstrap',
-          'dijit',
-          'dojo',
-          'dojox',
-          'dstore',
-          'dgrid',
-          'xstyle',
-          'put-selector',
-          'esri', {
-            name: 'moment',
-            location: 'moment',
-            main: 'moment'
+          "app",
+          "bootstrap",
+          "dijit",
+          "dojo",
+          "dojox",
+          "dstore",
+          "dgrid",
+          "xstyle",
+          "put-selector",
+          "esri", {
+            name: "moment",
+            location: "moment",
+            main: "moment"
           }
         ],
         paths: {
-          app: location.pathname.replace(/\/[^/]+$/, '') + 'app/src'
+          app: location.pathname.replace(/\/[^/]+$/, "") + "app/src"
         },
-        deps: ['./app/main.js']
+        deps: ["./app/main.js"]
     };
 </script>
 <% } %>
@@ -167,7 +167,7 @@
 <script type="text/javascript" src="bootstrap/bootstrap.js"></script>
 <script type="text/javascript" src="esri/esri.js"></script>
 <!-- build:template -->
-<% if (env === 'prod') { %>
+<% if (env === "prod") { %>
 <script type="text/javascript" src="app/app.js?v=<%= version %>"></script>
 <script type="text/javascript" src="app/main.js?v=<%= version %>"></script>
 <% } %>

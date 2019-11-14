@@ -30,13 +30,12 @@ define(["dojo/_base/declare",
         extent: [ -57.671486, -25.368339, -57.525007, -25.225538],
         model: new MapModel({
             name: "asuncion",
-            extent: //[432442.999187, 7194095.990115, 447118.346893, 7209975.084757],
-                    [-6425311.636116402, -2911217.8924963097,-6398357.155124107, -2901825.1653775224],
-            wkid: //32721,
-                  3857,
-                  
-            service: //"/Mapa_Web/Mapa_General/MapServer"
-                     "/Mapas/Mapa_Base/MapServer"
+            extent: [432442.999187, 7194095.990115, 447118.346893, 7209975.084757],
+                    //[-6425311.636116402, -2911217.8924963097,-6398357.155124107, -2901825.1653775224],
+            wkid: 32721,
+                  //3857,
+            service: "/Mapa_Web/Mapa_General/MapServer"
+                     //"/Mapas/Mapa_Base/MapServer"
         }),
         fmt: { pattern: "#.00" },
         fmt2: { pattern: "#.######" },
@@ -57,7 +56,7 @@ define(["dojo/_base/declare",
         show: function () {
             var extent = this.model.get("extent");
             this.resizer = new ResizedMap("map", lang.mixin({}, this.options, {
-                //basemap: this.model.get("name"),
+                basemap: this.model.get("name"),
                 autoResize: true,
                 scrollWheelZoom: true,
                 extent: new Extent({
@@ -75,7 +74,7 @@ define(["dojo/_base/declare",
             this.map = this.resizer.createMap();
             var scalebar = new Scalebar({
                 map: this.map,
-                scalebarUnit: 'metric'
+                scalebarUnit: "metric"
             });
             var homeButton = new HomeButton({
                 map: this.map,
@@ -126,7 +125,7 @@ define(["dojo/_base/declare",
             var y = evt.mapPoint.y;
             var coords = [x, y];
             var fmt = this.fmt;
-            if (this.model.get("wkid") == 3857) {
+            if (this.model.get("wkid") === 3857) {
                 coords = webMercatorUtils.xyToLngLat(x, y);
                 fmt = this.fmt2;
             }
